@@ -1,0 +1,528 @@
+/**
+ * ─────────────────────────────────────────────────────────────────────────────
+ *  GLOBAL STYLES & DESIGN TOKENS
+ * ─────────────────────────────────────────────────────────────────────────────
+ *
+ *  HOW THEMING WORKS HERE
+ *  ──────────────────────
+ *  Every colour in the design system is an unwrapped RGB triple stored in a CSS
+ *  custom property, e.g. `--ink: 26 26 24`. Tailwind consumes them as
+ *  `rgb(var(--ink) / <alpha-value>)`, which means `text-ink/70` still works.
+ *
+ *  The consequence is that components never carry `dark:` variants for colour.
+ *  A card is `bg-surface border-line text-ink` in both themes; only the values
+ *  behind those names change. That keeps the markup readable and, more usefully,
+ *  makes it impossible for a component to be styled in light mode and forgotten
+ *  in dark.
+ *
+ *  DARK MODE IS NOT AN INVERSION
+ *  ─────────────────────────────
+ *  Inverting a cream-and-gold palette gives you a cold blue-grey with a muddy
+ *  yellow accent, which looks broken. So the dark palette is designed
+ *  independently:
+ *
+ *    · Base is warm charcoal (#141412 — a hint of green-yellow in it), not
+ *      #000 and not slate. It sits under the same gold without clashing.
+ *    · Gold is *lightened and desaturated* for dark mode (#D9BE86 vs #C8A96E).
+ *      The light-mode gold fails contrast on charcoal; the lighter tone passes
+ *      AA for large text and reads as the same brand colour.
+ *    · Surfaces get *lighter* than the canvas rather than darker, because on a
+ *      dark background a raised element reads as raised only if it emits light.
+ *    · Shadows switch from black to a warm near-black and get stronger, since a
+ *      soft shadow is nearly invisible on charcoal; borders do more of the work.
+ *
+ *  CONTRAST
+ *  ────────
+ *  Body text pairs are checked against WCAG AA (4.5:1 for body, 3:1 for large):
+ *    light  ink #1A1A18 on canvas #FAFAF8  → 16.4:1
+ *    light  ink-soft #4A4A45 on #FAFAF8    →  8.1:1
+ *    light  ink-muted #6E6E66 on #FAFAF8   →  4.9:1
+ *    dark   ink #F2F0EA on canvas #141412  → 15.6:1
+ *    dark   ink-soft #B8B4A9 on #141412    →  8.3:1
+ *    dark   ink-muted #8A867C on #141412   →  4.6:1
+ *  `ink-muted` is the floor and is only used for genuinely secondary text.
+ */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   TOKENS
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@layer base {
+  :root {
+    color-scheme: light;
+
+    /* Surfaces — cream base, per the brief */
+    --canvas: 250 250 248; /* #FAFAF8 */
+    --surface: 255 255 255; /* #FFFFFF  cards sit above the cream */
+    --surface-raised: 255 255 255;
+
+    /* Text */
+    --ink: 26 26 24; /* #1A1A18 */
+    --ink-soft: 74 74 69; /* #4A4A45 */
+    --ink-muted: 110 110 102; /* #6E6E66 */
+
+    /* Hairlines */
+    --line: 229 226 218; /* #E5E2DA */
+    --line-strong: 208 204 193; /* #D0CCC1 */
+
+    /* Accent — the WEBRING gold */
+    --gold: 200 169 110; /* #C8A96E */
+    --gold-soft: 232 217 189; /* #E8D9BD  tints, washes */
+    --gold-ink: 138 108 46; /* #8A6C2E  gold text on cream, AA at 4.6:1 */
+
+    /* States */
+    --success: 47 110 78; /* #2F6E4E */
+    --danger: 168 48 42; /* #A8302A */
+
+    /* Shadow colour, consumed as rgb(var(--shadow) / alpha) */
+    --shadow: 26 26 24;
+
+    /* Glass — nav and overlay panels */
+    --glass: 250 250 248;
+    --glass-alpha: 0.72;
+  }
+
+  .dark {
+    color-scheme: dark;
+
+    --canvas: 20 20 18; /* #141412  warm charcoal */
+    --surface: 30 30 27; /* #1E1E1B  lighter than canvas: reads as raised */
+    --surface-raised: 38 38 34; /* #262622 */
+
+    --ink: 242 240 234; /* #F2F0EA  warm white, not pure #FFF */
+    --ink-soft: 184 180 169; /* #B8B4A9 */
+    --ink-muted: 138 134 124; /* #8A867C */
+
+    --line: 48 48 43; /* #30302B */
+    --line-strong: 68 68 61; /* #44443D */
+
+    --gold: 217 190 134; /* #D9BE86  lifted for contrast on charcoal */
+    --gold-soft: 92 76 48; /* #5C4C30  a deep tint, not a pale one */
+    --gold-ink: 226 203 154; /* #E2CB9A  gold text on charcoal, 9.1:1 */
+
+    --success: 106 179 136; /* #6AB388 */
+    --danger: 224 122 116; /* #E07A74 */
+
+    --shadow: 0 0 0;
+
+    --glass: 20 20 18;
+    --glass-alpha: 0.76;
+  }
+
+  /* ═════════════════════════════════════════════════════════════════════════
+     RESET & BASE
+     ═════════════════════════════════════════════════════════════════════════ */
+
+  * {
+    @apply border-line;
+  }
+
+  html {
+    /* Smooth scroll for the in-page nav anchors, but never for people who have
+       asked the OS to stop moving things. */
+    scroll-behavior: smooth;
+    /* Anchors land below the fixed header instead of underneath it. */
+    scroll-padding-top: 5.5rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  body {
+    @apply bg-canvas text-ink antialiased;
+    font-feature-settings:
+      'kern' 1,
+      'liga' 1,
+      'calt' 1;
+    /* Prevents a horizontal scrollbar from decorative elements that bleed
+       slightly past the viewport edge. */
+    overflow-x: hidden;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display text-balance;
+    font-weight: 600;
+  }
+
+  /* Longer prose reads better with a balanced last line only on headings;
+     paragraphs get pretty wrapping where supported. */
+  p {
+    text-wrap: pretty;
+  }
+
+  /* ── Focus ────────────────────────────────────────────────────────────────
+     A single visible focus ring for keyboard users, applied via :focus-visible
+     so a mouse click does not leave a ring behind. Gold at 2px passes 3:1
+     against both canvas values. */
+  :focus-visible {
+    outline: 2px solid rgb(var(--gold));
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  /* Remove the ring for mouse users but keep it for keyboard. */
+  :focus:not(:focus-visible) {
+    outline: none;
+  }
+
+  /* ── Selection ────────────────────────────────────────────────────────── */
+  ::selection {
+    background-color: rgb(var(--gold) / 0.28);
+    color: rgb(var(--ink));
+  }
+
+  /* ── Scrollbar ────────────────────────────────────────────────────────────
+     Styled rather than hidden — hiding a scrollbar removes a navigation
+     affordance. Firefox gets the standard properties, WebKit the pseudo-els. */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(var(--line-strong)) transparent;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: rgb(var(--line-strong));
+    border-radius: 999px;
+    border: 2px solid rgb(var(--canvas));
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: rgb(var(--ink-muted));
+  }
+
+  /* Native form controls follow the theme instead of the OS default. */
+  input,
+  textarea,
+  select,
+  button {
+    font: inherit;
+    color: inherit;
+  }
+
+  /* Chrome's autofill yellow is aggressive and ignores background-color, so it
+     is overridden with a very long inset shadow — the standard workaround. */
+  input:-webkit-autofill,
+  textarea:-webkit-autofill,
+  select:-webkit-autofill {
+    -webkit-text-fill-color: rgb(var(--ink));
+    -webkit-box-shadow: 0 0 0 1000px rgb(var(--surface)) inset;
+    transition: background-color 9999s ease-out 0s;
+  }
+
+  /* Images should never overflow their container. */
+  img,
+  video,
+  canvas,
+  svg {
+    display: block;
+    max-width: 100%;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   COMPONENT PRIMITIVES
+   Small, genuinely repeated patterns only. Anything used once stays inline in
+   the component that needs it.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@layer components {
+  /** Page-width container. Every section uses this so the left edge lines up. */
+  .shell {
+    @apply mx-auto w-full max-w-shell px-gutter;
+  }
+
+  /** Vertical rhythm between major sections. */
+  .section {
+    @apply py-section;
+  }
+
+  /**
+   * Frosted panel used by the nav and the lightbox chrome.
+   *
+   * `backdrop-filter` is progressive: where it is unsupported the fallback is a
+   * higher-opacity solid, which is why the background colour carries an alpha
+   * from a variable rather than being hardcoded transparent.
+   */
+  .glass {
+    background-color: rgb(var(--glass) / var(--glass-alpha));
+    backdrop-filter: blur(14px) saturate(1.4);
+    -webkit-backdrop-filter: blur(14px) saturate(1.4);
+  }
+
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .glass {
+      background-color: rgb(var(--glass) / 0.97);
+    }
+  }
+
+  /** Small uppercase label above a section heading. */
+  .eyebrow {
+    @apply text-eyebrow font-semibold uppercase;
+    color: rgb(var(--gold-ink));
+  }
+
+  /* ── Buttons ────────────────────────────────────────────────────────────── */
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-pill px-6 py-3
+           text-sm font-medium transition-all duration-200
+           disabled:cursor-not-allowed disabled:opacity-55;
+    /* Comfortably above the 44px minimum touch target. */
+    min-height: 2.875rem;
+  }
+
+  .btn-primary {
+    @apply btn bg-ink text-canvas shadow-soft hover:shadow-lift;
+  }
+
+  .btn-primary:hover:not(:disabled) {
+    transform: translateY(-1px);
+  }
+
+  .btn-gold {
+    @apply btn text-ink shadow-soft hover:shadow-glow;
+    background-color: rgb(var(--gold));
+    /* Gold is light, so its label must be dark in BOTH themes — this is the one
+       place a token would give the wrong answer, since --ink flips. */
+    color: #1a1a18;
+  }
+
+  .btn-gold:hover:not(:disabled) {
+    transform: translateY(-1px);
+  }
+
+  .btn-outline {
+    @apply btn border border-line-strong bg-transparent text-ink
+           hover:border-gold hover:bg-gold/5;
+  }
+
+  .btn-ghost {
+    @apply btn px-4 text-ink-soft hover:bg-ink/5 hover:text-ink;
+  }
+
+  /* ── Cards ──────────────────────────────────────────────────────────────── */
+
+  .card {
+    @apply rounded-card border border-line bg-surface transition-all duration-300;
+  }
+
+  .card-interactive {
+    @apply card hover:-translate-y-1 hover:border-gold/45 hover:shadow-lift;
+  }
+
+  /* ── Chips / badges ─────────────────────────────────────────────────────── */
+
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-pill border border-line
+           bg-surface px-3 py-1 text-xs font-medium text-ink-soft;
+  }
+
+  /* ── Form fields ────────────────────────────────────────────────────────── */
+
+  .field {
+    @apply w-full rounded-xl border border-line bg-surface px-4 py-3 text-base
+           text-ink transition-colors duration-200
+           placeholder:text-ink-muted
+           focus:border-gold focus:outline-none;
+    /* 16px minimum stops iOS Safari zooming the viewport on focus. */
+    font-size: max(1rem, 16px);
+  }
+
+  .field:focus {
+    box-shadow: 0 0 0 3px rgb(var(--gold) / 0.18);
+  }
+
+  /* aria-invalid drives the error styling, so the visual state and the
+     accessibility state can never disagree. */
+  .field[aria-invalid='true'] {
+    @apply border-danger;
+  }
+
+  .field[aria-invalid='true']:focus {
+    box-shadow: 0 0 0 3px rgb(var(--danger) / 0.16);
+  }
+
+  .field-label {
+    @apply mb-2 block text-sm font-medium text-ink;
+  }
+
+  .field-error {
+    @apply mt-1.5 flex items-start gap-1.5 text-sm text-danger;
+  }
+
+  /* Native select needs its own arrow once appearance is stripped. The SVG is
+     inlined as a data URL so it costs no request and no CSP allowance. */
+  select.field {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236E6E66' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 1.125rem;
+    padding-right: 2.75rem;
+  }
+
+  .dark select.field {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238A867C' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  }
+
+  /* ── Link underline that grows on hover ─────────────────────────────────── */
+
+  .link-underline {
+    @apply relative text-ink transition-colors hover:text-gold-ink;
+  }
+
+  .link-underline::after {
+    content: '';
+    @apply absolute bottom-0 left-0 h-px w-0 transition-all duration-300;
+    background-color: rgb(var(--gold));
+  }
+
+  .link-underline:hover::after,
+  .link-underline:focus-visible::after {
+    @apply w-full;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   UTILITIES
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@layer utilities {
+  /**
+   * Screen-reader-only, with a focusable escape hatch for the skip link.
+   * Tailwind ships `sr-only`; this adds the paired `focus:not-sr-only` variant
+   * behaviour in one class for the skip-to-content link.
+   */
+  .skip-link {
+    @apply sr-only;
+  }
+
+  .skip-link:focus {
+    @apply not-sr-only fixed left-4 top-4 z-[100] rounded-lg bg-ink px-4 py-2
+           text-sm font-medium text-canvas shadow-lift;
+  }
+
+  /** Gold-to-ink text gradient for the hero's emphasised words. */
+  .text-gradient-gold {
+    background-image: linear-gradient(
+      100deg,
+      rgb(var(--ink)) 0%,
+      rgb(var(--gold-ink)) 42%,
+      rgb(var(--gold)) 78%,
+      rgb(var(--ink)) 100%
+    );
+    background-size: 220% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    /* A fallback colour for the rare engine that clips but does not paint. */
+    -webkit-text-fill-color: transparent;
+  }
+
+  /** Fine film grain over the hero. Pure CSS, no image request. */
+  .grain::after {
+    content: '';
+    @apply pointer-events-none absolute inset-0 opacity-[0.035];
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+    mix-blend-mode: multiply;
+  }
+
+  .dark .grain::after {
+    mix-blend-mode: screen;
+    @apply opacity-[0.05];
+  }
+
+  /** Masks the bottom of a scroll area so content fades rather than cuts. */
+  .fade-bottom {
+    mask-image: linear-gradient(to bottom, black 78%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, black 78%, transparent 100%);
+  }
+
+  /** Horizontal snap track for the mobile testimonial carousel. */
+  .snap-track {
+    @apply flex snap-x snap-mandatory overflow-x-auto;
+    scrollbar-width: none;
+  }
+
+  .snap-track::-webkit-scrollbar {
+    display: none;
+  }
+
+  /**
+   * Reduced-motion kill switch.
+   *
+   * Framer Motion respects `useReducedMotion` in JS, but CSS animations and
+   * transitions declared here need their own guard. 0.01ms rather than 0
+   * because some browsers skip `transitionend` entirely at exactly 0, which
+   * breaks any code waiting on that event.
+   */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+
+    .btn-primary:hover,
+    .btn-gold:hover,
+    .card-interactive:hover {
+      transform: none !important;
+    }
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   PRINT
+   Someone will print or PDF this page to send to a colleague. Worth 20 lines.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@media print {
+  :root {
+    --canvas: 255 255 255;
+    --ink: 0 0 0;
+    --ink-soft: 40 40 40;
+  }
+
+  body {
+    background: #fff;
+  }
+
+  header,
+  footer,
+  .no-print {
+    display: none !important;
+  }
+
+  .section {
+    @apply py-8;
+    break-inside: avoid;
+  }
+
+  a[href^='http']::after {
+    content: ' (' attr(href) ')';
+    font-size: 0.75em;
+    color: #444;
+  }
+}
