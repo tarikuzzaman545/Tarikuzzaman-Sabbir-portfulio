@@ -76,7 +76,7 @@ export function Header() {
       )}
     >
       <div className="shell flex items-center justify-between gap-4">
-        {/* ── 1. Logo & Identity (ONLY TARIKUZZAMAN SABBIR, no subtitle) ── */}
+        {/* ── 1. Logo & Identity ── */}
         <Link
           href="/"
           className="group flex items-center gap-3 rounded-xl focus:outline-none shrink-0"
@@ -101,24 +101,43 @@ export function Header() {
             />
           </div>
 
-          <div className="flex items-center">
+          <div className="flex flex-col justify-center">
             <span
               className={cn(
-                'font-extrabold uppercase leading-tight font-sans transition-all duration-300',
+                'font-extrabold uppercase leading-tight font-sans transition-all duration-300 text-white',
                 scrolled
-                  ? 'text-base sm:text-lg tracking-wide text-white'
-                  : 'text-sm sm:text-base tracking-wider text-white',
+                  ? 'text-base sm:text-[1.15rem] tracking-wide'
+                  : 'text-sm sm:text-base tracking-wider',
               )}
             >
               TARIKUZZAMAN <span className="text-[#00E676]">SABBIR</span>
             </span>
+
+            {/* Subtitle that slides left into logo and collapses on scroll */}
+            <div
+              className={cn(
+                'overflow-hidden transition-all duration-500 ease-in-out',
+                scrolled
+                  ? 'max-h-0 max-w-0 opacity-0 -translate-x-6 pointer-events-none mt-0'
+                  : 'max-h-6 max-w-[320px] opacity-100 translate-x-0 mt-0.5',
+              )}
+            >
+              <span className="text-[8.5px] sm:text-[9.5px] font-bold tracking-[0.14em] uppercase text-emerald-400/90 whitespace-nowrap block">
+                AI PRODUCT PHOTOGRAPHER & CREATIVE DESIGNER
+              </span>
+            </div>
           </div>
         </Link>
 
-        {/* ── 2. Center Liquid Glass Pill Nav ──────────────────────────── */}
+        {/* ── 2. Center Nav: pulls into Liquid Glass capsule border on scroll ── */}
         <nav
           aria-label="Main navigation"
-          className="hidden md:flex liquid-glass rounded-full px-3 py-1.5 items-center gap-1.5 border border-emerald-500/30 bg-[#04140D]/70 shadow-[0_8px_30px_rgb(0,0,0,0.6)] backdrop-blur-xl"
+          className={cn(
+            'hidden md:flex items-center gap-1.5 rounded-full transition-all duration-300',
+            scrolled
+              ? 'liquid-glass px-3 py-1.5 border border-emerald-500/35 bg-[#04140D]/80 shadow-[0_8px_30px_rgb(0,0,0,0.7)] backdrop-blur-xl'
+              : 'border border-transparent bg-transparent px-1 py-1 shadow-none',
+          )}
         >
           {NAV_ITEMS.map((item) => {
             const active = isActiveRoute(pathname, item.href);
