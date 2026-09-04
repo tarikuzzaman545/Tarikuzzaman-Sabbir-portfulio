@@ -141,7 +141,7 @@ export function Hero() {
                 <motion.a
                   animate={{ y: [0, -3.5, 0], rotate: [0, 1.8, 0] }}
                   transition={{ duration: 3.1, repeat: Infinity, ease: 'easeInOut', delay: 0.1 }}
-                  href="https://facebook.com"
+                  href="https://www.facebook.com/tarikuzzaman.sabbir.01"
                   target="_blank"
                   rel="noreferrer"
                   aria-label="Facebook"
@@ -152,7 +152,7 @@ export function Hero() {
                 <motion.a
                   animate={{ y: [0, -4.5, 0], rotate: [0, -1.8, 0] }}
                   transition={{ duration: 4.3, repeat: Infinity, ease: 'easeInOut', delay: 0.6 }}
-                  href="https://instagram.com"
+                  href="https://www.instagram.com/tarikuzzamansabbir/"
                   target="_blank"
                   rel="noreferrer"
                   aria-label="Instagram"
@@ -163,7 +163,7 @@ export function Hero() {
                 <motion.a
                   animate={{ y: [0, -3, 0], rotate: [0, 1.2, 0] }}
                   transition={{ duration: 3.7, repeat: Infinity, ease: 'easeInOut', delay: 1.1 }}
-                  href="https://linkedin.com"
+                  href="https://www.linkedin.com/in/md-tarikuzzaman-sabbir/"
                   target="_blank"
                   rel="noreferrer"
                   aria-label="LinkedIn"
@@ -174,7 +174,7 @@ export function Hero() {
                 <motion.a
                   animate={{ y: [0, -4, 0], rotate: [0, -1.5, 0] }}
                   transition={{ duration: 4.8, repeat: Infinity, ease: 'easeInOut', delay: 0.3 }}
-                  href="https://x.com"
+                  href="https://x.com/Tarikuzzaman555"
                   target="_blank"
                   rel="noreferrer"
                   aria-label="X Twitter"
@@ -185,7 +185,7 @@ export function Hero() {
                 <motion.a
                   animate={{ y: [0, -3.5, 0], rotate: [0, 1.6, 0] }}
                   transition={{ duration: 3.9, repeat: Infinity, ease: 'easeInOut', delay: 1.4 }}
-                  href="https://pinterest.com"
+                  href="https://www.pinterest.com/tarikuxxaman_sabbir/"
                   target="_blank"
                   rel="noreferrer"
                   aria-label="Pinterest"

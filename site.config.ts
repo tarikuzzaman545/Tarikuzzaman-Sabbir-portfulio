@@ -56,12 +56,14 @@ export const siteConfig = {
 
   /* ── Social / profiles ──────────────────────────────────────────────────── */
   socials: {
-    upwork: FILL_ME, // FILL_ME — e.g. 'https://www.upwork.com/freelancers/~01xxxxxxxx'
-    linkedin: FILL_ME, // FILL_ME — e.g. 'https://www.linkedin.com/in/yourhandle'
-    github: '', // optional
-    instagram: '', // optional
+    instagram: 'https://www.instagram.com/tarikuzzamansabbir/',
+    facebook: 'https://www.facebook.com/tarikuzzaman.sabbir.01',
+    linkedin: 'https://www.linkedin.com/in/md-tarikuzzaman-sabbir/',
+    x: 'https://x.com/Tarikuzzaman555',
+    pinterest: 'https://www.pinterest.com/tarikuxxaman_sabbir/',
+    github: 'https://github.com/tarikuzzaman545',
+    upwork: '', // optional
     behance: '', // optional
-    x: '', // optional
   },
 
   /* ── Agency ─────────────────────────────────────────────────────────────── */
@@ -96,21 +98,28 @@ export const siteConfig = {
   /* ── SEO defaults ───────────────────────────────────────────────────────── */
   seo: {
     titleTemplate: '%s · MD Tarikuzzaman Sabbir',
-    defaultTitle: 'MD Tarikuzzaman Sabbir — AI Product Photographer & Prompt Engineer',
+    defaultTitle: 'MD Tarikuzzaman Sabbir — AI Product Photographer & Creative Designer',
     keywords: [
+      'Tarikuzzaman Sabbir',
+      'MD Tarikuzzaman Sabbir',
+      'tarikuzzaman_sabbir',
+      'sabbir',
+      'tarikuzzaman',
       'AI product photography',
+      'AI product photographer',
+      'AI fashion photography',
       'prompt engineering',
       'e-commerce product images',
-      'AI fashion photography',
       'catalog photography',
-      'Higgsfield',
       'product visualization',
       'AI ad video',
-      'Bangladesh',
+      'UGC ad video',
+      'commercial photographer Bangladesh',
       'Khulna',
+      'Bangladesh',
     ],
-    /** Twitter/X handle for the card attribution. Leave blank to omit. */
-    twitterHandle: '',
+    /** Twitter/X handle for the card attribution. */
+    twitterHandle: '@Tarikuzzaman555',
     locale: 'en_US',
   },
 

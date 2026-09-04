@@ -278,6 +278,12 @@ This section serves as the complete technical source of truth for Sabbir and any
     2. **Inner Layer:** Executes a continuous 14-second organic undulating wave loop (`animate={{ y: [0, -10, 4, -6, 0], x: [0, 7, -5, 4, 0], scale: [1.04, 1.07, 1.05, 1.075, 1.04] }}`) with `repeat: Infinity, ease: 'easeInOut'`.
   - Runs 100% on the GPU with `transform-gpu` and soft lens blur (`blur-[12px] sm:blur-[14px]`).
   - Result: When idle or reading, the background 3D emerald liquid waves gently drift and breathe with living energy; when scrolling, it glides with 3D parallax depth.
+### Step 10: Official Social Media Linking & Entity Search Optimization (SEO / Google Knowledge Graph)
+- **User Feedback:** Provided official profile links (Facebook, Instagram, LinkedIn, X, Pinterest) and instructed to integrate them for Google search ranking so that searching "Tarikuzzaman Sabbir" associates all existing social posts, hashtags (`#tarikuzzaman_sabbir`, `#sabbir`), and ranks the website #1 on Google.
+- **Resolution:**
+  - **Single Source of Truth (`site.config.ts`):** Populated exact URLs for Instagram, Facebook, LinkedIn, X, and Pinterest. Configured `@Tarikuzzaman555` Twitter handle. Added exact name match keywords (`Tarikuzzaman Sabbir`, `MD Tarikuzzaman Sabbir`, `tarikuzzaman_sabbir`, `sabbir`, `tarikuzzaman`) alongside commercial photography keywords.
+  - **Schema.org Structured Data (`components/seo/JsonLd.tsx`):** Injected all 6 social profiles into the `Person.sameAs` graph array and expanded `alternateName` to include all name variations and hashtags. Now Google's Knowledge Graph directly links the website entity to Sabbir's established social presence.
+  - **Hero & Footer Components (`components/sections/Hero.tsx`, `components/site/Footer.tsx`, `data/homeContent.ts`):** Updated all social buttons and contact cards to open Sabbir's official Facebook, Instagram, LinkedIn, X, and Pinterest profiles with `target="_blank" rel="noreferrer"`.
 
 ---
 

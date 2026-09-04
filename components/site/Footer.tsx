@@ -52,7 +52,7 @@ export function Footer() {
             {/* Social Icons */}
             <div className="mt-6 flex items-center gap-2.5">
               <a
-                href="https://facebook.com"
+                href="https://www.facebook.com/tarikuzzaman.sabbir.01"
                 target="_blank"
                 rel="noreferrer"
                 aria-label="Facebook"
@@ -61,7 +61,7 @@ export function Footer() {
                 <Facebook className="h-3.5 w-3.5" />
               </a>
               <a
-                href="https://instagram.com"
+                href="https://www.instagram.com/tarikuzzamansabbir/"
                 target="_blank"
                 rel="noreferrer"
                 aria-label="Instagram"
@@ -70,7 +70,7 @@ export function Footer() {
                 <Instagram className="h-3.5 w-3.5" />
               </a>
               <a
-                href="https://linkedin.com"
+                href="https://www.linkedin.com/in/md-tarikuzzaman-sabbir/"
                 target="_blank"
                 rel="noreferrer"
                 aria-label="LinkedIn"
@@ -79,13 +79,22 @@ export function Footer() {
                 <Linkedin className="h-3.5 w-3.5" />
               </a>
               <a
-                href="https://x.com"
+                href="https://x.com/Tarikuzzaman555"
                 target="_blank"
                 rel="noreferrer"
                 aria-label="X Twitter"
                 className="flex h-8 w-8 items-center justify-center rounded-full liquid-glass border border-emerald-500/30 text-slate-300 hover:text-emerald-400 hover:border-emerald-400 transition-colors font-bold text-xs"
               >
                 𝕏
+              </a>
+              <a
+                href="https://www.pinterest.com/tarikuxxaman_sabbir/"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Pinterest"
+                className="flex h-8 w-8 items-center justify-center rounded-full liquid-glass border border-emerald-500/30 text-slate-300 hover:text-emerald-400 hover:border-emerald-400 transition-colors font-bold text-xs"
+              >
+                P
               </a>
             </div>
           </div>
@@ -158,12 +167,12 @@ export function Footer() {
                 <li className="flex items-center gap-2">
                   <Linkedin className="h-3.5 w-3.5 text-emerald-400" />
                   <a
-                    href="https://linkedin.com"
+                    href="https://www.linkedin.com/in/md-tarikuzzaman-sabbir/"
                     target="_blank"
                     rel="noreferrer"
                     className="hover:text-emerald-400 transition-colors"
                   >
-                    tarikuzzaman-sabbir
+                    md-tarikuzzaman-sabbir
                   </a>
                 </li>
                 <li className="flex items-center gap-2">

@@ -81,11 +81,11 @@ export const homeContent = {
     ctaPrimary: { label: 'Start a Project', href: '/contact' },
     ctaSecondary: { label: 'Watch Showreel', href: '#services' },
     socials: [
-      { name: 'Facebook', href: 'https://facebook.com', icon: 'facebook' },
-      { name: 'Instagram', href: 'https://instagram.com', icon: 'instagram' },
-      { name: 'LinkedIn', href: 'https://linkedin.com', icon: 'linkedin' },
-      { name: 'X', href: 'https://x.com', icon: 'x' },
-      { name: 'Pinterest', href: 'https://pinterest.com', icon: 'pinterest' },
+      { name: 'Facebook', href: 'https://www.facebook.com/tarikuzzaman.sabbir.01', icon: 'facebook' },
+      { name: 'Instagram', href: 'https://www.instagram.com/tarikuzzamansabbir/', icon: 'instagram' },
+      { name: 'LinkedIn', href: 'https://www.linkedin.com/in/md-tarikuzzaman-sabbir/', icon: 'linkedin' },
+      { name: 'X', href: 'https://x.com/Tarikuzzaman555', icon: 'x' },
+      { name: 'Pinterest', href: 'https://www.pinterest.com/tarikuxxaman_sabbir/', icon: 'pinterest' },
     ],
     connectLabel: 'Let’s Connect Everywhere',
     cardTopRight: {
