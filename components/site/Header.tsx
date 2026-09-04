@@ -19,7 +19,6 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { ArrowUpRight, Menu, X } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
-import { GlobalClock } from '@/components/site/GlobalClock';
 
 const NAV_ITEMS = [
   { label: 'Home', href: '/' },
@@ -74,7 +73,7 @@ export function Header() {
           'pointer-events-auto flex items-center justify-between gap-3 sm:gap-6 w-full transition-all duration-500 ease-out',
           scrolled
             ? 'max-w-4xl py-2 px-3.5 sm:px-5 rounded-full liquid-glass-floating-pill shadow-[0_24px_50px_rgba(0,0,0,0.95),0_0_35px_rgba(0,245,155,0.3)]'
-            : 'max-w-7xl py-1.5 px-2 sm:px-4 bg-transparent border-transparent shadow-none',
+            : 'max-w-5xl lg:max-w-[1040px] py-1.5 px-2 sm:px-4 bg-transparent border-transparent shadow-none',
         )}
       >
         {/* ── 1. Logo & Identity (At top: stands alone on left; On scroll: merges into the left of the round capsule) ── */}
@@ -160,10 +159,8 @@ export function Header() {
           })}
         </nav>
 
-        {/* ── 3. Right Cluster: Live Clock & Let's Talk CTA (Top Right) ── */}
-        <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
-          <GlobalClock />
-
+        {/* ── 3. Right CTA (At top: stands alone on right; On scroll: merges into the right of the round capsule) ── */}
+        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
           <motion.div
             animate={{ y: [0, -2, 0], scale: [1, 1.025, 1] }}
             transition={{ duration: 4.1, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
@@ -171,7 +168,7 @@ export function Header() {
           >
             <Link
               href="/contact"
-              className="btn-neon inline-flex items-center gap-1.5 rounded-full px-4 sm:px-4.5 py-1.5 sm:py-2 text-xs font-bold uppercase tracking-wider text-black transition-all duration-300 shadow-[0_0_20px_rgba(0,245,155,0.4)] hover:scale-105"
+              className="btn-neon inline-flex items-center gap-1.5 rounded-full px-4.5 py-2 text-xs font-bold uppercase tracking-wider text-black transition-all duration-300 shadow-[0_0_20px_rgba(0,245,155,0.4)] hover:scale-105"
             >
               Let’s Talk
               <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />

@@ -35,6 +35,7 @@ import localFont from 'next/font/local';
 
 import { JsonLd } from '@/components/seo/JsonLd';
 import { Footer } from '@/components/site/Footer';
+import { GlobalClock } from '@/components/site/GlobalClock';
 import { Header } from '@/components/site/Header';
 import { ThemeProvider } from '@/components/site/ThemeProvider';
 import { siteConfig } from '@/site.config';
@@ -185,6 +186,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </a>
 
           <Header />
+          <GlobalClock />
 
           {/* tabIndex={-1} makes the skip-link target programmatically
               focusable without adding it to the tab order. */}
