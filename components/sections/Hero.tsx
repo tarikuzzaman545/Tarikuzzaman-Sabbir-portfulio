@@ -37,7 +37,7 @@ export function Hero() {
   const { hero } = homeContent;
 
   return (
-    <section className="relative pt-28 pb-16 sm:pt-36 sm:pb-20 overflow-hidden">
+    <section className="relative pt-24 pb-6 sm:pt-32 sm:pb-8 overflow-hidden">
       {/* ── Ambient Radial Emerald Glows Behind Hero ───────────────────── */}
       <div
         className="pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 h-[650px] w-[900px] rounded-full bg-emerald-500/15 blur-[140px] -z-10"
@@ -290,7 +290,7 @@ export function Hero() {
         </div>
 
         {/* ── Very Bottom of Hero: Scroll Down Indicator & Tagline ─────── */}
-        <div className="mt-8 flex items-center justify-between relative">
+        <div className="mt-4 sm:mt-5 flex items-center justify-between relative">
           {/* Left Tagline */}
           <div className="hidden sm:flex flex-col text-[9px] font-extrabold tracking-widest text-[#00E676]/80 uppercase leading-tight select-none">
             <span>CREATE</span>
