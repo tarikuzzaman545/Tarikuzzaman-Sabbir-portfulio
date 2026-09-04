@@ -298,6 +298,21 @@
     box-shadow: 0 10px 36px 0 rgba(0, 0, 0, 0.5), inset 0 1px 1px 0 rgba(255, 255, 255, 0.12);
   }
 
+  .liquid-glass-floating-pill {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(6, 28, 18, 0.82) 32%, rgba(3, 15, 10, 0.92) 100%);
+    backdrop-filter: blur(30px) saturate(190%);
+    -webkit-backdrop-filter: blur(30px) saturate(190%);
+    border: 1px solid rgba(0, 245, 155, 0.28);
+    border-top: 1.5px solid rgba(255, 255, 255, 0.55);
+    border-bottom: 1px solid rgba(168, 85, 247, 0.25);
+    box-shadow:
+      0 20px 48px -10px rgba(0, 0, 0, 0.9),
+      0 0 32px -4px rgba(0, 245, 155, 0.22),
+      0 12px 28px -6px rgba(168, 85, 247, 0.18),
+      inset 0 1.5px 1px 0 rgba(255, 255, 255, 0.45),
+      inset 0 -1.5px 2px 0 rgba(0, 245, 155, 0.18);
+  }
+
   .liquid-glass-card {
     background: linear-gradient(135deg, rgba(8, 32, 22, 0.75) 0%, rgba(4, 18, 12, 0.6) 100%);
     backdrop-filter: blur(20px) saturate(150%);

@@ -67,26 +67,26 @@ export function Header() {
   }, [open, close]);
 
   return (
-    <header
-      className={cn(
-        'fixed inset-x-0 top-0 z-50 transition-all duration-300',
-        scrolled
-          ? 'py-2.5 sm:py-3 bg-[#040D09]/92 backdrop-blur-2xl border-b border-emerald-500/25 shadow-[0_10px_35px_rgba(0,0,0,0.85)]'
-          : 'pt-4 sm:pt-6',
-      )}
-    >
-      <div className="shell flex items-center justify-between gap-4">
+    <header className="fixed inset-x-0 top-0 z-50 flex flex-col items-center pointer-events-none pt-3 sm:pt-5 px-3 sm:px-6">
+      <div
+        className={cn(
+          'pointer-events-auto flex items-center justify-between gap-3 sm:gap-6 w-full transition-all duration-500 ease-out rounded-full liquid-glass-floating-pill relative',
+          scrolled
+            ? 'max-w-4xl py-2 px-3.5 sm:px-5'
+            : 'max-w-6xl py-2.5 px-4 sm:px-6',
+        )}
+      >
         {/* ── 1. Logo & Identity ── */}
         <Link
           href="/"
-          className="group flex items-center gap-3 rounded-xl focus:outline-none shrink-0"
+          className="group flex items-center gap-2.5 sm:gap-3 rounded-full focus:outline-none shrink-0"
           aria-label="Tarikuzzaman Sabbir — Home"
         >
           {/* Official 3D Emerald S Ribbon Logo */}
           <div
             className={cn(
               'relative flex items-center justify-center shrink-0 transition-all duration-300',
-              scrolled ? 'h-9 w-9 sm:h-10 sm:w-10' : 'h-10 w-10 sm:h-11 sm:w-11',
+              scrolled ? 'h-9 w-9 sm:h-9.5 sm:w-9.5' : 'h-10 w-10 sm:h-11 sm:w-11',
             )}
           >
             <div className="absolute inset-0 rounded-full bg-emerald-500/25 blur-md -z-10 group-hover:bg-emerald-400/40 transition-colors" />
@@ -106,8 +106,8 @@ export function Header() {
               className={cn(
                 'font-extrabold uppercase leading-tight font-sans transition-all duration-300 text-white',
                 scrolled
-                  ? 'text-base sm:text-[1.15rem] tracking-wide'
-                  : 'text-sm sm:text-base tracking-wider',
+                  ? 'text-sm sm:text-base tracking-wide'
+                  : 'text-xs sm:text-sm md:text-base tracking-wider',
               )}
             >
               TARIKUZZAMAN <span className="text-[#00E676]">SABBIR</span>
@@ -122,22 +122,17 @@ export function Header() {
                   : 'max-h-6 max-w-[320px] opacity-100 translate-x-0 mt-0.5',
               )}
             >
-              <span className="text-[8.5px] sm:text-[9.5px] font-bold tracking-[0.14em] uppercase text-emerald-400/90 whitespace-nowrap block">
+              <span className="text-[8px] sm:text-[9px] font-bold tracking-[0.14em] uppercase text-emerald-400/90 whitespace-nowrap block">
                 AI PRODUCT PHOTOGRAPHER & CREATIVE DESIGNER
               </span>
             </div>
           </div>
         </Link>
 
-        {/* ── 2. Center Nav: pulls into Liquid Glass capsule border on scroll ── */}
+        {/* ── 2. Center Nav Items inside the floating pill ── */}
         <nav
           aria-label="Main navigation"
-          className={cn(
-            'hidden md:flex items-center gap-1.5 rounded-full transition-all duration-300',
-            scrolled
-              ? 'liquid-glass px-3 py-1.5 border border-emerald-500/35 bg-[#04140D]/80 shadow-[0_8px_30px_rgb(0,0,0,0.7)] backdrop-blur-xl'
-              : 'border border-transparent bg-transparent px-1 py-1 shadow-none',
-          )}
+          className="hidden md:flex items-center gap-1 sm:gap-1.5"
         >
           {NAV_ITEMS.map((item) => {
             const active = isActiveRoute(pathname, item.href);
@@ -147,10 +142,10 @@ export function Header() {
                 href={item.href}
                 aria-current={active ? 'page' : undefined}
                 className={cn(
-                  'relative rounded-full px-4 py-1.5 text-xs font-semibold tracking-wide transition-all duration-200',
+                  'relative rounded-full px-3.5 py-1.5 text-xs font-semibold tracking-wide transition-all duration-300',
                   active
-                    ? 'bg-[#00E676] text-black font-bold shadow-[0_0_15px_rgba(0,230,118,0.4)]'
-                    : 'text-slate-300 hover:text-white hover:bg-white/5',
+                    ? 'bg-[#00E676] text-black font-bold shadow-[0_0_16px_rgba(0,230,118,0.5),inset_0_1px_1px_rgba(255,255,255,0.6)]'
+                    : 'text-slate-300 hover:text-white hover:bg-white/10',
                 )}
               >
                 {item.label}
@@ -160,10 +155,10 @@ export function Header() {
         </nav>
 
         {/* ── 3. Right CTA & Mobile Toggle ─────────────────────────────── */}
-        <div className="flex items-center gap-2.5 shrink-0">
+        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
           <Link
             href="/contact"
-            className="btn-neon hidden sm:inline-flex items-center gap-1.5 rounded-full px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-black transition-all duration-200 shadow-[0_0_20px_rgba(0,230,118,0.3)]"
+            className="btn-neon hidden sm:inline-flex items-center gap-1.5 rounded-full px-4.5 py-2 text-xs font-bold uppercase tracking-wider text-black transition-all duration-300 shadow-[0_0_20px_rgba(0,245,155,0.4)] hover:scale-105"
           >
             Let’s Talk
             <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
@@ -177,7 +172,7 @@ export function Header() {
             aria-expanded={open}
             aria-controls="mobile-nav"
             aria-label={open ? 'Close menu' : 'Open menu'}
-            className="inline-flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-full liquid-glass border border-emerald-500/30 text-white md:hidden"
+            className="inline-flex h-8.5 w-8.5 sm:h-9.5 sm:w-9.5 items-center justify-center rounded-full border border-emerald-500/30 text-white md:hidden hover:bg-white/10 transition-colors"
           >
             {open ? (
               <X className="h-5 w-5 text-emerald-400" aria-hidden="true" />
@@ -188,18 +183,18 @@ export function Header() {
         </div>
       </div>
 
-      {/* ── Mobile Drawer ──────────────────────────────────────────────── */}
+      {/* ── Mobile Drawer: Floating glass card ─────────────────────────── */}
       <AnimatePresence>
         {open && (
           <motion.div
             ref={panelRef}
             id="mobile-nav"
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            className="shell mt-2 md:hidden"
+            initial={{ opacity: 0, y: -10, scale: 0.96 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -10, scale: 0.96 }}
+            className="pointer-events-auto mt-2 w-full max-w-sm md:hidden"
           >
-            <div className="liquid-glass rounded-2xl border border-emerald-500/35 bg-[#040D09]/95 backdrop-blur-2xl p-5 shadow-2xl">
+            <div className="liquid-glass-floating-pill rounded-3xl p-5 shadow-2xl">
               <nav className="flex flex-col space-y-1">
                 {NAV_ITEMS.map((item) => {
                   const active = isActiveRoute(pathname, item.href);
@@ -209,10 +204,10 @@ export function Header() {
                       href={item.href}
                       onClick={close}
                       className={cn(
-                        'flex items-center justify-between rounded-xl px-4 py-3 text-sm font-semibold transition-colors',
+                        'flex items-center justify-between rounded-full px-4 py-2.5 text-sm font-semibold transition-colors',
                         active
-                          ? 'bg-[#00E676] text-black font-bold'
-                          : 'text-slate-300 hover:bg-white/5 hover:text-white',
+                          ? 'bg-[#00E676] text-black font-bold shadow-[0_0_15px_rgba(0,230,118,0.5)]'
+                          : 'text-slate-300 hover:bg-white/10 hover:text-white',
                       )}
                     >
                       <span>{item.label}</span>
@@ -228,7 +223,7 @@ export function Header() {
                 <Link
                   href="/contact"
                   onClick={close}
-                  className="btn-neon w-full justify-center text-center rounded-xl py-3 text-xs font-bold uppercase tracking-wider flex items-center gap-1.5"
+                  className="btn-neon w-full justify-center text-center rounded-full py-2.5 text-xs font-bold uppercase tracking-wider flex items-center gap-1.5"
                 >
                   Let’s Talk
                   <ArrowUpRight className="h-4 w-4" />
