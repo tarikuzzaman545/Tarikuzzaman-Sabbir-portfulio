@@ -37,6 +37,8 @@ import { JsonLd } from '@/components/seo/JsonLd';
 import { Footer } from '@/components/site/Footer';
 import { GlobalClock } from '@/components/site/GlobalClock';
 import { Header } from '@/components/site/Header';
+import { ParallaxBackground } from '@/components/site/ParallaxBackground';
+import { KineticTextScroll } from '@/components/site/KineticTextScroll';
 import { ThemeProvider } from '@/components/site/ThemeProvider';
 import { siteConfig } from '@/site.config';
 
@@ -160,20 +162,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <JsonLd />
       </head>
       <body className="font-sans relative bg-[#020805] text-ink min-h-screen">
-        {/* Full-Page Scrolling 3D Emerald Wave Wallpaper — Soft Blur to remove pixelation */}
-        <div
-          className="absolute inset-0 w-full h-full pointer-events-none -z-30 overflow-hidden"
-          aria-hidden="true"
-        >
-          <div
-            className="w-full h-full bg-no-repeat opacity-95 blur-[14px] sm:blur-[18px] scale-[1.03]"
-            style={{
-              backgroundImage: "url('/img/bg/site-bg.png')",
-              backgroundPosition: "center top",
-              backgroundSize: "100% 100%",
-            }}
-          />
-        </div>
+        {/* Parallax 3D Background with Organic Spring Motion & Decoupled Depth */}
+        <ParallaxBackground />
 
         {/* Background Film Grain and Ambient Emerald Glow */}
         <div className="film-grain" aria-hidden="true" />
@@ -187,6 +177,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
           <Header />
           <GlobalClock />
+
+          <KineticTextScroll />
 
           {/* tabIndex={-1} makes the skip-link target programmatically
               focusable without adding it to the tab order. */}

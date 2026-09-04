@@ -88,7 +88,7 @@ export function Hero() {
                   repeat: Infinity,
                   ease: 'easeInOut',
                 }}
-                className="hidden sm:block absolute -top-8 right-12 lg:-right-2 text-[#00E676] font-serif italic text-sm font-bold tracking-wider leading-snug select-none pointer-events-none"
+                className="hidden sm:block absolute -top-8 right-12 lg:-right-2 text-[#00E676] font-serif italic text-sm font-bold tracking-wider leading-snug select-none pointer-events-none kinetic-text"
               >
                 <span>Ideas</span><br />
                 <span className="ml-2">Designs</span><br />
@@ -290,7 +290,7 @@ export function Hero() {
                   repeat: Infinity,
                   ease: 'easeInOut',
                 }}
-                className="hidden lg:block absolute bottom-1 -right-24 text-[#00E676]/90 font-serif italic text-xs font-bold tracking-wider leading-tight select-none pointer-events-none text-left"
+                className="hidden lg:block absolute bottom-1 -right-24 text-[#00E676]/90 font-serif italic text-xs font-bold tracking-wider leading-tight select-none pointer-events-none text-left kinetic-text"
               >
                 Better<br />
                 Visuals<br />

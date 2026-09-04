@@ -201,6 +201,86 @@ A custom-engineered floating navigation bar inspired by Dynamic Island and Apple
 
 ---
 
+## 📜 Step-by-Step Architecture, Bug Fixes & Changelog (Evolution History)
+
+This section serves as the complete technical source of truth for Sabbir and any future AI agent or developer to trace every iteration, why it was implemented, what issues arose, and how they were resolved.
+
+### Step 1: Liquid Glass UI & Visual Architecture Redesign
+- **User Request:** Redesign the entire portfolio to match uploaded 3D emerald glass mockups with organic liquid glass materials.
+- **Implementation:** Created `.liquid-glass-floating-pill`, `.liquid-glass-card`, `.btn-neon`, and deep emerald obsidian color tokens in `app/globals.css`. Integrated Sabbir's photo seamlessly with ambient glows.
+
+### Step 2: Live Global Clock Widget (`components/site/GlobalClock.tsx`)
+- **User Request:** A live UTC watch in the top right corner showing UTC time, visitor's detected country code & local time, and date with organic breathing motion across the whole site.
+- **Evolution & Fixes:**
+  - *Iteration 1:* Placed inside `Header.tsx` — Rejected by user as it crowded the navbar. Moved to fixed viewport corner (`fixed top-2.5 right-3 sm:top-3.5 sm:right-6 z-50`).
+  - *Iteration 2:* Stacked into 2 vertically aligned pills (`Time` on top, `Date` on bottom) with identical dimensions.
+  - *Iteration 3 (Current):* User instructed: *"date ta sorai dau valo dekhai na website e"* — The date was completely removed. Now only the ultra-sleek, compact **Live Time Capsule** (`[ • UTC 16:15 | BD 10:15 PM ]`) floats with a pulsing neon dot and gentle organic breathing.
+
+### Step 3: Background Wallpaper & Parallax Depth (`components/site/ParallaxBackground.tsx`)
+- **User Request:** When scrolling, the background image was moving 1:1 with the text, losing depth and feeling flat.
+- **Problem:** The background was set as `absolute inset-0 w-full h-full`, locking it to the scroll container. Also, a low-res source image (409x1024) caused pixelation on high-DPI displays.
+- **Fix:**
+  - Replaced with `ParallaxBackground.tsx` using Framer Motion `useScroll` and `useSpring` (`stiffness: 90, damping: 28`).
+  - Background moves at a slower rate (-12% travel) with soft lens blur (`blur-[12px] sm:blur-[14px]`), creating clear 3D separation between background emerald waves and foreground cards.
+
+### Step 4: Kinetic Scroll Text Elongation vs. Full-Page Elastic Wrapper
+- **User Request:** A rubber-band stress/stretch feel when scrolling ("rabar er moto feel").
+- **Initial Attempt & Issue:** A full-page wrapper (`ElasticScrollWrapper`) intercepted wheel events and scaled the entire DOM tree. This caused heavy browser repaints and noticeable scroll lag ("lac lac dicc website").
+- **Resolution:**
+  - Deleted `ElasticScrollWrapper.tsx` entirely to restore 100% native 120 FPS hardware scrolling.
+  - Created `KineticTextScroll.tsx`: Listens via passive `requestAnimationFrame` and sets `--text-stretch-y`.
+  - In `globals.css`, only typography (`h1, h2, h3, .kinetic-text`) subtley elongates vertically (`scaleY: 1.04`) during fast scroll and snaps back via GPU CSS with zero layout shift.
+
+### Step 5: Dynamic Morphing Header Optimization (`components/site/Header.tsx`)
+- **User Request:** The dynamic morphing navbar is the *"main attraction"* of the site, but was lagging on scroll, and the *"Let's Talk"* button took too long to slide into the pill.
+- **Root Causes of Lag:**
+  - `transition-all duration-500` was animating CPU layout properties (`max-width: 1040px` ➔ `896px`, `padding`, `gap`, `max-height`) causing continuous layout reflows.
+  - `backdrop-filter: blur(30px)` on the pill forced heavy GPU compositing passes.
+  - The right CTA had a long travel distance (140px) over 500ms, making it visibly lag behind the capsule border.
+### Step 6: Restoring the Signature 3-Island Morphing Navbar (`components/site/Header.tsx`)
+- **User Feedback:** In the intermediate attempt, the header was stuck as a unified capsule even at the page top, and had a pause/hiccup in the middle.
+- **Visual Design Restored (Original Signature Attraction from commit `0d26479`):**
+  - **At Page Top (`!scrolled`):**
+    - **Left Island:** 3D Ribbon Logo + `TARIKUZZAMAN SABBIR` + full subtitle tagline `AI PRODUCT PHOTOGRAPHER & CREATIVE DESIGNER`.
+    - **Center Island:** Dedicated floating **Round Liquid Glass Capsule** (`liquid-glass-floating-pill`) enclosing the navigation links.
+    - **Right Island:** Standalone floating `Let's Talk ↗` neon button.
+    - **Outer Header:** Completely transparent background.
+  - **On Scroll (`scrolled`):**
+    - Outer container seamlessly morphs into the unified liquid glass capsule (`max-w-4xl`).
+    - The tagline cleanly slides left into the logo and collapses.
+    - Center nav pill background dissolves seamlessly into the master capsule.
+    - "Let's Talk" sits cleanly inside the right edge of the master capsule.
+- **Optimization (Zero Pause & Zero Lag):**
+  - Replaced the sluggish 500ms transition with a snappy, continuous **300ms ease-out** transition.
+  - Promoted the layer to GPU (`transform-gpu`) with `requestAnimationFrame` scroll detection.
+### Step 7: Eliminating Transient 4-Corner Box Artifact during Morph (`components/site/Header.tsx`)
+- **User Feedback:** *"jokhon sob gula ak sathe round box er vitor duche , age akta littme time er jonno char kona alta box dekha jacce... bug ta fix koro , ar onno kicchu jeno change korba na"*
+- **Root Cause:**
+  - `rounded-full` (`border-radius: 9999px`) was conditionally applied only when `scrolled === true`.
+  - When `scrolled` was false, the outer container had no border radius (`0px` rectangle).
+  - During the transition from unscrolled to scrolled, the container was interpolating its border radius from a 4-cornered sharp box (`0px`) to round (`9999px`), causing a faint rectangular box outline to momentarily flash before rounding out.
+- **Resolution:**
+  - Moved `rounded-full` permanently into the base container class (`w-full rounded-full transform-gpu`).
+  - The container is now 100% round (`border-radius: 9999px`) at all times. When the liquid glass background fades in, it is already perfectly round from millisecond zero with zero 4-corner box artifacts!
+### Step 8: Fixing Fast-Scroll Detection & Accelerating Morph Speed (`components/site/Header.tsx`)
+- **User Feedback:** *"ami jokhon fast scrool korchi ami website er niche chole aschi tau oi gla sob ak sathe hoite parche na"* — When fast-scrolling to the bottom of the page, the header was not morphing or was lagging behind.
+- **Root Cause:**
+  - The scroll handler had a `requestAnimationFrame` gate (`if (!ticking) { rAF(...) }`). During high-velocity inertial scrolling on Mac trackpads or fast wheels, the browser prioritizes compositor scrolling over `rAF` callbacks, delaying or queuing them. Consequently, by the time the user flicked to the bottom, the `rAF` callback hadn't fired yet!
+  - Additionally, a 300ms transition was too slow for a 100ms high-speed flick scroll.
+- **Resolution:**
+  - Removed `rAF` gating from the threshold check. The scroll listener now directly evaluates `window.scrollY > 15` on immediate scroll events, updating state instantaneously without frame dropping (`setScrolled(prev => prev !== isScrolled ? isScrolled : prev)`).
+  - Reduced morph transition duration from 300ms to a razor-sharp **200ms ease-out**.
+### Step 9: Living Ambient Wave Motion in Parallax Background (`components/site/ParallaxBackground.tsx`)
+- **User Feedback:** *"baground ta piche , hlka hlka norbe mane motion e thakbe emon akta kicu koro"* — The background was static when not scrolling; it should have subtle, continuous living ambient wave motion.
+- **Resolution:**
+  - Architected a dual-layer motion pipeline in `ParallaxBackground.tsx`:
+    1. **Outer Layer:** Handled by Framer Motion `useScroll` + `useSpring`, gliding vertically (-12% travel) with spring inertia during user scroll.
+    2. **Inner Layer:** Executes a continuous 14-second organic undulating wave loop (`animate={{ y: [0, -10, 4, -6, 0], x: [0, 7, -5, 4, 0], scale: [1.04, 1.07, 1.05, 1.075, 1.04] }}`) with `repeat: Infinity, ease: 'easeInOut'`.
+  - Runs 100% on the GPU with `transform-gpu` and soft lens blur (`blur-[12px] sm:blur-[14px]`).
+  - Result: When idle or reading, the background 3D emerald liquid waves gently drift and breathe with living energy; when scrolling, it glides with 3D parallax depth.
+
+---
+
 ## 🚢 Deployment to Vercel
 
 1. Push latest changes to the `main` branch on GitHub.
@@ -222,3 +302,4 @@ A custom-engineered floating navigation bar inspired by Dynamic Island and Apple
 ---
 
 *Crafted with precision for high-converting visual brands.*
+

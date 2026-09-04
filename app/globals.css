@@ -299,18 +299,17 @@
   }
 
   .liquid-glass-floating-pill {
-    background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(6, 28, 18, 0.82) 32%, rgba(3, 15, 10, 0.92) 100%);
-    backdrop-filter: blur(30px) saturate(190%);
-    -webkit-backdrop-filter: blur(30px) saturate(190%);
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.10) 0%, rgba(6, 28, 18, 0.88) 35%, rgba(3, 15, 10, 0.94) 100%);
+    backdrop-filter: blur(12px) saturate(160%);
+    -webkit-backdrop-filter: blur(12px) saturate(160%);
     border: 1px solid rgba(0, 245, 155, 0.28);
-    border-top: 1.5px solid rgba(255, 255, 255, 0.55);
-    border-bottom: 1px solid rgba(168, 85, 247, 0.25);
+    border-top: 1.5px solid rgba(255, 255, 255, 0.45);
     box-shadow:
-      0 20px 48px -10px rgba(0, 0, 0, 0.9),
-      0 0 32px -4px rgba(0, 245, 155, 0.22),
-      0 12px 28px -6px rgba(168, 85, 247, 0.18),
-      inset 0 1.5px 1px 0 rgba(255, 255, 255, 0.45),
-      inset 0 -1.5px 2px 0 rgba(0, 245, 155, 0.18);
+      0 16px 36px -8px rgba(0, 0, 0, 0.85),
+      0 0 20px -4px rgba(0, 245, 155, 0.20),
+      inset 0 1px 1px 0 rgba(255, 255, 255, 0.35);
+    transform: translateZ(0);
+    will-change: transform;
   }
 
   .liquid-glass-card {
@@ -526,6 +525,29 @@
       transform: none !important;
     }
   }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   KINETIC SCROLL TEXT ELONGATION ("text element gula halka aktu lomba hobe")
+   ─────────────────────────────────────────────────────────────────────────
+   Applies an organic, rubbery vertical stretch to typography during scrolling.
+   Zero layout shift, 0 blocking, buttery-smooth 120 FPS.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+:root {
+  --text-stretch-y: 1;
+}
+
+h1,
+h2,
+h3,
+h4,
+.font-display,
+.kinetic-text {
+  transform: scaleY(var(--text-stretch-y, 1));
+  transform-origin: center center;
+  transition: transform 0.12s cubic-bezier(0.2, 0.8, 0.2, 1);
+  will-change: transform;
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════

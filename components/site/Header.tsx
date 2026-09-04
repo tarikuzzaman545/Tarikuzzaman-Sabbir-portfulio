@@ -42,7 +42,10 @@ export function Header() {
   const panelRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 20);
+    const onScroll = () => {
+      const isScrolled = window.scrollY > 15;
+      setScrolled((prev) => (prev !== isScrolled ? isScrolled : prev));
+    };
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
@@ -70,9 +73,9 @@ export function Header() {
     <header className="fixed inset-x-0 top-0 z-50 flex flex-col items-center pointer-events-none pt-3 sm:pt-5 px-3 sm:px-6">
       <div
         className={cn(
-          'pointer-events-auto flex items-center justify-between gap-3 sm:gap-6 w-full transition-all duration-500 ease-out',
+          'pointer-events-auto flex items-center justify-between gap-3 sm:gap-6 w-full rounded-full transform-gpu transition-all duration-200 ease-out',
           scrolled
-            ? 'max-w-4xl py-2 px-3.5 sm:px-5 rounded-full liquid-glass-floating-pill shadow-[0_24px_50px_rgba(0,0,0,0.95),0_0_35px_rgba(0,245,155,0.3)]'
+            ? 'max-w-4xl py-2 px-3.5 sm:px-5 liquid-glass-floating-pill shadow-[0_24px_50px_rgba(0,0,0,0.95),0_0_35px_rgba(0,245,155,0.3)]'
             : 'max-w-5xl lg:max-w-[1040px] py-1.5 px-2 sm:px-4 bg-transparent border-transparent shadow-none',
         )}
       >
@@ -85,7 +88,7 @@ export function Header() {
           {/* Official 3D Emerald S Ribbon Logo */}
           <div
             className={cn(
-              'relative flex items-center justify-center shrink-0 transition-all duration-300',
+              'relative flex items-center justify-center shrink-0 transition-all duration-200',
               scrolled ? 'h-9 w-9 sm:h-9.5 sm:w-9.5' : 'h-10 w-10 sm:h-11 sm:w-11',
             )}
           >
@@ -97,14 +100,14 @@ export function Header() {
               height={48}
               priority
               unoptimized
-              className="h-full w-full object-contain drop-shadow-[0_0_12px_rgba(0,230,118,0.5)] transition-transform duration-300 group-hover:scale-110"
+              className="h-full w-full object-contain drop-shadow-[0_0_12px_rgba(0,230,118,0.5)] transition-transform duration-200 group-hover:scale-110"
             />
           </div>
 
           <div className="flex flex-col justify-center">
             <span
               className={cn(
-                'font-extrabold uppercase leading-tight font-sans transition-all duration-300 text-white',
+                'font-extrabold uppercase leading-tight font-sans transition-all duration-200 text-white',
                 scrolled
                   ? 'text-sm sm:text-base tracking-wide'
                   : 'text-xs sm:text-sm md:text-base tracking-wider',
@@ -116,7 +119,7 @@ export function Header() {
             {/* Tagline that collapses/slides left into logo on scroll */}
             <div
               className={cn(
-                'overflow-hidden transition-all duration-500 ease-in-out',
+                'overflow-hidden transition-all duration-200 ease-out',
                 scrolled
                   ? 'max-h-0 max-w-0 opacity-0 -translate-x-6 pointer-events-none mt-0'
                   : 'max-h-6 max-w-[320px] opacity-100 translate-x-0 mt-0.5',
@@ -133,10 +136,10 @@ export function Header() {
         <nav
           aria-label="Main navigation"
           className={cn(
-            'hidden md:flex items-center gap-1 sm:gap-1.5 transition-all duration-500',
+            'hidden md:flex items-center gap-1 sm:gap-1.5 rounded-full transition-all duration-200',
             scrolled
               ? 'bg-transparent border-transparent shadow-none px-0 py-0'
-              : 'liquid-glass-floating-pill rounded-full px-3.5 sm:px-4 py-1.5 shadow-[0_12px_30px_rgba(0,0,0,0.6)]',
+              : 'liquid-glass-floating-pill px-3.5 sm:px-4 py-1.5 shadow-[0_12px_30px_rgba(0,0,0,0.6)]',
           )}
         >
           {NAV_ITEMS.map((item) => {
@@ -147,7 +150,7 @@ export function Header() {
                 href={item.href}
                 aria-current={active ? 'page' : undefined}
                 className={cn(
-                  'relative rounded-full px-3.5 py-1.5 text-xs font-semibold tracking-wide transition-all duration-300',
+                  'relative rounded-full px-3.5 py-1.5 text-xs font-semibold tracking-wide transition-all duration-150',
                   active
                     ? 'bg-[#00E676] text-black font-bold shadow-[0_0_16px_rgba(0,230,118,0.5),inset_0_1px_1px_rgba(255,255,255,0.6)]'
                     : 'text-slate-300 hover:text-white hover:bg-white/10',
@@ -161,19 +164,15 @@ export function Header() {
 
         {/* ── 3. Right CTA (At top: stands alone on right; On scroll: merges into the right of the round capsule) ── */}
         <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-          <motion.div
-            animate={{ y: [0, -2, 0], scale: [1, 1.025, 1] }}
-            transition={{ duration: 4.1, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
-            className="hidden sm:inline-flex"
-          >
+          <div className="hidden sm:inline-flex">
             <Link
               href="/contact"
-              className="btn-neon inline-flex items-center gap-1.5 rounded-full px-4.5 py-2 text-xs font-bold uppercase tracking-wider text-black transition-all duration-300 shadow-[0_0_20px_rgba(0,245,155,0.4)] hover:scale-105"
+              className="btn-neon inline-flex items-center gap-1.5 rounded-full px-4.5 py-2 text-xs font-bold uppercase tracking-wider text-black transition-all duration-150 shadow-[0_0_20px_rgba(0,245,155,0.4)] hover:scale-105"
             >
               Let’s Talk
               <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
             </Link>
-          </motion.div>
+          </div>
 
           {/* Mobile hamburger button */}
           <button

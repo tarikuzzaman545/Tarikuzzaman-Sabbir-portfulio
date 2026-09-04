@@ -78,7 +78,6 @@ function getCountryCode(): string {
 
 export function GlobalClock() {
   const [mounted, setMounted] = useState(false);
-  const [dateStr, setDateStr] = useState('');
   const [localTimeStr, setLocalTimeStr] = useState('');
   const [utcTimeStr, setUtcTimeStr] = useState('');
   const [countryCode, setCountryCode] = useState('BD');
@@ -89,14 +88,6 @@ export function GlobalClock() {
 
     const updateClock = () => {
       const now = new Date();
-
-      // Date: "Fri, Sep 4"
-      const d = now.toLocaleDateString('en-US', {
-        weekday: 'short',
-        month: 'short',
-        day: 'numeric',
-      });
-      setDateStr(d);
 
       // Local Time: "9:43 PM"
       const t = now.toLocaleTimeString('en-US', {
@@ -123,24 +114,22 @@ export function GlobalClock() {
 
   return (
     <aside
-      aria-label="Live UTC, Local Time and Date"
+      aria-label="Live UTC and Local Time"
       className="fixed top-2.5 right-3 sm:top-3.5 sm:right-6 z-50 pointer-events-auto select-none"
     >
       {/* Smooth Organic Breathing Animation */}
       <motion.div
         animate={{
           y: [0, -3, 0],
-          scale: [1, 1.018, 1],
+          scale: [1, 1.02, 1],
         }}
         transition={{
           duration: 4.2,
           repeat: Infinity,
           ease: 'easeInOut',
         }}
-        className="flex flex-col items-stretch gap-1 w-[168px] sm:w-[176px]"
       >
-        {/* ── Section 1 (Top): Time Capsule (UTC + Country Local Time) ── */}
-        <div className="w-full h-6 sm:h-[26px] liquid-glass-floating-pill rounded-full px-2 flex items-center justify-center gap-1.5 font-mono text-[9.5px] sm:text-[10px] tracking-tight shadow-[0_8px_20px_rgba(0,0,0,0.8)] border border-emerald-500/35">
+        <div className="liquid-glass-floating-pill rounded-full px-2.5 py-1 flex items-center gap-1.5 font-mono text-[9px] sm:text-[9.5px] tracking-tight shadow-[0_8px_20px_rgba(0,0,0,0.8)] border border-emerald-500/35 whitespace-nowrap">
           {/* Live pulsing green dot */}
           <span className="relative flex h-1.5 w-1.5 shrink-0">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00E676] opacity-75" />
@@ -149,35 +138,17 @@ export function GlobalClock() {
 
           {/* UTC Time */}
           <span className="text-slate-300 font-semibold tabular-nums">
-            <span className="text-slate-400 font-bold text-[8.5px] mr-0.5">UTC</span>
+            <span className="text-slate-400 font-bold text-[8px] mr-1">UTC</span>
             {utcTimeStr}
           </span>
 
-          <span className="text-emerald-500/40 font-bold text-[9px]">|</span>
+          <span className="text-emerald-500/40 font-bold text-[8.5px]">|</span>
 
           {/* Local Country Time */}
           <span className="text-white font-bold tabular-nums">
-            <span className="text-[#00E676] font-extrabold text-[8.5px] mr-0.5">{countryCode}</span>
+            <span className="text-[#00E676] font-extrabold text-[8px] mr-1">{countryCode}</span>
             {localTimeStr}
           </span>
-        </div>
-
-        {/* ── Section 2 (Bottom): Date Capsule (Identical Same Size) ── */}
-        <div className="w-full h-6 sm:h-[26px] liquid-glass-floating-pill rounded-full px-2 flex items-center justify-center gap-1.5 font-mono text-[9.5px] sm:text-[10px] tracking-tight text-slate-200 font-semibold shadow-[0_8px_20px_rgba(0,0,0,0.8)] border border-emerald-500/35 whitespace-nowrap">
-          <svg
-            className="w-2.5 h-2.5 text-[#00E676] shrink-0"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth={2.2}
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-            />
-          </svg>
-          <span className="tabular-nums">{dateStr}</span>
         </div>
       </motion.div>
     </aside>
