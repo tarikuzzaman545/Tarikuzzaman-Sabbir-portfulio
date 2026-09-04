@@ -70,13 +70,13 @@ export function Header() {
     <header className="fixed inset-x-0 top-0 z-50 flex flex-col items-center pointer-events-none pt-3 sm:pt-5 px-3 sm:px-6">
       <div
         className={cn(
-          'pointer-events-auto flex items-center justify-between gap-3 sm:gap-6 w-full transition-all duration-500 ease-out rounded-full liquid-glass-floating-pill relative',
+          'pointer-events-auto flex items-center justify-between gap-3 sm:gap-6 w-full transition-all duration-500 ease-out',
           scrolled
-            ? 'max-w-4xl py-2 px-3.5 sm:px-5'
-            : 'max-w-6xl py-2.5 px-4 sm:px-6',
+            ? 'max-w-4xl py-2 px-3.5 sm:px-5 rounded-full liquid-glass-floating-pill shadow-[0_24px_50px_rgba(0,0,0,0.95),0_0_35px_rgba(0,245,155,0.3)]'
+            : 'max-w-7xl py-1.5 px-2 sm:px-4 bg-transparent border-transparent shadow-none',
         )}
       >
-        {/* ── 1. Logo & Identity ── */}
+        {/* ── 1. Logo & Identity (At top: stands alone on left; On scroll: merges into the left of the round capsule) ── */}
         <Link
           href="/"
           className="group flex items-center gap-2.5 sm:gap-3 rounded-full focus:outline-none shrink-0"
@@ -113,7 +113,7 @@ export function Header() {
               TARIKUZZAMAN <span className="text-[#00E676]">SABBIR</span>
             </span>
 
-            {/* Subtitle that slides left into logo and collapses on scroll */}
+            {/* Tagline that collapses/slides left into logo on scroll */}
             <div
               className={cn(
                 'overflow-hidden transition-all duration-500 ease-in-out',
@@ -129,10 +129,15 @@ export function Header() {
           </div>
         </Link>
 
-        {/* ── 2. Center Nav Items inside the floating pill ── */}
+        {/* ── 2. Center Nav: At top, THIS IS THE EXCLUSIVE ROUND CAPSULE with Home/About/Services/Portfolio/Contact ── */}
         <nav
           aria-label="Main navigation"
-          className="hidden md:flex items-center gap-1 sm:gap-1.5"
+          className={cn(
+            'hidden md:flex items-center gap-1 sm:gap-1.5 transition-all duration-500',
+            scrolled
+              ? 'bg-transparent border-transparent shadow-none px-0 py-0'
+              : 'liquid-glass-floating-pill rounded-full px-3.5 sm:px-4 py-1.5 shadow-[0_12px_30px_rgba(0,0,0,0.6)]',
+          )}
         >
           {NAV_ITEMS.map((item) => {
             const active = isActiveRoute(pathname, item.href);
@@ -154,7 +159,7 @@ export function Header() {
           })}
         </nav>
 
-        {/* ── 3. Right CTA & Mobile Toggle ─────────────────────────────── */}
+        {/* ── 3. Right CTA (At top: stands alone on right; On scroll: merges into the right of the round capsule) ── */}
         <div className="flex items-center gap-2 sm:gap-3 shrink-0">
           <Link
             href="/contact"
