@@ -23,7 +23,6 @@ import {
   Linkedin,
   MapPin,
   Play,
-  Sparkles,
   TrendingUp,
 } from 'lucide-react';
 
@@ -177,8 +176,14 @@ export function Hero() {
             {/* Floating Glass Card 1 (Top Right) */}
             <div className="absolute -top-4 -right-2 sm:-right-6 liquid-glass-card rounded-2xl p-4 max-w-[210px] shadow-2xl z-20">
               <div className="flex items-center justify-between mb-2">
-                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-500/20 text-emerald-400 border border-emerald-400/30">
-                  <Sparkles className="h-4 w-4" />
+                <div className="relative flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-500/15 border border-emerald-400/30 p-1 shrink-0">
+                  <Image
+                    src="/img/brand/logo.png"
+                    alt="Logo"
+                    width={28}
+                    height={28}
+                    className="h-full w-full object-contain drop-shadow-[0_0_8px_rgba(0,230,118,0.6)]"
+                  />
                 </div>
                 <div className="flex items-center gap-1 text-[10px] font-bold text-emerald-400 bg-emerald-500/15 px-2 py-0.5 rounded-full border border-emerald-400/20">
                   <TrendingUp className="h-3 w-3" />

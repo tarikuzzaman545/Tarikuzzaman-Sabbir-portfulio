@@ -11,6 +11,7 @@
  */
 
 import { useCallback, useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -73,27 +74,25 @@ export function Header() {
           className="group flex items-center gap-3 rounded-xl focus:outline-none"
           aria-label="Tarikuzzaman Sabbir — Home"
         >
-          {/* Glowing Green Neon Swirl S Icon */}
-          <div className="relative flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-400 via-emerald-500 to-emerald-700 shadow-[0_0_24px_rgba(0,245,155,0.45)] transition-transform duration-300 group-hover:scale-105">
-            <svg
-              className="h-5 w-5 sm:h-6 sm:w-6 text-black"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.8"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M18 6L6 18M18 6v10M18 6H8" />
-            </svg>
+          {/* Official 3D Emerald S Ribbon Logo */}
+          <div className="relative flex h-10 w-10 sm:h-11 sm:w-11 items-center justify-center shrink-0">
+            <div className="absolute inset-0 rounded-full bg-emerald-500/25 blur-md -z-10 group-hover:bg-emerald-400/40 transition-colors" />
+            <Image
+              src="/img/brand/logo.png"
+              alt="Tarikuzzaman Sabbir Logo"
+              width={48}
+              height={48}
+              priority
+              className="h-full w-full object-contain drop-shadow-[0_0_12px_rgba(0,230,118,0.5)] transition-transform duration-300 group-hover:scale-110"
+            />
           </div>
 
           <div className="flex flex-col">
-            <span className="text-sm sm:text-[15px] font-extrabold tracking-wider text-white uppercase leading-tight">
-              TARIKUZZAMAN <span className="text-emerald-400">SABBIR</span>
+            <span className="text-sm sm:text-[15px] font-extrabold tracking-wider text-white uppercase leading-tight font-sans">
+              TARIKUZZAMAN <span className="text-[#00E676]">SABBIR</span>
             </span>
-            <span className="text-[9px] sm:text-[10px] font-semibold tracking-widest text-emerald-400/80 uppercase leading-none mt-0.5">
-              AI PRODUCT PHOTOGRAPHER & CREATIVE DESIGNER
+            <span className="text-[9px] sm:text-[10px] font-semibold tracking-widest text-[#00E676]/90 uppercase leading-none mt-0.5">
+              AI PRODUCT PHOTOGRAPHER &amp; CREATIVE DESIGNER
             </span>
           </div>
         </Link>

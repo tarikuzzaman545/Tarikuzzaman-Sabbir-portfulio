@@ -57,6 +57,17 @@ export interface HomeTestimonial {
 }
 
 export const homeContent = {
+  /* ── Brand Identity & Official Logo ────────────────────────────────────── */
+  brand: {
+    name: 'TARIKUZZAMAN SABBIR',
+    title: 'AI PRODUCT PHOTOGRAPHER & CREATIVE DESIGNER',
+    tagline: 'VISUALS THAT SELL',
+    logo: '/img/brand/logo.png',
+    logoIcon: '/img/brand/logo-icon.png',
+    brandGuide: '/img/brand/brand-identity.jpg',
+    motto: ['IDEAS', 'DESIGNS', 'REALITY'],
+  },
+
   /* ── 1. Hero ────────────────────────────────────────────────────────────── */
   hero: {
     badge: 'AI Visuals for Modern Brands',
@@ -79,7 +90,7 @@ export const homeContent = {
     connectLabel: 'Let’s Connect Everywhere',
     cardTopRight: {
       title: 'Turning Products Into Best Sellers',
-      tag: 'AI Powered Visuals',
+      tag: 'Visuals That Sell',
     },
     cardBottomRight: {
       title: 'Based in Khulna, Bangladesh',
