@@ -35,7 +35,6 @@ import localFont from 'next/font/local';
 
 import { JsonLd } from '@/components/seo/JsonLd';
 import { Footer } from '@/components/site/Footer';
-import { GlobalClock } from '@/components/site/GlobalClock';
 import { Header } from '@/components/site/Header';
 import { ThemeProvider } from '@/components/site/ThemeProvider';
 import { siteConfig } from '@/site.config';
@@ -194,7 +193,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </main>
 
           <Footer />
-          <GlobalClock />
         </ThemeProvider>
       </body>
     </html>

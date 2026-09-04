@@ -2,19 +2,18 @@
 
 /**
  * ─────────────────────────────────────────────────────────────────────────────
- *  GLOBAL CLOCK WIDGET — BOTTOM LEFT CORNER
+ *  LIVE DATE & TIME WIDGET (TOP RIGHT)
  * ─────────────────────────────────────────────────────────────────────────────
  *
+ *  - Displays Date & Local Time: e.g. "Fri Sep 4  9:35 PM" (macOS style)
+ *  - Automatically detects visitor's country code (e.g. BD, US, UK, CA, IN, etc.)
  *  - Displays live ticking UTC time
- *  - Detects visitor's local country code (e.g. BD, US, UK, CA, IN, etc.)
- *  - Displays visitor's local time with live pulsating status indicator
- *  - Styled in 3D Liquid Glass Pill aesthetic
+ *  - Live pulsating emerald indicator dot
+ *  - 3D Liquid Glass Pill aesthetic
  */
 
 import { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
 
-/** Common timezone-to-country mapping */
 const TIMEZONE_TO_COUNTRY: Record<string, string> = {
   'Asia/Dhaka': 'BD',
   'Europe/London': 'UK',
@@ -69,48 +68,53 @@ function getCountryCode(): string {
     if (TIMEZONE_TO_COUNTRY[tz]) {
       return TIMEZONE_TO_COUNTRY[tz];
     }
-    // Fallback: Check if prefix or country name can be deduced
     if (tz.startsWith('America/')) return 'US';
     if (tz.startsWith('Europe/')) return 'EU';
     if (tz.startsWith('Australia/')) return 'AU';
-    return 'LOCAL';
+    return 'BD';
   } catch {
-    return 'LOCAL';
+    return 'BD';
   }
-}
-
-function formatTwoDigits(n: number): string {
-  return n.toString().padStart(2, '0');
 }
 
 export function GlobalClock() {
   const [mounted, setMounted] = useState(false);
-  const [utcTime, setUtcTime] = useState('');
-  const [localTime, setLocalTime] = useState('');
+  const [dateStr, setDateStr] = useState('');
+  const [localTimeStr, setLocalTimeStr] = useState('');
+  const [utcTimeStr, setUtcTimeStr] = useState('');
   const [countryCode, setCountryCode] = useState('BD');
 
   useEffect(() => {
     setMounted(true);
     setCountryCode(getCountryCode());
 
-    const updateClocks = () => {
+    const updateClock = () => {
       const now = new Date();
 
-      // UTC Time
-      const uHours = formatTwoDigits(now.getUTCHours());
-      const uMinutes = formatTwoDigits(now.getUTCMinutes());
-      const uSeconds = formatTwoDigits(now.getUTCSeconds());
-      setUtcTime(`${uHours}:${uMinutes}:${uSeconds}`);
+      // Date: "Fri Sep 4" (exact match to macOS menu bar format)
+      const d = now.toLocaleDateString('en-US', {
+        weekday: 'short',
+        month: 'short',
+        day: 'numeric',
+      });
+      setDateStr(d);
 
-      // Local Time
-      const lHours = formatTwoDigits(now.getHours());
-      const lMinutes = formatTwoDigits(now.getMinutes());
-      const lSeconds = formatTwoDigits(now.getSeconds());
-      setLocalTime(`${lHours}:${lMinutes}:${lSeconds}`);
+      // Local Time: "9:35 PM"
+      const t = now.toLocaleTimeString('en-US', {
+        hour: 'numeric',
+        minute: '2-digit',
+        hour12: true,
+      });
+      setLocalTimeStr(t);
+
+      // UTC Time: "15:35 UTC"
+      const uHours = now.getUTCHours().toString().padStart(2, '0');
+      const uMins = now.getUTCMinutes().toString().padStart(2, '0');
+      setUtcTimeStr(`${uHours}:${uMins} UTC`);
     };
 
-    updateClocks();
-    const interval = setInterval(updateClocks, 1000);
+    updateClock();
+    const interval = setInterval(updateClock, 1000);
     return () => clearInterval(interval);
   }, []);
 
@@ -119,39 +123,29 @@ export function GlobalClock() {
   }
 
   return (
-    <motion.aside
-      initial={{ opacity: 0, y: 15 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, ease: 'easeOut' }}
-      aria-label="Live UTC and Local Clocks"
-      className="fixed bottom-4 left-4 sm:bottom-6 sm:left-6 z-40 pointer-events-auto select-none"
+    <div
+      aria-label="Live Date and Clocks"
+      className="inline-flex items-center gap-2 rounded-full liquid-glass-floating-pill px-3 py-1 text-[11px] sm:text-xs font-mono tracking-tight text-slate-200 select-none shadow-[0_8px_20px_rgba(0,0,0,0.6)]"
     >
-      <div className="liquid-glass-floating-pill rounded-full px-3.5 py-1.5 flex items-center gap-2.5 sm:gap-3 text-[11px] font-mono tracking-tight text-slate-300 shadow-[0_12px_30px_rgba(0,0,0,0.85),0_0_20px_rgba(0,245,155,0.18)]">
-        {/* Pulsing Live Green Status Dot */}
-        <span className="relative flex h-2 w-2 shrink-0">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00E676] opacity-75" />
-          <span className="relative inline-flex rounded-full h-2 w-2 bg-[#00E676]" />
-        </span>
+      {/* Pulsing Live Green Status Dot */}
+      <span className="relative flex h-2 w-2 shrink-0">
+        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00E676] opacity-75" />
+        <span className="relative inline-flex rounded-full h-2 w-2 bg-[#00E676]" />
+      </span>
 
-        {/* UTC Clock */}
-        <div className="flex items-center gap-1">
-          <span className="text-slate-400 font-bold text-[9.5px] uppercase tracking-wider">
-            UTC
-          </span>
-          <span className="font-semibold text-white tabular-nums">{utcTime}</span>
-        </div>
+      {/* Country Code + Date + Time: e.g. "BD Fri Sep 4  9:35 PM" */}
+      <span className="font-semibold text-white whitespace-nowrap">
+        <span className="text-[#00E676] font-bold mr-1.5">{countryCode}</span>
+        {dateStr} &nbsp;{localTimeStr}
+      </span>
 
-        {/* Hairline Divider */}
-        <span className="h-3 w-px bg-emerald-500/35" aria-hidden="true" />
+      {/* Divider */}
+      <span className="h-3 w-px bg-emerald-500/35 hidden xl:inline-block" aria-hidden="true" />
 
-        {/* Visitor Country Clock */}
-        <div className="flex items-center gap-1">
-          <span className="text-[#00E676] font-extrabold text-[9.5px] uppercase tracking-wider">
-            {countryCode}
-          </span>
-          <span className="font-semibold text-white tabular-nums">{localTime}</span>
-        </div>
-      </div>
-    </motion.aside>
+      {/* UTC Time */}
+      <span className="text-slate-400 font-medium text-[10.5px] whitespace-nowrap hidden xl:inline-block">
+        {utcTimeStr}
+      </span>
+    </div>
   );
 }
