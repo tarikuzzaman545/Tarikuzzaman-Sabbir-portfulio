@@ -67,6 +67,7 @@ export function ClientFeedback() {
                       src={testimonial.avatar}
                       alt={testimonial.author}
                       fill
+                      unoptimized
                       className="object-cover"
                     />
                   </div>

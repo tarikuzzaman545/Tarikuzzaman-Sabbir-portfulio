@@ -54,7 +54,7 @@ export function CtaBanner() {
                     key={idx}
                     className="relative h-10 w-10 rounded-full overflow-hidden border-2 border-emerald-400/80 shadow-[0_0_10px_rgba(0,245,155,0.3)]"
                   >
-                    <Image src={avatar} alt="Client" fill className="object-cover" />
+                    <Image src={avatar} alt="Client" fill unoptimized className="object-cover" />
                   </div>
                 ))}
               </div>

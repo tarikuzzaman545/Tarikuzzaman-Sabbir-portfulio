@@ -182,6 +182,7 @@ export function Hero() {
                     alt="Logo"
                     width={28}
                     height={28}
+                    unoptimized
                     className="h-full w-full object-contain drop-shadow-[0_0_8px_rgba(0,230,118,0.6)]"
                   />
                 </div>
@@ -256,6 +257,7 @@ export function Hero() {
                     alt={brand.name}
                     width={130}
                     height={36}
+                    unoptimized
                     className="h-8 w-auto object-contain filter brightness-110"
                   />
                 </div>

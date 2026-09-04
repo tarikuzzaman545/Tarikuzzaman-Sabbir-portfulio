@@ -90,6 +90,7 @@ export function FeaturedWork() {
                   src={project.image}
                   alt={project.title}
                   fill
+                  unoptimized
                   className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 20vw"
                 />

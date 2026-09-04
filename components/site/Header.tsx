@@ -83,6 +83,7 @@ export function Header() {
               width={48}
               height={48}
               priority
+              unoptimized
               className="h-full w-full object-contain drop-shadow-[0_0_12px_rgba(0,230,118,0.5)] transition-transform duration-300 group-hover:scale-110"
             />
           </div>
