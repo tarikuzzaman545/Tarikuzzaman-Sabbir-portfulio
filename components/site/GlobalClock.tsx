@@ -2,15 +2,18 @@
 
 /**
  * ─────────────────────────────────────────────────────────────────────────────
- *  LIVE CLOCK WIDGET — RIGHT TOP CORNER (2 LINES)
+ *  COMPACT DUAL-CAPSULE LIVE TIME & DATE WIDGET (TOP RIGHT)
  * ─────────────────────────────────────────────────────────────────────────────
  *
- *  Line 1: UTC Time | [Country] Time (e.g. UTC 15:40 | BD 9:40 PM)
- *  Line 2: Date (e.g. Fri Sep 4)
- *  Position: Fixed at Right Top Corner
+ *  - 2 separate ultra-compact liquid glass pills:
+ *      1. Time Capsule: [ • UTC 15:43 | BD 9:43 PM ]
+ *      2. Date Capsule: [ Fri, Sep 4 ]
+ *  - Organic breathing motion (gentle inhale/exhale float)
+ *  - Fixed across the entire website at top-right corner
  */
 
 import { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 
 const TIMEZONE_TO_COUNTRY: Record<string, string> = {
   'Asia/Dhaka': 'BD',
@@ -63,9 +66,7 @@ const TIMEZONE_TO_COUNTRY: Record<string, string> = {
 function getCountryCode(): string {
   try {
     const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    if (TIMEZONE_TO_COUNTRY[tz]) {
-      return TIMEZONE_TO_COUNTRY[tz];
-    }
+    if (TIMEZONE_TO_COUNTRY[tz]) return TIMEZONE_TO_COUNTRY[tz];
     if (tz.startsWith('America/')) return 'US';
     if (tz.startsWith('Europe/')) return 'EU';
     if (tz.startsWith('Australia/')) return 'AU';
@@ -89,7 +90,7 @@ export function GlobalClock() {
     const updateClock = () => {
       const now = new Date();
 
-      // Date: "Fri Sep 4"
+      // Date: "Fri, Sep 4"
       const d = now.toLocaleDateString('en-US', {
         weekday: 'short',
         month: 'short',
@@ -97,7 +98,7 @@ export function GlobalClock() {
       });
       setDateStr(d);
 
-      // Local Time: "9:40 PM"
+      // Local Time: "9:43 PM"
       const t = now.toLocaleTimeString('en-US', {
         hour: 'numeric',
         minute: '2-digit',
@@ -105,7 +106,7 @@ export function GlobalClock() {
       });
       setLocalTimeStr(t);
 
-      // UTC Time: "15:40"
+      // UTC Time: "15:43"
       const uHours = now.getUTCHours().toString().padStart(2, '0');
       const uMins = now.getUTCMinutes().toString().padStart(2, '0');
       setUtcTimeStr(`${uHours}:${uMins}`);
@@ -122,38 +123,50 @@ export function GlobalClock() {
 
   return (
     <aside
-      aria-label="Live UTC and Local Date and Clocks"
+      aria-label="Live UTC, Local Time and Date"
       className="fixed top-2.5 right-3 sm:top-3.5 sm:right-6 z-50 pointer-events-auto select-none"
     >
-      <div className="liquid-glass-floating-pill rounded-2xl px-3 py-1.5 flex flex-col items-end justify-center font-mono tracking-tight shadow-[0_10px_28px_rgba(0,0,0,0.85),0_0_20px_rgba(0,245,155,0.18)] border border-emerald-500/35 backdrop-blur-2xl">
-        {/* Line 1: UTC time | [Country] time */}
-        <div className="flex items-center gap-1.5 text-[11px] sm:text-xs leading-none">
-          {/* Pulsing Live Green Status Dot */}
-          <span className="relative flex h-2 w-2 shrink-0">
+      {/* Smooth Organic Breathing Animation */}
+      <motion.div
+        animate={{
+          y: [0, -3, 0],
+          scale: [1, 1.018, 1],
+        }}
+        transition={{
+          duration: 4.2,
+          repeat: Infinity,
+          ease: 'easeInOut',
+        }}
+        className="flex items-center gap-1.5"
+      >
+        {/* ── Section 1: Time Capsule (UTC + Country Local Time) ── */}
+        <div className="liquid-glass-floating-pill rounded-full px-2.5 py-1 flex items-center gap-1.5 font-mono text-[9.5px] sm:text-[10px] tracking-tight shadow-[0_8px_20px_rgba(0,0,0,0.8)] border border-emerald-500/35">
+          {/* Live pulsing green dot */}
+          <span className="relative flex h-1.5 w-1.5 shrink-0">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00E676] opacity-75" />
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-[#00E676]" />
+            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[#00E676]" />
           </span>
 
           {/* UTC Time */}
           <span className="text-slate-300 font-semibold tabular-nums">
-            <span className="text-slate-400 font-bold text-[9.5px] mr-1">UTC</span>
+            <span className="text-slate-400 font-bold text-[8.5px] mr-1">UTC</span>
             {utcTimeStr}
           </span>
 
-          <span className="text-emerald-500/50 font-bold text-[10px]">|</span>
+          <span className="text-emerald-500/40 font-bold text-[9px]">|</span>
 
-          {/* Country + Local Time */}
+          {/* Local Country Time */}
           <span className="text-white font-bold tabular-nums">
-            <span className="text-[#00E676] font-extrabold text-[10px] mr-1">{countryCode}</span>
+            <span className="text-[#00E676] font-extrabold text-[8.5px] mr-1">{countryCode}</span>
             {localTimeStr}
           </span>
         </div>
 
-        {/* Line 2: Date (e.g. Fri Sep 4) */}
-        <div className="text-[10px] sm:text-[10.5px] font-semibold text-slate-300 tracking-wide mt-1 leading-none">
+        {/* ── Section 2: Date Capsule (Separate Pill) ── */}
+        <div className="liquid-glass-floating-pill rounded-full px-2.5 py-1 flex items-center font-mono text-[9.5px] sm:text-[10px] text-slate-200 font-semibold shadow-[0_8px_20px_rgba(0,0,0,0.8)] border border-emerald-500/35 whitespace-nowrap">
           {dateStr}
         </div>
-      </div>
+      </motion.div>
     </aside>
   );
 }
