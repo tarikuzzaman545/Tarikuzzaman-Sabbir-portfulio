@@ -159,16 +159,20 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <JsonLd />
       </head>
       <body className="font-sans relative bg-[#020805] text-ink min-h-screen">
-        {/* Full-Page Scrolling 3D Emerald Wave Wallpaper */}
+        {/* Full-Page Scrolling 3D Emerald Wave Wallpaper — Soft Blur to remove pixelation */}
         <div
-          className="absolute inset-0 w-full h-full pointer-events-none -z-30 bg-no-repeat opacity-95"
-          style={{
-            backgroundImage: "url('/img/bg/site-bg.png')",
-            backgroundPosition: "center top",
-            backgroundSize: "100% 100%",
-          }}
+          className="absolute inset-0 w-full h-full pointer-events-none -z-30 overflow-hidden"
           aria-hidden="true"
-        />
+        >
+          <div
+            className="w-full h-full bg-no-repeat opacity-95 blur-[14px] sm:blur-[18px] scale-[1.03]"
+            style={{
+              backgroundImage: "url('/img/bg/site-bg.png')",
+              backgroundPosition: "center top",
+              backgroundSize: "100% 100%",
+            }}
+          />
+        </div>
 
         {/* Background Film Grain and Ambient Emerald Glow */}
         <div className="film-grain" aria-hidden="true" />
