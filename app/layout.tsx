@@ -159,14 +159,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <JsonLd />
       </head>
       <body className="font-sans relative bg-[#020805] text-ink min-h-screen">
-        {/* Fullscreen Master 3D Emerald Wave Wallpaper */}
+        {/* Full-Page Scrolling 3D Emerald Wave Wallpaper */}
         <div
-          className="fixed inset-0 pointer-events-none -z-30 bg-cover bg-center bg-no-repeat opacity-90"
+          className="absolute inset-0 w-full h-full pointer-events-none -z-30 bg-no-repeat opacity-95"
           style={{
             backgroundImage: "url('/img/bg/site-bg.png')",
             backgroundPosition: "center top",
-            backgroundSize: "cover",
-            backgroundAttachment: "fixed",
+            backgroundSize: "100% 100%",
           }}
           aria-hidden="true"
         />
