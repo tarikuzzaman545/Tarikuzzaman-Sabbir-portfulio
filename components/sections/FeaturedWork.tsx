@@ -1,122 +1,120 @@
+'use client';
+
 /**
- * Featured work — the home page's proof section.
- *
- * A server component. Unlike the full /work grid this is not filterable and does
- * not open a lightbox: it shows the three featured case studies as links into the
- * dedicated `/work/[slug]` routes, with a "View all work" link to the full grid.
- * The home page's job is to earn the click through to the portfolio, not to be
- * the portfolio.
- *
- * The three cards are chosen by the `featured` flag in the content, falling back
- * to the first three projects if fewer than three are flagged — so the section
- * never renders a short or empty row on a sparse dataset.
+ * ─────────────────────────────────────────────────────────────────────────────
+ *  FEATURED WORK — 5 SHOWCASE CARDS WITH REAL PRODUCTS & CATEGORIES
+ * ─────────────────────────────────────────────────────────────────────────────
  */
 
-import { ArrowRight } from 'lucide-react';
+import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { ArrowUpRight } from 'lucide-react';
 
-import { RevealGroup, RevealItem, SectionHeading } from '@/components/ui/Reveal';
-import { CATEGORY_LABELS, type Project } from '@/lib/content/types';
+import { homeContent } from '@/data/homeContent';
+import { cn } from '@/lib/utils';
 
-export function FeaturedWork({ projects }: { projects: Project[] }) {
-  if (projects.length === 0) return null;
+export function FeaturedWork() {
+  const { featuredWorkSection } = homeContent;
+  const [activeCategory, setActiveCategory] = useState('All');
 
-  const featured = projects.filter((project) => project.featured);
-  const shown = (featured.length >= 3 ? featured : projects).slice(0, 3);
+  const filteredProjects =
+    activeCategory === 'All'
+      ? featuredWorkSection.projects
+      : featuredWorkSection.projects.filter(
+          (p) => p.category.toLowerCase() === activeCategory.toLowerCase(),
+        );
 
   return (
-    <section className="section border-t border-line">
+    <section id="work" className="relative py-20 sm:py-28 overflow-hidden">
       <div className="shell">
-        <div className="flex flex-wrap items-end justify-between gap-6">
-          <SectionHeading
-            eyebrow="Selected work"
-            title="Proof, not promises"
-            lead="A few recent engagements with the real numbers attached. Each opens the full case study."
-            className="!max-w-xl"
-          />
+        {/* ── Section Header ────────────────────────────────────────────── */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 sm:mb-12">
+          <div className="max-w-xl">
+            <div className="inline-flex items-center gap-2 rounded-full liquid-glass border border-emerald-500/30 px-3.5 py-1 text-xs font-semibold tracking-wider text-emerald-400 uppercase mb-4">
+              {featuredWorkSection.badge}
+            </div>
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight">
+              Real Products. <br />
+              Real <span className="text-gradient-neon">Results.</span>
+            </h2>
+          </div>
 
-          <Link
-            href="/work"
-            className="btn-outline group hidden shrink-0 sm:inline-flex"
-          >
-            View all work
-            <ArrowRight
-              className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5"
-              aria-hidden="true"
-            />
-          </Link>
+          <div className="flex flex-col items-start md:items-end gap-4 max-w-md">
+            <p className="text-sm sm:text-base text-slate-300 leading-relaxed md:text-right">
+              {featuredWorkSection.subtitle}
+            </p>
+            <Link
+              href={featuredWorkSection.cta.href}
+              className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-emerald-400 hover:text-emerald-300 transition-colors border-b border-emerald-400/40 pb-0.5"
+            >
+              {featuredWorkSection.cta.label}
+              <ArrowUpRight className="h-4 w-4" />
+            </Link>
+          </div>
         </div>
 
-        <RevealGroup
-          as="ul"
-          className="mt-10 grid gap-5 sm:grid-cols-2 lg:mt-12 lg:grid-cols-3"
-          stagger={0.08}
-        >
-          {shown.map((project) => (
-            <RevealItem key={project.slug} as="li" className="flex">
-              <FeaturedCard project={project} />
-            </RevealItem>
-          ))}
-        </RevealGroup>
+        {/* ── Category Filter Pills ──────────────────────────────────────── */}
+        <div className="flex items-center gap-2 overflow-x-auto pb-4 mb-8 scrollbar-none">
+          {featuredWorkSection.categories.map((cat) => {
+            const active = activeCategory === cat;
+            return (
+              <button
+                key={cat}
+                type="button"
+                onClick={() => setActiveCategory(cat)}
+                className={cn(
+                  'flex-shrink-0 rounded-full px-5 py-2 text-xs font-bold transition-all duration-200',
+                  active
+                    ? 'bg-emerald-400 text-black shadow-[0_0_20px_rgba(0,245,155,0.4)] scale-105'
+                    : 'liquid-glass text-slate-300 border border-emerald-500/25 hover:text-white hover:border-emerald-400/40',
+                )}
+              >
+                {cat}
+              </button>
+            );
+          })}
+        </div>
 
-        {/* The desktop link lives in the header row; this one is for narrow
-            screens where that row wraps and the button is hidden. */}
-        <Link href="/work" className="btn-outline group mt-8 w-full sm:hidden">
-          View all work
-          <ArrowRight
-            className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5"
-            aria-hidden="true"
-          />
-        </Link>
+        {/* ── 5 Showcase Cards Grid ─────────────────────────────────────── */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
+          {filteredProjects.map((project) => (
+            <Link
+              key={project.id}
+              href={project.href}
+              className="group liquid-glass-card rounded-2xl p-3.5 flex flex-col justify-between transition-all duration-300 hover:border-emerald-400/60"
+            >
+              {/* Product Image Container */}
+              <div className="relative aspect-square w-full rounded-xl overflow-hidden bg-[#03140C] border border-emerald-500/20 mb-3.5">
+                <Image
+                  src={project.image}
+                  alt={project.title}
+                  fill
+                  className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 20vw"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#041009] via-transparent to-transparent opacity-50" />
+              </div>
+
+              {/* Title, Subtitle, & Arrow Button */}
+              <div className="flex items-center justify-between gap-2">
+                <div className="overflow-hidden">
+                  <h3 className="text-sm font-bold text-white truncate group-hover:text-emerald-300 transition-colors">
+                    {project.title}
+                  </h3>
+                  <p className="text-[11px] text-slate-400 truncate mt-0.5">
+                    {project.subtitle}
+                  </p>
+                </div>
+
+                <div className="flex-shrink-0 flex h-7 w-7 items-center justify-center rounded-full bg-emerald-500/15 border border-emerald-400/30 text-emerald-400 group-hover:bg-emerald-400 group-hover:text-black transition-all">
+                  <ArrowUpRight className="h-3.5 w-3.5" />
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
       </div>
     </section>
-  );
-}
-
-function FeaturedCard({ project }: { project: Project }) {
-  return (
-    <Link
-      href={`/work/${project.slug}`}
-      className="card-interactive group flex h-full w-full flex-col overflow-hidden"
-      aria-label={`View case study: ${project.title} for ${project.client}`}
-    >
-      <div
-        className="relative w-full overflow-hidden bg-surface"
-        style={{ aspectRatio: `${project.cover.width} / ${project.cover.height}` }}
-      >
-        <Image
-          src={project.cover.src}
-          alt={project.cover.alt}
-          fill
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-          className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
-          {...(project.cover.blurDataURL
-            ? { placeholder: 'blur' as const, blurDataURL: project.cover.blurDataURL }
-            : {})}
-        />
-        <span className="absolute left-3 top-3 rounded-pill bg-canvas/90 px-2.5 py-1 text-[0.68rem] font-semibold uppercase tracking-[0.1em] text-ink backdrop-blur-sm">
-          {CATEGORY_LABELS[project.category]}
-        </span>
-      </div>
-
-      <div className="flex flex-1 flex-col p-5">
-        <p className="text-xs uppercase tracking-[0.12em] text-ink-muted">
-          {project.client} · {project.year}
-        </p>
-        <h3 className="mt-1.5 text-base font-semibold leading-snug text-ink transition-colors group-hover:text-gold-ink">
-          {project.title}
-        </h3>
-        <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-ink-soft">{project.summary}</p>
-
-        <span className="mt-auto inline-flex items-center gap-1.5 pt-4 text-sm font-medium text-gold-ink">
-          Read case study
-          <ArrowRight
-            className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-0.5"
-            aria-hidden="true"
-          />
-        </span>
-      </div>
-    </Link>
   );
 }

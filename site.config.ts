@@ -108,7 +108,6 @@ export const siteConfig = {
       'AI ad video',
       'Bangladesh',
       'Khulna',
-      'WEBRING',
     ],
     /** Twitter/X handle for the card attribution. Leave blank to omit. */
     twitterHandle: '',

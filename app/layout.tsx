@@ -158,7 +158,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             because it is not executable script. */}
         <JsonLd />
       </head>
-      <body className="font-sans">
+      <body className="font-sans relative bg-canvas text-ink min-h-screen">
+        {/* Background Film Grain and Ambient Emerald Glow */}
+        <div className="film-grain" aria-hidden="true" />
+        <div className="grain-ambient fixed inset-0 pointer-events-none -z-10" aria-hidden="true" />
+
         <ThemeProvider>
           {/* First focusable element on the page, per WCAG 2.4.1. */}
           <a href="#main" className="skip-link">
@@ -169,7 +173,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
           {/* tabIndex={-1} makes the skip-link target programmatically
               focusable without adding it to the tab order. */}
-          <main id="main" tabIndex={-1}>
+          <main id="main" tabIndex={-1} className="relative z-10">
             {children}
           </main>
 

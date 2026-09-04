@@ -1,90 +1,286 @@
+'use client';
+
 /**
- * Hero.
+ * ─────────────────────────────────────────────────────────────────────────────
+ *  HERO SECTION — EXACT 1:1 REPLICA OF THE UPLOADED MOCKUP
+ * ─────────────────────────────────────────────────────────────────────────────
  *
- * A server component. The animated background motif is its own client island so
- * this section's text — the LCP element — is in the initial HTML with no
- * JavaScript required to paint it. Getting the headline into the first byte of
- * HTML is the single biggest lever on mobile LCP, so nothing here waits on
- * hydration.
+ *  Features:
+ *  - Sabbir's real photo as central focal point with ambient emerald aura
+ *  - Floating liquid glass cards ("Turning Products Into Best Sellers", "Based in Khulna")
+ *  - Handwritten doodles ("Ideas Designs Reality", "Better Visuals Brighter Brands")
+ *  - High-converting CTA buttons & social bar
+ *  - Bottom stats container with 6 trusted brand logos
+ *  - Animated scroll down mouse indicator
  */
 
-import { ArrowRight, Sparkles } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
+import {
+  ArrowUpRight,
+  Facebook,
+  Instagram,
+  Linkedin,
+  MapPin,
+  Play,
+  Sparkles,
+  TrendingUp,
+} from 'lucide-react';
 
-import { HeroMotif } from '@/components/sections/HeroMotif';
-import { siteConfig } from '@/site.config';
+import { homeContent } from '@/data/homeContent';
 
 export function Hero() {
+  const { hero } = homeContent;
+
   return (
-    <section
-      id="hero"
-      // `isolate` creates a stacking context so the motif's absolute children
-      // cannot escape above the fixed header.
-      className="grain relative isolate overflow-hidden pb-20 pt-32 sm:pb-28 sm:pt-40 lg:pb-32 lg:pt-44"
-    >
-      <HeroMotif />
+    <section className="relative pt-28 pb-16 sm:pt-36 sm:pb-20 overflow-hidden">
+      {/* ── Ambient Radial Emerald Glows Behind Hero ───────────────────── */}
+      <div
+        className="pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 h-[650px] w-[900px] rounded-full bg-emerald-500/15 blur-[140px] -z-10"
+        aria-hidden="true"
+      />
+      <div
+        className="pointer-events-none absolute top-48 right-0 h-[450px] w-[500px] rounded-full bg-emerald-400/10 blur-[120px] -z-10"
+        aria-hidden="true"
+      />
 
-      <div className="shell relative">
-        <div className="max-w-4xl">
-          {/* ── Availability pill ────────────────────────────────────────── */}
-          <div className="inline-flex items-center gap-2.5 rounded-pill border border-line bg-surface/70 py-1.5 pl-2.5 pr-4 text-xs font-medium text-ink-soft backdrop-blur-sm">
-            <span className="relative flex h-2 w-2" aria-hidden="true">
-              <span className="absolute inline-flex h-full w-full animate-pulse-ring rounded-full bg-success" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-success" />
-            </span>
-            {siteConfig.availability}
-          </div>
+      <div className="shell">
+        {/* ── Main Hero Grid: Left Content + Right Visual ───────────────── */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+          
+          {/* ── Left Column (Text & CTAs) ───────────────────────────────── */}
+          <div className="lg:col-span-6 z-10">
+            {/* Top Pill Badge */}
+            <div className="inline-flex items-center gap-2 rounded-full liquid-glass border border-emerald-500/30 px-4 py-1.5 shadow-[0_0_20px_rgba(0,245,155,0.15)] mb-6">
+              <span className="relative flex h-2.5 w-2.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-400" />
+              </span>
+              <span className="text-xs font-semibold tracking-wide text-emerald-300">
+                {hero.badge}
+              </span>
+            </div>
 
-          {/* ── Headline ─────────────────────────────────────────────────── */}
-          <h1 className="mt-6 text-display-xl text-ink">
-            Product photography
-            <br />
-            {/* The gradient sits on its own span so the fallback colour on the
-                h1 still applies if background-clip: text is unsupported. */}
-            <span className="text-gradient-gold">without the studio.</span>
-          </h1>
+            {/* Headline with Doodle */}
+            <div className="relative">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.08]">
+                {hero.titleStart} <br />
+                <span className="text-gradient-neon">{hero.titleHighlight}</span>
+              </h1>
 
-          <p className="mt-6 max-w-2xl text-body-lg text-ink-soft">{siteConfig.valueProp}</p>
-
-          {/* ── Identity line ────────────────────────────────────────────── */}
-          <p className="mt-5 flex flex-wrap items-center gap-x-2.5 gap-y-1 text-sm text-ink-muted">
-            <span className="font-medium text-ink">{siteConfig.name}</span>
-            <span aria-hidden="true">·</span>
-            <span>{siteConfig.role}</span>
-            <span aria-hidden="true">·</span>
-            <span>{siteConfig.location}</span>
-          </p>
-
-          {/* ── CTAs ─────────────────────────────────────────────────────── */}
-          <div className="mt-9 flex flex-wrap items-center gap-3">
-            <Link href="/contact" className="btn-gold group">
-              Hire me
-              <ArrowRight
-                className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5"
-                aria-hidden="true"
-              />
-            </Link>
-            <Link href="/work" className="btn-outline group">
-              <Sparkles className="h-4 w-4 text-gold" aria-hidden="true" />
-              View work
-            </Link>
-          </div>
-
-          {/* ── Stats ────────────────────────────────────────────────────── */}
-          {/* A dl is the correct element here: each stat is a term and its
-              value, not a list of unrelated items. */}
-          <dl className="mt-14 grid max-w-2xl grid-cols-2 gap-x-6 gap-y-8 sm:grid-cols-4">
-            {siteConfig.stats.map((stat) => (
-              <div key={stat.label} className="border-l border-line pl-4">
-                <dd className="font-display text-2xl font-semibold text-ink sm:text-3xl">
-                  {stat.value}
-                </dd>
-                <dt className="mt-1 text-xs uppercase tracking-[0.1em] text-ink-muted">
-                  {stat.label}
-                </dt>
+              {/* Handwritten Doodle "Ideas Designs Reality" */}
+              <div className="hidden sm:block absolute -top-8 right-12 lg:-right-4 rotate-6 text-emerald-400/90 font-serif italic text-sm font-bold tracking-wider leading-snug select-none pointer-events-none">
+                <span>Ideas</span><br />
+                <span className="ml-2">Designs</span><br />
+                <span className="ml-4">Reality</span>
               </div>
-            ))}
-          </dl>
+            </div>
+
+            {/* Subtitle / Bio Description */}
+            <p className="mt-6 text-base sm:text-lg text-slate-300 leading-relaxed max-w-xl">
+              I’m <strong className="text-white font-semibold">Tarikuzzaman Sabbir</strong>, an AI
+              product photographer and creative designer. I help brands create stunning product
+              visuals, model shoots, ads and marketing content that look premium and drive real
+              results.
+            </p>
+
+            {/* CTAs */}
+            <div className="mt-8 flex flex-wrap items-center gap-4">
+              <Link
+                href={hero.ctaPrimary.href}
+                className="btn-neon inline-flex items-center gap-2 rounded-full px-7 py-3.5 text-sm font-bold uppercase tracking-wider text-black transition-all"
+              >
+                {hero.ctaPrimary.label}
+                <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+              </Link>
+
+              <a
+                href={hero.ctaSecondary.href}
+                className="liquid-glass inline-flex items-center gap-2 rounded-full px-6 py-3.5 text-sm font-semibold text-white border border-emerald-500/30 hover:border-emerald-400/60 hover:bg-emerald-500/10 transition-all"
+              >
+                <div className="flex h-5 w-5 items-center justify-center rounded-full bg-emerald-400 text-black">
+                  <Play className="h-3 w-3 fill-black ml-0.5" />
+                </div>
+                {hero.ctaSecondary.label}
+              </a>
+            </div>
+
+            {/* Social Connect Row */}
+            <div className="mt-10 flex flex-wrap items-center gap-4 pt-6 border-t border-emerald-500/15">
+              <div className="flex items-center gap-2">
+                <a
+                  href="https://facebook.com"
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="Facebook"
+                  className="flex h-10 w-10 items-center justify-center rounded-full liquid-glass border border-emerald-500/25 text-slate-300 hover:text-emerald-400 hover:border-emerald-400/50 transition-all"
+                >
+                  <Facebook className="h-4 w-4" />
+                </a>
+                <a
+                  href="https://instagram.com"
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="Instagram"
+                  className="flex h-10 w-10 items-center justify-center rounded-full liquid-glass border border-emerald-500/25 text-slate-300 hover:text-emerald-400 hover:border-emerald-400/50 transition-all"
+                >
+                  <Instagram className="h-4 w-4" />
+                </a>
+                <a
+                  href="https://linkedin.com"
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="LinkedIn"
+                  className="flex h-10 w-10 items-center justify-center rounded-full liquid-glass border border-emerald-500/25 text-slate-300 hover:text-emerald-400 hover:border-emerald-400/50 transition-all"
+                >
+                  <Linkedin className="h-4 w-4" />
+                </a>
+                <a
+                  href="https://x.com"
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label="X Twitter"
+                  className="flex h-10 w-10 items-center justify-center rounded-full liquid-glass border border-emerald-500/25 text-slate-300 hover:text-emerald-400 hover:border-emerald-400/50 transition-all font-bold text-xs"
+                >
+                  𝕏
+                </a>
+              </div>
+
+              <span className="text-xs font-medium text-slate-400 flex items-center gap-1">
+                {hero.connectLabel}
+                <ArrowUpRight className="h-3 w-3 text-emerald-400" />
+              </span>
+            </div>
+          </div>
+
+          {/* ── Right Column (Sabbir's Photo + Floating Glass Cards) ─────── */}
+          <div className="lg:col-span-6 relative flex justify-center items-center">
+            {/* Ambient Background Aura behind photo */}
+            <div className="absolute inset-0 bg-gradient-to-tr from-emerald-500/20 via-emerald-400/10 to-transparent rounded-3xl blur-2xl -z-10" />
+
+            {/* Photo Container */}
+            <div className="relative w-full max-w-[480px] rounded-3xl overflow-hidden liquid-glass border border-emerald-500/30 shadow-[0_20px_50px_rgba(0,0,0,0.8)]">
+              <div className="relative aspect-[4/5] w-full">
+                <Image
+                  src={hero.image}
+                  alt="MD Tarikuzzaman Sabbir — AI Product Photographer & Creative Designer"
+                  fill
+                  priority
+                  className="object-cover object-center"
+                  sizes="(max-width: 768px) 100vw, 480px"
+                />
+                {/* Subtle vignette/bottom fade overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#040D09] via-transparent to-transparent opacity-80" />
+              </div>
+            </div>
+
+            {/* Floating Glass Card 1 (Top Right) */}
+            <div className="absolute -top-4 -right-2 sm:-right-6 liquid-glass-card rounded-2xl p-4 max-w-[210px] shadow-2xl z-20">
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-500/20 text-emerald-400 border border-emerald-400/30">
+                  <Sparkles className="h-4 w-4" />
+                </div>
+                <div className="flex items-center gap-1 text-[10px] font-bold text-emerald-400 bg-emerald-500/15 px-2 py-0.5 rounded-full border border-emerald-400/20">
+                  <TrendingUp className="h-3 w-3" />
+                  Visuals
+                </div>
+              </div>
+              <p className="text-xs font-bold text-white leading-tight">
+                {hero.cardTopRight.title}
+              </p>
+              <div className="mt-2 flex items-center gap-1.5 text-[10px] text-emerald-300/80 font-medium">
+                <div className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                {hero.cardTopRight.tag}
+              </div>
+            </div>
+
+            {/* Floating Glass Card 2 (Bottom Right) */}
+            <div className="absolute bottom-6 -right-2 sm:-right-4 liquid-glass-card rounded-2xl px-4 py-3 flex items-center gap-3 shadow-2xl z-20">
+              <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-emerald-500/25 text-emerald-400 border border-emerald-400/30">
+                <MapPin className="h-4 w-4" />
+              </div>
+              <div>
+                <p className="text-[10px] font-medium text-slate-400 uppercase tracking-wider">
+                  Location
+                </p>
+                <p className="text-xs font-bold text-white">
+                  {hero.cardBottomRight.title}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ── Bottom Section: Stats & Brand Logos Glass Container ─────── */}
+        <div className="mt-16 sm:mt-24 relative">
+          <div className="liquid-glass-card rounded-3xl p-6 sm:p-8 border border-emerald-500/25 shadow-[0_15px_40px_rgba(0,0,0,0.6)]">
+            
+            {/* Stats Row */}
+            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6 items-center pb-8 border-b border-emerald-500/15">
+              {hero.stats.map((stat, idx) => (
+                <div key={idx} className="flex flex-col">
+                  <div className="flex items-center gap-2">
+                    <span className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight">
+                      {stat.value}
+                    </span>
+                    <span className="h-2 w-2 rounded-full bg-emerald-400" />
+                  </div>
+                  <span className="text-xs font-medium text-slate-400 mt-1">
+                    {stat.label}
+                  </span>
+                </div>
+              ))}
+
+              {/* Trusted By Tag */}
+              <div className="col-span-2 md:col-span-4 lg:col-span-1 flex items-center justify-start lg:justify-end">
+                <span className="text-xs font-semibold text-emerald-400/90 tracking-wider uppercase border-l-2 border-emerald-500 pl-3">
+                  Trusted by <br className="hidden sm:inline" /> amazing brands
+                </span>
+              </div>
+            </div>
+
+            {/* Brand Logos Row */}
+            <div className="pt-6 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6 items-center justify-items-center opacity-85">
+              {hero.brands.map((brand, idx) => (
+                <div
+                  key={idx}
+                  className="flex items-center justify-center p-2 transition-transform duration-200 hover:scale-105"
+                >
+                  <Image
+                    src={brand.logo}
+                    alt={brand.name}
+                    width={130}
+                    height={36}
+                    className="h-8 w-auto object-contain filter brightness-110"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Handwritten Doodle on Bottom Right: "Better Visuals Brighter Brands" */}
+          <div className="hidden sm:block absolute -top-8 -right-2 rotate-12 text-emerald-400/80 font-serif italic text-xs font-bold tracking-wider leading-tight select-none pointer-events-none">
+            Better<br />
+            Visuals<br />
+            Brighter<br />
+            Brands
+          </div>
+        </div>
+
+        {/* ── Footer Bar of Hero: Tagline & Mouse Scroll Indicator ────── */}
+        <div className="mt-12 flex items-center justify-between text-xs text-slate-400 font-medium">
+          <span className="tracking-widest uppercase text-[11px] text-emerald-400/80 font-semibold">
+            {hero.footerTagline}
+          </span>
+
+          <div className="flex items-center gap-2 text-slate-400">
+            <div className="flex h-8 w-5 items-start justify-center rounded-full border border-emerald-500/40 p-1">
+              <span className="h-1.5 w-1 rounded-full bg-emerald-400 animate-bounce" />
+            </div>
+            <span className="text-[11px] uppercase tracking-wider font-semibold">
+              Scroll Down
+            </span>
+          </div>
         </div>
       </div>
     </section>

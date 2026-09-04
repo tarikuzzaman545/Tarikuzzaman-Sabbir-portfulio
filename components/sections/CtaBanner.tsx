@@ -1,52 +1,72 @@
+'use client';
+
 /**
- * Closing CTA banner for the home page.
- *
- * A server component. One job: after the visitor has seen the work and the
- * services, give them a single, unmissable way to start a conversation. It links
- * to /contact rather than embedding the form, because the home page should end
- * with a clear next step, not a long form the visitor has to complete in place.
+ * ─────────────────────────────────────────────────────────────────────────────
+ *  CTA BANNER — "READY TO CREATE SOMETHING AMAZING?"
+ * ─────────────────────────────────────────────────────────────────────────────
  */
 
-import { ArrowRight, Sparkles } from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
+import { ArrowUpRight } from 'lucide-react';
 
-import { Reveal } from '@/components/ui/Reveal';
-import { siteConfig } from '@/site.config';
+import { homeContent } from '@/data/homeContent';
 
 export function CtaBanner() {
+  const { ctaBanner } = homeContent;
+
   return (
-    <section className="section border-t border-line">
+    <section className="relative py-16 sm:py-24 overflow-hidden">
       <div className="shell">
-        <Reveal>
-          <div className="grain relative isolate overflow-hidden rounded-card border border-gold/25 bg-gold/[0.06] px-6 py-14 text-center sm:px-12 sm:py-16 lg:py-20">
-            <span className="inline-flex items-center gap-2 rounded-pill border border-gold/30 bg-canvas/70 px-3.5 py-1.5 text-xs font-medium text-gold-ink backdrop-blur-sm">
-              <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
-              {siteConfig.availability}
-            </span>
+        <div className="relative liquid-glass-card rounded-3xl p-8 sm:p-12 lg:p-16 border border-emerald-500/30 overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.8)]">
+          {/* Ambient background glow orb inside banner */}
+          <div
+            className="pointer-events-none absolute -right-20 -bottom-20 h-[350px] w-[350px] rounded-full bg-emerald-500/25 blur-[100px] -z-10"
+            aria-hidden="true"
+          />
 
-            <h2 className="mx-auto mt-6 max-w-2xl text-balance text-display-md text-ink">
-              Have a catalog to shoot? Let&rsquo;s skip the studio.
-            </h2>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            {/* Left Content */}
+            <div className="lg:col-span-7">
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white tracking-tight leading-tight">
+                {ctaBanner.title}
+              </h2>
+              <p className="mt-4 text-base sm:text-lg text-slate-300 max-w-xl">
+                {ctaBanner.subtitle}
+              </p>
+            </div>
 
-            <p className="mx-auto mt-4 max-w-xl text-body-lg text-ink-soft">
-              Send a product link and a rough count. You get a fixed price, a turnaround date, and a
-              free sample before you commit to the batch.
-            </p>
-
-            <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
-              <Link href="/contact" className="btn-gold group">
-                Start a project
-                <ArrowRight
-                  className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5"
-                  aria-hidden="true"
-                />
+            {/* Right Action & Avatars & Doodle */}
+            <div className="lg:col-span-5 flex flex-col sm:flex-row lg:flex-row items-start sm:items-center lg:justify-end gap-6 relative">
+              {/* Button */}
+              <Link
+                href={ctaBanner.button.href}
+                className="btn-neon inline-flex items-center gap-2 rounded-full px-8 py-4 text-sm font-bold uppercase tracking-wider text-black transition-all"
+              >
+                {ctaBanner.button.label}
+                <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
               </Link>
-              <Link href="/work" className="btn-outline">
-                See the work first
-              </Link>
+
+              {/* Avatar Stack */}
+              <div className="flex items-center -space-x-2.5">
+                {ctaBanner.avatars.map((avatar, idx) => (
+                  <div
+                    key={idx}
+                    className="relative h-10 w-10 rounded-full overflow-hidden border-2 border-emerald-400/80 shadow-[0_0_10px_rgba(0,245,155,0.3)]"
+                  >
+                    <Image src={avatar} alt="Client" fill className="object-cover" />
+                  </div>
+                ))}
+              </div>
+
+              {/* Handwritten Doodle */}
+              <div className="hidden sm:block absolute -top-10 -right-2 rotate-12 text-emerald-400 font-serif italic text-xs font-bold tracking-wider leading-tight select-none pointer-events-none text-right">
+                Your Vision<br />
+                My Creativity ✦
+              </div>
             </div>
           </div>
-        </Reveal>
+        </div>
       </div>
     </section>
   );

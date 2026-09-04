@@ -52,65 +52,35 @@
    ═══════════════════════════════════════════════════════════════════════════ */
 
 @layer base {
-  :root {
-    color-scheme: light;
-
-    /* Surfaces — cream base, per the brief */
-    --canvas: 250 250 248; /* #FAFAF8 */
-    --surface: 255 255 255; /* #FFFFFF  cards sit above the cream */
-    --surface-raised: 255 255 255;
-
-    /* Text */
-    --ink: 26 26 24; /* #1A1A18 */
-    --ink-soft: 74 74 69; /* #4A4A45 */
-    --ink-muted: 110 110 102; /* #6E6E66 */
-
-    /* Hairlines */
-    --line: 229 226 218; /* #E5E2DA */
-    --line-strong: 208 204 193; /* #D0CCC1 */
-
-    /* Accent — the WEBRING gold */
-    --gold: 200 169 110; /* #C8A96E */
-    --gold-soft: 232 217 189; /* #E8D9BD  tints, washes */
-    --gold-ink: 138 108 46; /* #8A6C2E  gold text on cream, AA at 4.6:1 */
-
-    /* States */
-    --success: 47 110 78; /* #2F6E4E */
-    --danger: 168 48 42; /* #A8302A */
-
-    /* Shadow colour, consumed as rgb(var(--shadow) / alpha) */
-    --shadow: 26 26 24;
-
-    /* Glass — nav and overlay panels */
-    --glass: 250 250 248;
-    --glass-alpha: 0.72;
-  }
-
+  :root,
   .dark {
     color-scheme: dark;
 
-    --canvas: 20 20 18; /* #141412  warm charcoal */
-    --surface: 30 30 27; /* #1E1E1B  lighter than canvas: reads as raised */
-    --surface-raised: 38 38 34; /* #262622 */
+    /* Deep Emerald Obsidian Canvas */
+    --canvas: 4 13 9; /* #040D09 */
+    --surface: 8 26 18; /* #081A12 */
+    --surface-raised: 12 36 26; /* #0C241A */
 
-    --ink: 242 240 234; /* #F2F0EA  warm white, not pure #FFF */
-    --ink-soft: 184 180 169; /* #B8B4A9 */
-    --ink-muted: 138 134 124; /* #8A867C */
+    /* Crisp Modern Typography */
+    --ink: 248 250 252; /* #F8FAFC */
+    --ink-soft: 167 243 208; /* #A7F3D0 */
+    --ink-muted: 100 116 139; /* #64748B */
 
-    --line: 48 48 43; /* #30302B */
-    --line-strong: 68 68 61; /* #44443D */
+    /* Emerald Hairlines & Glass Borders */
+    --line: 16 185 129 / 0.18;
+    --line-strong: 16 185 129 / 0.38;
 
-    --gold: 217 190 134; /* #D9BE86  lifted for contrast on charcoal */
-    --gold-soft: 92 76 48; /* #5C4C30  a deep tint, not a pale one */
-    --gold-ink: 226 203 154; /* #E2CB9A  gold text on charcoal, 9.1:1 */
+    /* Signature Electric Neon Emerald */
+    --gold: 0 245 155; /* #00F59B */
+    --gold-soft: 5 150 105; /* #059669 */
+    --gold-ink: 52 211 153; /* #34D399 */
 
-    --success: 106 179 136; /* #6AB388 */
-    --danger: 224 122 116; /* #E07A74 */
+    --success: 16 185 129;
+    --danger: 239 68 68;
 
     --shadow: 0 0 0;
-
-    --glass: 20 20 18;
-    --glass-alpha: 0.76;
+    --glass: 6 24 16;
+    --glass-alpha: 0.65;
   }
 
   /* ═════════════════════════════════════════════════════════════════════════
@@ -319,14 +289,52 @@
     @apply btn px-4 text-ink-soft hover:bg-ink/5 hover:text-ink;
   }
 
+  .liquid-glass {
+    background: rgba(8, 28, 18, 0.65);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border: 1px solid rgba(16, 185, 129, 0.22);
+    border-top: 1px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 0 10px 36px 0 rgba(0, 0, 0, 0.5), inset 0 1px 1px 0 rgba(255, 255, 255, 0.12);
+  }
+
+  .liquid-glass-card {
+    background: linear-gradient(135deg, rgba(8, 32, 22, 0.75) 0%, rgba(4, 18, 12, 0.6) 100%);
+    backdrop-filter: blur(20px) saturate(150%);
+    -webkit-backdrop-filter: blur(20px) saturate(150%);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    border-top: 1px solid rgba(0, 245, 155, 0.35);
+    box-shadow: 0 12px 36px -10px rgba(0, 0, 0, 0.7), 0 0 24px -6px rgba(0, 245, 155, 0.09);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .liquid-glass-card:hover {
+    border-color: rgba(0, 245, 155, 0.55);
+    box-shadow: 0 16px 44px -10px rgba(0, 0, 0, 0.8), 0 0 35px -2px rgba(0, 245, 155, 0.25);
+    transform: translateY(-4px);
+  }
+
+  .btn-neon {
+    @apply btn font-semibold text-black shadow-soft;
+    background: linear-gradient(135deg, #00F59B 0%, #10B981 100%);
+    box-shadow: 0 0 24px -4px rgba(0, 245, 155, 0.6);
+    color: #020805 !important;
+  }
+
+  .btn-neon:hover:not(:disabled) {
+    box-shadow: 0 0 36px 0px rgba(0, 245, 155, 0.85);
+    transform: translateY(-2px) scale(1.02);
+  }
+
   /* ── Cards ──────────────────────────────────────────────────────────────── */
 
   .card {
-    @apply rounded-card border border-line bg-surface transition-all duration-300;
+    @apply rounded-card border border-line/40 bg-surface/80 transition-all duration-300;
+    backdrop-filter: blur(16px);
   }
 
   .card-interactive {
-    @apply card hover:-translate-y-1 hover:border-gold/45 hover:shadow-lift;
+    @apply card hover:-translate-y-1 hover:border-gold/50 hover:shadow-glow;
   }
 
   /* ── Chips / badges ─────────────────────────────────────────────────────── */
@@ -421,34 +429,46 @@
            text-sm font-medium text-canvas shadow-lift;
   }
 
-  /** Gold-to-ink text gradient for the hero's emphasised words. */
-  .text-gradient-gold {
-    background-image: linear-gradient(
-      100deg,
-      rgb(var(--ink)) 0%,
-      rgb(var(--gold-ink)) 42%,
-      rgb(var(--gold)) 78%,
-      rgb(var(--ink)) 100%
-    );
-    background-size: 220% auto;
+  /** Electric neon text gradient for hero and headlines */
+  .text-gradient-neon {
+    background: linear-gradient(110deg, #FFFFFF 20%, #00F59B 50%, #10B981 80%, #FFFFFF 100%);
+    background-size: 200% auto;
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
-    /* A fallback colour for the rare engine that clips but does not paint. */
     -webkit-text-fill-color: transparent;
   }
 
-  /** Fine film grain over the hero. Pure CSS, no image request. */
-  .grain::after {
-    content: '';
-    @apply pointer-events-none absolute inset-0 opacity-[0.035];
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
-    mix-blend-mode: multiply;
+  .text-gradient-gold {
+    background: linear-gradient(110deg, #FFFFFF 20%, #00F59B 50%, #10B981 80%, #FFFFFF 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
   }
 
-  .dark .grain::after {
+  /** Ambient emerald glow backdrop */
+  .grain-ambient {
+    background-image: 
+      radial-gradient(circle at 50% 0%, rgba(0, 245, 155, 0.15) 0%, transparent 55%),
+      radial-gradient(circle at 15% 35%, rgba(16, 185, 129, 0.1) 0%, transparent 45%),
+      radial-gradient(circle at 85% 65%, rgba(5, 150, 105, 0.12) 0%, transparent 50%),
+      radial-gradient(circle at 50% 95%, rgba(0, 245, 155, 0.08) 0%, transparent 60%);
+  }
+
+  /** Fine film grain overlay across the entire page */
+  .film-grain {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 99;
+    opacity: 0.048;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
     mix-blend-mode: screen;
-    @apply opacity-[0.05];
   }
 
   /** Masks the bottom of a scroll area so content fades rather than cuts. */
