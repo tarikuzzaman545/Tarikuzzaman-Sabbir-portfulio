@@ -35,7 +35,17 @@ const config: Config = {
         danger: 'rgb(var(--danger) / <alpha-value>)',
       },
       fontFamily: {
-        display: ['var(--font-lora)', 'Georgia', 'Cambria', 'serif'],
+        // Headings and body share one clean geometric sans (self-hosted Poppins).
+        // Hierarchy comes from size, weight and tight tracking — not a second
+        // typeface — which reads as more modern than a serif/sans pairing and
+        // keeps the strict `font-src 'self'` CSP with zero external font requests.
+        display: [
+          'var(--font-poppins)',
+          '-apple-system',
+          'BlinkMacSystemFont',
+          'Segoe UI',
+          'sans-serif',
+        ],
         sans: [
           'var(--font-poppins)',
           '-apple-system',
@@ -45,12 +55,12 @@ const config: Config = {
         ],
       },
       fontSize: {
-        'display-xl': ['clamp(2.75rem, 7vw, 5.5rem)', { lineHeight: '1.02', letterSpacing: '-0.03em' }],
-        'display-lg': ['clamp(2.25rem, 5vw, 3.75rem)', { lineHeight: '1.06', letterSpacing: '-0.025em' }],
-        'display-md': ['clamp(1.75rem, 3.5vw, 2.75rem)', { lineHeight: '1.12', letterSpacing: '-0.02em' }],
-        'display-sm': ['clamp(1.375rem, 2.5vw, 1.875rem)', { lineHeight: '1.2', letterSpacing: '-0.015em' }],
-        'body-lg': ['clamp(1.0625rem, 1.4vw, 1.1875rem)', { lineHeight: '1.7' }],
-        eyebrow: ['0.75rem', { lineHeight: '1', letterSpacing: '0.18em' }],
+        'display-xl': ['clamp(2.5rem, 6vw, 4.75rem)', { lineHeight: '1.04', letterSpacing: '-0.03em' }],
+        'display-lg': ['clamp(2.125rem, 4.5vw, 3.5rem)', { lineHeight: '1.08', letterSpacing: '-0.025em' }],
+        'display-md': ['clamp(1.625rem, 3vw, 2.5rem)', { lineHeight: '1.14', letterSpacing: '-0.02em' }],
+        'display-sm': ['clamp(1.3125rem, 2.2vw, 1.75rem)', { lineHeight: '1.22', letterSpacing: '-0.015em' }],
+        'body-lg': ['clamp(1.0625rem, 1.2vw, 1.1875rem)', { lineHeight: '1.65' }],
+        eyebrow: ['0.75rem', { lineHeight: '1', letterSpacing: '0.12em' }],
       },
       spacing: {
         section: 'clamp(4.5rem, 10vw, 9rem)',

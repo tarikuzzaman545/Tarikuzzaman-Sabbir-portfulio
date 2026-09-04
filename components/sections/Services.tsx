@@ -11,6 +11,7 @@
  */
 
 import { Check } from 'lucide-react';
+import Link from 'next/link';
 
 import { Reveal, RevealGroup, RevealItem, SectionHeading } from '@/components/ui/Reveal';
 import { Icon } from '@/components/ui/Icon';
@@ -85,9 +86,9 @@ export function Services({ services }: { services: Service[] }) {
         <Reveal className="mt-10" delay={0.1}>
           <p className="text-sm text-ink-muted">
             Not sure which of these fits?{' '}
-            <a href="#contact" className="link-underline font-medium">
+            <Link href="/contact" className="link-underline font-medium">
               Describe the problem
-            </a>{' '}
+            </Link>{' '}
             and I will tell you honestly whether I am the right person for it.
           </p>
         </Reveal>

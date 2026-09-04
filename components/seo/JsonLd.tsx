@@ -55,14 +55,6 @@ export function JsonLd() {
       addressLocality: 'Khulna',
       addressCountry: 'BD',
     },
-    worksFor: {
-      '@type': 'Organization',
-      name: siteConfig.agency.name,
-      description: siteConfig.agency.description,
-      ...(siteConfig.agency.url && !isPlaceholder(siteConfig.agency.url)
-        ? { url: siteConfig.agency.url }
-        : {}),
-    },
     alumniOf: {
       '@type': 'CollegeOrUniversity',
       name: siteConfig.education.institutionFull,
@@ -137,7 +129,7 @@ export function ProjectsJsonLd({
         '@type': 'CreativeWork',
         name: project.title,
         description: project.summary,
-        url: absoluteUrl(`/#work-${project.slug}`),
+        url: absoluteUrl(`/work/${project.slug}`),
         dateCreated: project.year,
         creator: { '@id': `${siteConfig.url}/#person` },
         // The client is the commissioning party, which is what `sourceOrganization`

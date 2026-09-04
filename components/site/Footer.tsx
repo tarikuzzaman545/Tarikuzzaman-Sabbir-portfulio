@@ -53,8 +53,7 @@ export function Footer() {
             </Link>
 
             <p className="mt-3 max-w-sm text-sm leading-relaxed text-ink-soft">
-              {siteConfig.role}. {siteConfig.agency.role} of {siteConfig.agency.name} —{' '}
-              {siteConfig.agency.description}
+              {siteConfig.role}. {siteConfig.tagline}
             </p>
 
             <p className="mt-4 flex items-center gap-2 text-sm text-ink-muted">
@@ -81,12 +80,12 @@ export function Footer() {
             <ul className="mt-4 space-y-2.5">
               {siteConfig.nav.map((item) => (
                 <li key={item.href}>
-                  <a
+                  <Link
                     href={item.href}
                     className="text-sm text-ink-soft transition-colors hover:text-gold-ink"
                   >
                     {item.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>

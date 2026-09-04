@@ -115,13 +115,14 @@ export const siteConfig = {
     locale: 'en_US',
   },
 
-  /* ── Navigation ─────────────────────────────────────────────────────────── */
+  /* ── Navigation ───────────────────────────────────────────────────────────
+   * Real routes, not in-page anchors. Each is a dedicated App Router page under
+   * app/, so the Header can use next/link with a pathname-based active state. */
   nav: [
-    { label: 'Work', href: '#work' },
-    { label: 'Services', href: '#services' },
-    { label: 'Process', href: '#process' },
-    { label: 'About', href: '#about' },
-    { label: 'Contact', href: '#contact' },
+    { label: 'Work', href: '/work' },
+    { label: 'Services', href: '/services' },
+    { label: 'About', href: '/about' },
+    { label: 'Contact', href: '/contact' },
   ],
 
   /* ── Contact form options ───────────────────────────────────────────────── */

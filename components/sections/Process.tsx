@@ -14,6 +14,7 @@
  */
 
 import { ArrowRight, Clock, UserCheck } from 'lucide-react';
+import Link from 'next/link';
 
 import { Reveal, RevealGroup, RevealItem, SectionHeading } from '@/components/ui/Reveal';
 import type { ProcessStep } from '@/lib/content/types';
@@ -82,13 +83,13 @@ export function Process({ steps }: { steps: ProcessStep[] }) {
         </div>
 
         <Reveal className="mt-12" delay={0.1}>
-          <a href="#contact" className="btn-primary group">
+          <Link href="/contact" className="btn-primary group">
             Start at step one
             <ArrowRight
               className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5"
               aria-hidden="true"
             />
-          </a>
+          </Link>
         </Reveal>
       </div>
     </section>

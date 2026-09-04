@@ -9,7 +9,7 @@
  * container width produces a line length that is uncomfortable to read.
  */
 
-import { Building2, GraduationCap, MapPin } from 'lucide-react';
+import { Camera, GraduationCap, MapPin } from 'lucide-react';
 
 import { Reveal, SectionHeading } from '@/components/ui/Reveal';
 import { siteConfig } from '@/site.config';
@@ -57,10 +57,10 @@ export function About() {
 
               <Reveal delay={0.2}>
                 <p>
-                  Alongside client work I co-founded{' '}
-                  <span className="font-medium text-ink">{siteConfig.agency.name}</span>, an{' '}
-                  {siteConfig.agency.description.toLowerCase().replace(/\.$/, '')}. Same principle,
-                  applied to brands that need the whole visual system rather than a batch of images.
+                  Previously, I co-founded{' '}
+                  <span className="font-medium text-ink">WEBRING</span>, an AI-powered e-commerce
+                  product photography agency — the same systems thinking, applied to brands that
+                  needed a whole visual pipeline rather than a single batch of images.
                 </p>
               </Reveal>
             </div>
@@ -81,9 +81,9 @@ export function About() {
                     detail: `${siteConfig.education.institutionFull} · ${siteConfig.education.status}`,
                   },
                   {
-                    icon: <Building2 className="h-4 w-4" aria-hidden="true" />,
-                    term: `${siteConfig.agency.role}, ${siteConfig.agency.name}`,
-                    detail: siteConfig.agency.description,
+                    icon: <Camera className="h-4 w-4" aria-hidden="true" />,
+                    term: siteConfig.role,
+                    detail: 'AI product & fashion imagery, prompt pipelines, and ad-ready video.',
                   },
                   {
                     icon: <MapPin className="h-4 w-4" aria-hidden="true" />,

@@ -9,6 +9,7 @@
  */
 
 import { ArrowRight, Sparkles } from 'lucide-react';
+import Link from 'next/link';
 
 import { HeroMotif } from '@/components/sections/HeroMotif';
 import { siteConfig } from '@/site.config';
@@ -51,24 +52,22 @@ export function Hero() {
             <span aria-hidden="true">·</span>
             <span>{siteConfig.role}</span>
             <span aria-hidden="true">·</span>
-            <span>
-              {siteConfig.agency.role}, {siteConfig.agency.name}
-            </span>
+            <span>{siteConfig.location}</span>
           </p>
 
           {/* ── CTAs ─────────────────────────────────────────────────────── */}
           <div className="mt-9 flex flex-wrap items-center gap-3">
-            <a href="#contact" className="btn-gold group">
+            <Link href="/contact" className="btn-gold group">
               Hire me
               <ArrowRight
                 className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5"
                 aria-hidden="true"
               />
-            </a>
-            <a href="#work" className="btn-outline group">
+            </Link>
+            <Link href="/work" className="btn-outline group">
               <Sparkles className="h-4 w-4 text-gold" aria-hidden="true" />
               View work
-            </a>
+            </Link>
           </div>
 
           {/* ── Stats ────────────────────────────────────────────────────── */}

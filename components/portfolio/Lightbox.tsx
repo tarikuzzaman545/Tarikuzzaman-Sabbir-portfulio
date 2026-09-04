@@ -38,6 +38,7 @@
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { ArrowLeft, ArrowRight, X } from 'lucide-react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { BeforeAfter } from '@/components/portfolio/BeforeAfter';
@@ -372,9 +373,21 @@ export function Lightbox({ project, onNavigate, siblings }: LightboxProps) {
                   </div>
                 )}
 
-                <a href="#contact" onClick={close} className="btn-gold mt-7 w-full sm:w-auto">
-                  Start a project like this
-                </a>
+                {/* Two exits: the deep case-study route for the full write-up,
+                    and the contact CTA for the ready-to-buy. The route link is
+                    the primary because the panel is a preview of it. */}
+                <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:items-center">
+                  <Link href={`/work/${project.slug}`} onClick={close} className="btn-gold group">
+                    View full case study
+                    <ArrowRight
+                      className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5"
+                      aria-hidden="true"
+                    />
+                  </Link>
+                  <Link href="/contact" onClick={close} className="btn-outline">
+                    Start a project like this
+                  </Link>
+                </div>
               </div>
             </div>
           </motion.div>

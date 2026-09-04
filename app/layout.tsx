@@ -17,8 +17,10 @@
  *       fallback metrics are overridden to match, so there is no layout shift
  *       when the webfont lands. That protects the CLS half of the 90+ target.
  *
- *  The weights are deliberately few — Poppins 300/400/500/700 and Lora 500/600.
- *  Every extra weight is another 10–25KB for a difference nobody notices.
+ *  One typeface, not two. Poppins — a clean geometric sans — is used for both
+ *  headings and body; hierarchy comes from size and weight (300/400/500/700),
+ *  which reads as more modern than the old serif/sans pairing. Every extra
+ *  weight is another 10–25KB for a difference nobody notices.
  *
  *  THEME FLASH
  *  ───────────
@@ -53,18 +55,6 @@ const poppins = localFont({
   fallback: ['-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
   // Overrides the fallback's metrics so the swap does not move any text.
   adjustFontFallback: 'Arial',
-  preload: true,
-});
-
-const lora = localFont({
-  src: [
-    { path: '../public/fonts/lora-500.woff', weight: '500', style: 'normal' },
-    { path: '../public/fonts/lora-600.woff', weight: '600', style: 'normal' },
-  ],
-  variable: '--font-lora',
-  display: 'swap',
-  fallback: ['Georgia', 'Cambria', 'serif'],
-  adjustFontFallback: 'Times New Roman',
   preload: true,
 });
 
@@ -161,7 +151,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning className={`${poppins.variable} ${lora.variable}`}>
+    <html lang="en" suppressHydrationWarning className={poppins.variable}>
       <head>
         {/* Structured data lives in <head> as a plain script tag with a nonce-free
             application/ld+json type, which CSP permits without unsafe-inline
