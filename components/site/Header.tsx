@@ -161,13 +161,19 @@ export function Header() {
 
         {/* ── 3. Right CTA (At top: stands alone on right; On scroll: merges into the right of the round capsule) ── */}
         <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-          <Link
-            href="/contact"
-            className="btn-neon hidden sm:inline-flex items-center gap-1.5 rounded-full px-4.5 py-2 text-xs font-bold uppercase tracking-wider text-black transition-all duration-300 shadow-[0_0_20px_rgba(0,245,155,0.4)] hover:scale-105"
+          <motion.div
+            animate={{ y: [0, -2, 0], scale: [1, 1.025, 1] }}
+            transition={{ duration: 4.1, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
+            className="hidden sm:inline-flex"
           >
-            Let’s Talk
-            <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
-          </Link>
+            <Link
+              href="/contact"
+              className="btn-neon inline-flex items-center gap-1.5 rounded-full px-4.5 py-2 text-xs font-bold uppercase tracking-wider text-black transition-all duration-300 shadow-[0_0_20px_rgba(0,245,155,0.4)] hover:scale-105"
+            >
+              Let’s Talk
+              <ArrowUpRight className="h-3.5 w-3.5" aria-hidden="true" />
+            </Link>
+          </motion.div>
 
           {/* Mobile hamburger button */}
           <button

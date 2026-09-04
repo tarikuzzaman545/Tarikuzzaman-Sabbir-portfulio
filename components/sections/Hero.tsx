@@ -55,8 +55,12 @@ export function Hero() {
           
           {/* ── Left Column (Text & CTAs) ───────────────────────────────── */}
           <div className="lg:col-span-6 z-10">
-            {/* Top Pill Badge */}
-            <div className="inline-flex items-center gap-2 rounded-full liquid-glass border border-emerald-500/30 px-4 py-1.5 shadow-[0_0_20px_rgba(0,245,155,0.15)] mb-6">
+            {/* Top Pill Badge — Breathing animation */}
+            <motion.div
+              animate={{ y: [0, -3, 0], scale: [1, 1.018, 1] }}
+              transition={{ duration: 4.8, repeat: Infinity, ease: 'easeInOut' }}
+              className="inline-flex items-center gap-2 rounded-full liquid-glass border border-emerald-500/30 px-4 py-1.5 shadow-[0_0_20px_rgba(0,245,155,0.15)] mb-6 cursor-default select-none"
+            >
               <span className="relative flex h-2.5 w-2.5">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00E676] opacity-75" />
                 <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#00E676]" />
@@ -64,7 +68,7 @@ export function Hero() {
               <span className="text-xs font-semibold tracking-wide text-emerald-300">
                 {hero.badge}
               </span>
-            </div>
+            </motion.div>
 
             {/* Headline with Doodle */}
             <div className="relative">
@@ -100,31 +104,43 @@ export function Hero() {
               results.
             </p>
 
-            {/* CTAs */}
+            {/* CTAs — Inconsistent Organic Breathing */}
             <div className="mt-8 flex flex-wrap items-center gap-4">
-              <Link
-                href={hero.ctaPrimary.href}
-                className="btn-neon inline-flex items-center gap-2 rounded-full px-7 py-3.5 text-sm font-bold uppercase tracking-wider text-black transition-all shadow-[0_0_25px_rgba(0,230,118,0.4)]"
+              <motion.div
+                animate={{ y: [0, -4, 0], scale: [1, 1.02, 1] }}
+                transition={{ duration: 3.9, repeat: Infinity, ease: 'easeInOut', delay: 0.2 }}
               >
-                {hero.ctaPrimary.label}
-                <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
-              </Link>
+                <Link
+                  href={hero.ctaPrimary.href}
+                  className="btn-neon inline-flex items-center gap-2 rounded-full px-7 py-3.5 text-sm font-bold uppercase tracking-wider text-black transition-all shadow-[0_0_25px_rgba(0,230,118,0.4)]"
+                >
+                  {hero.ctaPrimary.label}
+                  <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+                </Link>
+              </motion.div>
 
-              <a
-                href={hero.ctaSecondary.href}
-                className="liquid-glass inline-flex items-center gap-2 rounded-full px-6 py-3.5 text-sm font-semibold text-white border border-emerald-500/30 hover:border-emerald-400/60 hover:bg-emerald-500/10 transition-all"
+              <motion.div
+                animate={{ y: [0, -3, 0], scale: [1, 1.015, 1] }}
+                transition={{ duration: 4.4, repeat: Infinity, ease: 'easeInOut', delay: 0.7 }}
               >
-                <div className="flex h-5 w-5 items-center justify-center rounded-full bg-[#00E676] text-black">
-                  <Play className="h-3 w-3 fill-black ml-0.5" />
-                </div>
-                {hero.ctaSecondary.label}
-              </a>
+                <a
+                  href={hero.ctaSecondary.href}
+                  className="liquid-glass inline-flex items-center gap-2 rounded-full px-6 py-3.5 text-sm font-semibold text-white border border-emerald-500/30 hover:border-emerald-400/60 hover:bg-emerald-500/10 transition-all"
+                >
+                  <div className="flex h-5 w-5 items-center justify-center rounded-full bg-[#00E676] text-black">
+                    <Play className="h-3 w-3 fill-black ml-0.5" />
+                  </div>
+                  {hero.ctaSecondary.label}
+                </a>
+              </motion.div>
             </div>
 
-            {/* Social Connect Row */}
+            {/* Social Connect Row — Each Icon Floats on Unique Inconsistent Frequency */}
             <div className="mt-10 flex flex-wrap items-center gap-4 pt-6 border-t border-emerald-500/15">
               <div className="flex items-center gap-2">
-                <a
+                <motion.a
+                  animate={{ y: [0, -3.5, 0], rotate: [0, 1.8, 0] }}
+                  transition={{ duration: 3.1, repeat: Infinity, ease: 'easeInOut', delay: 0.1 }}
                   href="https://facebook.com"
                   target="_blank"
                   rel="noreferrer"
@@ -132,8 +148,10 @@ export function Hero() {
                   className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-full liquid-glass border border-emerald-500/25 text-slate-300 hover:text-[#00E676] hover:border-emerald-400/50 transition-all"
                 >
                   <Facebook className="h-4 w-4" />
-                </a>
-                <a
+                </motion.a>
+                <motion.a
+                  animate={{ y: [0, -4.5, 0], rotate: [0, -1.8, 0] }}
+                  transition={{ duration: 4.3, repeat: Infinity, ease: 'easeInOut', delay: 0.6 }}
                   href="https://instagram.com"
                   target="_blank"
                   rel="noreferrer"
@@ -141,8 +159,10 @@ export function Hero() {
                   className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-full liquid-glass border border-emerald-500/25 text-slate-300 hover:text-[#00E676] hover:border-emerald-400/50 transition-all"
                 >
                   <Instagram className="h-4 w-4" />
-                </a>
-                <a
+                </motion.a>
+                <motion.a
+                  animate={{ y: [0, -3, 0], rotate: [0, 1.2, 0] }}
+                  transition={{ duration: 3.7, repeat: Infinity, ease: 'easeInOut', delay: 1.1 }}
                   href="https://linkedin.com"
                   target="_blank"
                   rel="noreferrer"
@@ -150,8 +170,10 @@ export function Hero() {
                   className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-full liquid-glass border border-emerald-500/25 text-slate-300 hover:text-[#00E676] hover:border-emerald-400/50 transition-all"
                 >
                   <Linkedin className="h-4 w-4" />
-                </a>
-                <a
+                </motion.a>
+                <motion.a
+                  animate={{ y: [0, -4, 0], rotate: [0, -1.5, 0] }}
+                  transition={{ duration: 4.8, repeat: Infinity, ease: 'easeInOut', delay: 0.3 }}
                   href="https://x.com"
                   target="_blank"
                   rel="noreferrer"
@@ -159,8 +181,10 @@ export function Hero() {
                   className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-full liquid-glass border border-emerald-500/25 text-slate-300 hover:text-[#00E676] hover:border-emerald-400/50 transition-all font-bold text-xs"
                 >
                   𝕏
-                </a>
-                <a
+                </motion.a>
+                <motion.a
+                  animate={{ y: [0, -3.5, 0], rotate: [0, 1.6, 0] }}
+                  transition={{ duration: 3.9, repeat: Infinity, ease: 'easeInOut', delay: 1.4 }}
                   href="https://pinterest.com"
                   target="_blank"
                   rel="noreferrer"
@@ -168,7 +192,7 @@ export function Hero() {
                   className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-full liquid-glass border border-emerald-500/25 text-slate-300 hover:text-[#00E676] hover:border-emerald-400/50 transition-all font-bold text-xs"
                 >
                   P
-                </a>
+                </motion.a>
               </div>
 
               <span className="text-xs font-medium text-slate-400 flex items-center gap-1">
