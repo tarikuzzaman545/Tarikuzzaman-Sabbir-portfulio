@@ -17,6 +17,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 import {
   ArrowUpRight,
   Award,
@@ -72,12 +73,23 @@ export function Hero() {
                 <span className="text-gradient-neon">{hero.titleHighlight}</span>
               </h1>
 
-              {/* Handwritten Doodle "Ideas Designs Reality" */}
-              <div className="hidden sm:block absolute -top-8 right-12 lg:-right-2 rotate-6 text-[#00E676] font-serif italic text-sm font-bold tracking-wider leading-snug select-none pointer-events-none">
+              {/* Handwritten Doodle "Ideas Designs Reality" — Tilted & Floating */}
+              <motion.div
+                animate={{
+                  y: [0, -6, 0],
+                  rotate: [6, 9, 6],
+                }}
+                transition={{
+                  duration: 3.5,
+                  repeat: Infinity,
+                  ease: 'easeInOut',
+                }}
+                className="hidden sm:block absolute -top-8 right-12 lg:-right-2 text-[#00E676] font-serif italic text-sm font-bold tracking-wider leading-snug select-none pointer-events-none"
+              >
                 <span>Ideas</span><br />
                 <span className="ml-2">Designs</span><br />
                 <span className="ml-4">Reality</span>
-              </div>
+              </motion.div>
             </div>
 
             {/* Subtitle / Bio Description */}
@@ -187,8 +199,19 @@ export function Hero() {
                 <div className="absolute inset-0 bg-gradient-to-b from-[#040D09]/50 via-transparent to-transparent opacity-50" />
               </div>
 
-              {/* Floating Glass Card 1 (Top Right) */}
-              <div className="absolute -top-3 -right-2 sm:-right-4 liquid-glass-card rounded-2xl p-3.5 sm:p-4 max-w-[200px] shadow-[0_15px_35px_rgba(0,0,0,0.85)] z-20 border border-emerald-500/35">
+              {/* Floating Glass Card 1 (Top Right) — Tilted & Perpetually Floating */}
+              <motion.div
+                animate={{
+                  y: [0, -8, 0],
+                  rotate: [3.5, 6, 3.5],
+                }}
+                transition={{
+                  duration: 4,
+                  repeat: Infinity,
+                  ease: 'easeInOut',
+                }}
+                className="absolute -top-3 -right-2 sm:-right-4 liquid-glass-card rounded-2xl p-3.5 sm:p-4 max-w-[200px] shadow-[0_15px_35px_rgba(0,0,0,0.85)] z-20 border border-emerald-500/35 cursor-default select-none"
+              >
                 <div className="flex items-center justify-between mb-2">
                   <div className="relative flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-500/15 border border-emerald-400/30 p-1 shrink-0">
                     <Image
@@ -209,25 +232,47 @@ export function Hero() {
                   <TrendingUp className="h-3 w-3 text-[#00E676]" />
                   {hero.cardTopRight.tag}
                 </div>
-              </div>
+              </motion.div>
 
-              {/* Floating Glass Card 2 (Bottom Right) */}
-              <div className="absolute bottom-4 -right-1 sm:-right-3 liquid-glass-card rounded-full px-4 py-2.5 flex items-center gap-2.5 shadow-[0_15px_35px_rgba(0,0,0,0.85)] z-20 border border-emerald-500/35">
+              {/* Floating Glass Card 2 (Bottom Right) — Perpetually Floating */}
+              <motion.div
+                animate={{
+                  y: [0, 5, 0],
+                  rotate: [-1, 1, -1],
+                }}
+                transition={{
+                  duration: 3.8,
+                  repeat: Infinity,
+                  ease: 'easeInOut',
+                }}
+                className="absolute bottom-4 -right-1 sm:-right-3 liquid-glass-card rounded-full px-4 py-2.5 flex items-center gap-2.5 shadow-[0_15px_35px_rgba(0,0,0,0.85)] z-20 border border-emerald-500/35 cursor-default select-none"
+              >
                 <div className="flex h-7 w-7 items-center justify-center rounded-full bg-emerald-500/20 text-[#00E676]">
                   <MapPin className="h-3.5 w-3.5" />
                 </div>
                 <p className="text-xs font-semibold text-white">
                   {hero.cardBottomRight.title}
                 </p>
-              </div>
+              </motion.div>
 
-              {/* Handwritten Doodle on right side */}
-              <div className="hidden lg:block absolute bottom-1 -right-24 rotate-12 text-[#00E676]/90 font-serif italic text-xs font-bold tracking-wider leading-tight select-none pointer-events-none text-left">
+              {/* Handwritten Doodle on right side — Tilted & Perpetually Floating */}
+              <motion.div
+                animate={{
+                  y: [0, -6, 0],
+                  rotate: [11, 14, 11],
+                }}
+                transition={{
+                  duration: 4.2,
+                  repeat: Infinity,
+                  ease: 'easeInOut',
+                }}
+                className="hidden lg:block absolute bottom-1 -right-24 text-[#00E676]/90 font-serif italic text-xs font-bold tracking-wider leading-tight select-none pointer-events-none text-left"
+              >
                 Better<br />
                 Visuals<br />
                 Brighter<br />
                 Brands ✦
-              </div>
+              </motion.div>
             </div>
           </div>
         </div>

@@ -6,6 +6,7 @@
  * ─────────────────────────────────────────────────────────────────────────────
  */
 
+import { motion } from 'framer-motion';
 import { Palette, ShieldCheck, Sparkles, Target, Zap } from 'lucide-react';
 
 import { homeContent } from '@/data/homeContent';
@@ -38,14 +39,25 @@ export function WhyChooseMe() {
             </p>
           </div>
 
-          {/* Handwritten Doodle on Right: "Let's Create Something Great! ✦" */}
+          {/* Handwritten Doodle on Right: "Let's Create Something Great! ✦" — Floating */}
           <div className="hidden md:block relative text-right pr-6">
-            <div className="rotate-6 text-emerald-400 font-serif italic text-lg font-bold tracking-wider leading-snug select-none pointer-events-none">
+            <motion.div
+              animate={{
+                y: [0, -6, 0],
+                rotate: [6, 9, 6],
+              }}
+              transition={{
+                duration: 3.6,
+                repeat: Infinity,
+                ease: 'easeInOut',
+              }}
+              className="text-emerald-400 font-serif italic text-lg font-bold tracking-wider leading-snug select-none pointer-events-none"
+            >
               Let&apos;s<br />
               Create<br />
               Something<br />
               Great! ✦
-            </div>
+            </motion.div>
           </div>
         </div>
 

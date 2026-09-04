@@ -8,6 +8,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
+import { motion } from 'framer-motion';
 import { ArrowUpRight } from 'lucide-react';
 
 import { homeContent } from '@/data/homeContent';
@@ -59,11 +60,22 @@ export function CtaBanner() {
                 ))}
               </div>
 
-              {/* Handwritten Doodle */}
-              <div className="hidden sm:block absolute -top-10 -right-2 rotate-12 text-emerald-400 font-serif italic text-xs font-bold tracking-wider leading-tight select-none pointer-events-none text-right">
+              {/* Handwritten Doodle — Floating */}
+              <motion.div
+                animate={{
+                  y: [0, -6, 0],
+                  rotate: [11, 14, 11],
+                }}
+                transition={{
+                  duration: 3.8,
+                  repeat: Infinity,
+                  ease: 'easeInOut',
+                }}
+                className="hidden sm:block absolute -top-10 -right-2 text-emerald-400 font-serif italic text-xs font-bold tracking-wider leading-tight select-none pointer-events-none text-right"
+              >
                 Your Vision<br />
                 My Creativity ✦
-              </div>
+              </motion.div>
             </div>
           </div>
         </div>

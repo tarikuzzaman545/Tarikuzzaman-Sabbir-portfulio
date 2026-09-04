@@ -26,7 +26,7 @@ export function FeaturedWork() {
         );
 
   return (
-    <section id="work" className="relative py-20 sm:py-28 overflow-hidden">
+    <section id="work" className="relative pt-6 sm:pt-10 pb-20 sm:pb-28 overflow-hidden">
       <div className="shell">
         {/* ── Section Header ────────────────────────────────────────────── */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 sm:mb-12">

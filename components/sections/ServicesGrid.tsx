@@ -33,7 +33,7 @@ export function ServicesGrid() {
   const { servicesSection } = homeContent;
 
   return (
-    <section id="services" className="relative pt-6 sm:pt-10 pb-20 sm:pb-28 overflow-hidden">
+    <section id="services" className="relative pt-6 sm:pt-10 pb-6 sm:pb-10 overflow-hidden">
       {/* Ambient background glow */}
       <div
         className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[500px] w-[800px] rounded-full bg-emerald-500/10 blur-[140px] -z-10"
