@@ -158,10 +158,22 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             because it is not executable script. */}
         <JsonLd />
       </head>
-      <body className="font-sans relative bg-canvas text-ink min-h-screen">
+      <body className="font-sans relative bg-[#020805] text-ink min-h-screen">
+        {/* Fullscreen Master 3D Emerald Wave Wallpaper */}
+        <div
+          className="fixed inset-0 pointer-events-none -z-30 bg-cover bg-center bg-no-repeat opacity-90"
+          style={{
+            backgroundImage: "url('/img/bg/site-bg.png')",
+            backgroundPosition: "center top",
+            backgroundSize: "cover",
+            backgroundAttachment: "fixed",
+          }}
+          aria-hidden="true"
+        />
+
         {/* Background Film Grain and Ambient Emerald Glow */}
         <div className="film-grain" aria-hidden="true" />
-        <div className="grain-ambient fixed inset-0 pointer-events-none -z-10" aria-hidden="true" />
+        <div className="grain-ambient fixed inset-0 pointer-events-none -z-20 opacity-50" aria-hidden="true" />
 
         <ThemeProvider>
           {/* First focusable element on the page, per WCAG 2.4.1. */}
