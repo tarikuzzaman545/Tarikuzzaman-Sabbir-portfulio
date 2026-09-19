@@ -263,7 +263,7 @@ export function BookPageClient() {
           </div>
 
           <h2 className="text-2xl sm:text-4xl font-display font-extrabold text-white mb-3">
-            You're All Booked, {clientName.split(' ')[0]}! 🎉
+            You&apos;re All Booked, {clientName.split(' ')[0]}! 🎉
           </h2>
           <p className="text-slate-300 text-sm sm:text-base mb-8 max-w-lg mx-auto">
             Your 1-on-1 visual strategy call is confirmed. A calendar invitation and summary have been sent to{' '}
