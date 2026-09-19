@@ -22,6 +22,9 @@ const cspDirectives = {
     "'unsafe-inline'", // Next.js inlines a small bootstrap script
     ...(isDev ? ["'unsafe-eval'"] : []),
     'https://va.vercel-scripts.com',
+    'https://www.googletagmanager.com',
+    'https://*.googletagmanager.com',
+    'https://*.google-analytics.com',
   ],
   'style-src': ["'self'", "'unsafe-inline'"],
   'img-src': [
@@ -31,6 +34,8 @@ const cspDirectives = {
     'https://cdn.sanity.io',
     'https://i.ytimg.com',
     'https://i.vimeocdn.com',
+    'https://*.google-analytics.com',
+    'https://*.googletagmanager.com',
   ],
   'font-src': ["'self'", 'data:'],
   'connect-src': [
@@ -38,6 +43,9 @@ const cspDirectives = {
     'https://api.resend.com',
     'https://*.api.sanity.io',
     'https://*.apicdn.sanity.io',
+    'https://*.google-analytics.com',
+    'https://*.analytics.google.com',
+    'https://*.googletagmanager.com',
     ...(isDev ? ['ws://localhost:*', 'http://localhost:*'] : []),
   ],
   'frame-src': ["'self'", 'https://www.youtube-nocookie.com', 'https://player.vimeo.com'],

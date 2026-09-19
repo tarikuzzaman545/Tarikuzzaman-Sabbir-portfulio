@@ -213,6 +213,10 @@ This section preserves the critical reasoning, user feedback, bug resolutions, a
 - [x] **Vercel Web Analytics Integration (`@vercel/analytics`)**:
   - Added `@vercel/analytics/next` to `app/layout.tsx` for real-time visitor tracking and page view metrics on Vercel deployment.
   - Verified Content Security Policy in `next.config.mjs` allows `https://va.vercel-scripts.com` in `script-src`.
+- [x] **Google Analytics 4 (GA4) Integration (`G-GNLM89GWFN`)**:
+  - Built dedicated `GoogleAnalytics` component (`components/seo/GoogleAnalytics.tsx`) leveraging Next.js `<Script strategy="afterInteractive" />`.
+  - Configured `NEXT_PUBLIC_GA_MEASUREMENT_ID=G-GNLM89GWFN` with seamless fallback so tracking works both locally and on Vercel immediately.
+  - Whitelisted Google Analytics origins in `next.config.mjs` CSP (`googletagmanager.com`, `*.google-analytics.com`, `*.analytics.google.com`).
 - [ ] **Interactive ROI & Revenue Lift Calculator (`CostCalculator.tsx`)**:
   - Bring over the slider math from WEBRING into a 3D Liquid Glass card calculating revenue lift and ROI percentage.
 - [ ] **Dedicated High-End Blog System (`/blog` & `/blog/[slug]`)**:

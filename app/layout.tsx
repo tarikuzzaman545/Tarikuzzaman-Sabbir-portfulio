@@ -34,6 +34,7 @@ import type { Metadata, Viewport } from 'next';
 import localFont from 'next/font/local';
 
 import { JsonLd } from '@/components/seo/JsonLd';
+import { GoogleAnalytics } from '@/components/seo/GoogleAnalytics';
 import { Footer } from '@/components/site/Footer';
 import { GlobalClock } from '@/components/site/GlobalClock';
 import { Header } from '@/components/site/Header';
@@ -190,6 +191,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <Footer />
         </ThemeProvider>
         <Analytics />
+        <GoogleAnalytics gaId="G-GNLM89GWFN" />
       </body>
     </html>
   );
