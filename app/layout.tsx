@@ -40,6 +40,7 @@ import { Header } from '@/components/site/Header';
 import { ParallaxBackground } from '@/components/site/ParallaxBackground';
 import { KineticTextScroll } from '@/components/site/KineticTextScroll';
 import { ThemeProvider } from '@/components/site/ThemeProvider';
+import { Analytics } from '@vercel/analytics/next';
 import { siteConfig } from '@/site.config';
 
 import './globals.css';
@@ -188,6 +189,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
           <Footer />
         </ThemeProvider>
+        <Analytics />
       </body>
     </html>
   );

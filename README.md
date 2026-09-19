@@ -284,6 +284,22 @@ This section serves as the complete technical source of truth for Sabbir and any
   - **Single Source of Truth (`site.config.ts`):** Populated exact URLs for Instagram, Facebook, LinkedIn, X, and Pinterest. Configured `@Tarikuzzaman555` Twitter handle. Added exact name match keywords (`Tarikuzzaman Sabbir`, `MD Tarikuzzaman Sabbir`, `tarikuzzaman_sabbir`, `sabbir`, `tarikuzzaman`) alongside commercial photography keywords.
   - **Schema.org Structured Data (`components/seo/JsonLd.tsx`):** Injected all 6 social profiles into the `Person.sameAs` graph array and expanded `alternateName` to include all name variations and hashtags. Now Google's Knowledge Graph directly links the website entity to Sabbir's established social presence.
   - **Hero & Footer Components (`components/sections/Hero.tsx`, `components/site/Footer.tsx`, `data/homeContent.ts`):** Updated all social buttons and contact cards to open Sabbir's official Facebook, Instagram, LinkedIn, X, and Pinterest profiles with `target="_blank" rel="noreferrer"`.
+### Step 11: Instant Route Pre-fetching & Page Navigation Optimization (`components/site/Header.tsx`)
+- **User Feedback:** *"ami jokhon home page theke about e jacci ba onno page e jacci , onek late e dukche , mane onno page jaite giya onek khon lode nicce , eta optimized koro"* — Clicking nav links felt slow when navigating between routes.
+- **Technical Context:** In local development (`next dev`), Next.js uses Just-In-Time (JIT) compilation, creating a one-time compile lag when a route is visited for the first time.
+- **Resolution:**
+  - Added explicit Next.js `prefetch={true}` across all desktop and mobile navigation `<Link>` tags (Home, About, Services, Portfolio, Contact, Let's Talk).
+  - Integrated `useRouter().prefetch(href)` triggered instantaneously on `onMouseEnter`. The moment a user hovers or moves the cursor towards any navigation item, Next.js begins streaming the route payload ahead of time, turning page clicks into **instantaneous 0ms switches**.
+
+### Step 12: Dev Server Cache Desync Resolution & Testimonial SVG Dimension Guard
+- **User Feedback:** *"emon hoya gelo ken"* with screenshots showing unstyled HTML (default font, stacked text) and a massive green circle with initials "DK" covering the screen.
+- **Root Cause Analysis:**
+  - An orphaned background Node.js process was holding port 3000 with a stale `.next` cache table, returning `HTTP 404` for `layout.css`.
+  - When CSS failed to load in the browser, all styling fell back to browser defaults, and the unconstrained testimonial avatar (`daniel-kim.svg` with "DK" initials) expanded to the full viewport width.
+- **Resolution:**
+  - Terminated the orphaned Node process and cleared corrupted cache in `.next`.
+  - Restarted a clean Next.js server on port 3000 (`Ready in 940ms`, `GET / 200`).
+  - Hardened `components/sections/ClientFeedback.tsx` by replacing `fill` on avatar images with fixed `width={40} height={40}` and strict inline container bounds (`minWidth: 40px, maxWidth: 40px`), ensuring avatars can never expand out of proportion under any network or styling state.
 
 ---
 

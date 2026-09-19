@@ -14,7 +14,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ArrowUpRight, Menu, X } from 'lucide-react';
 
@@ -37,6 +37,7 @@ export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
 
   const triggerRef = useRef<HTMLButtonElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
@@ -82,6 +83,8 @@ export function Header() {
         {/* ── 1. Logo & Identity (At top: stands alone on left; On scroll: merges into the left of the round capsule) ── */}
         <Link
           href="/"
+          prefetch={true}
+          onMouseEnter={() => router.prefetch('/')}
           className="group flex items-center gap-2.5 sm:gap-3 rounded-full focus:outline-none shrink-0"
           aria-label="Tarikuzzaman Sabbir — Home"
         >
@@ -148,6 +151,8 @@ export function Header() {
               <Link
                 key={item.href}
                 href={item.href}
+                prefetch={true}
+                onMouseEnter={() => router.prefetch(item.href)}
                 aria-current={active ? 'page' : undefined}
                 className={cn(
                   'relative rounded-full px-3.5 py-1.5 text-xs font-semibold tracking-wide transition-all duration-150',
@@ -166,7 +171,9 @@ export function Header() {
         <div className="flex items-center gap-2 sm:gap-3 shrink-0">
           <div className="hidden sm:inline-flex">
             <Link
-              href="/contact"
+              href="/lets-talk"
+              prefetch={true}
+              onMouseEnter={() => router.prefetch('/lets-talk')}
               className="btn-neon inline-flex items-center gap-1.5 rounded-full px-4.5 py-2 text-xs font-bold uppercase tracking-wider text-black transition-all duration-150 shadow-[0_0_20px_rgba(0,245,155,0.4)] hover:scale-105"
             >
               Let’s Talk
@@ -212,6 +219,7 @@ export function Header() {
                     <Link
                       key={item.href}
                       href={item.href}
+                      prefetch={true}
                       onClick={close}
                       className={cn(
                         'flex items-center justify-between rounded-full px-4 py-2.5 text-sm font-semibold transition-colors',
@@ -231,7 +239,8 @@ export function Header() {
 
               <div className="mt-4 pt-3 border-t border-emerald-500/20">
                 <Link
-                  href="/contact"
+                  href="/lets-talk"
+                  prefetch={true}
                   onClick={close}
                   className="btn-neon w-full justify-center text-center rounded-full py-2.5 text-xs font-bold uppercase tracking-wider flex items-center gap-1.5"
                 >

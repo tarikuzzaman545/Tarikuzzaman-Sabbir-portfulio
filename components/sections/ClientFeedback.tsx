@@ -62,13 +62,17 @@ export function ClientFeedback() {
               {/* Author & Avatar */}
               <div className="mt-6 pt-5 border-t border-emerald-500/15 flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="relative h-10 w-10 rounded-full overflow-hidden border border-emerald-400/40 shadow-[0_0_10px_rgba(0,245,155,0.2)]">
+                  <div
+                    className="relative h-10 w-10 shrink-0 rounded-full overflow-hidden border border-emerald-400/40 shadow-[0_0_10px_rgba(0,245,155,0.2)]"
+                    style={{ width: '40px', height: '40px', minWidth: '40px', minHeight: '40px' }}
+                  >
                     <Image
                       src={testimonial.avatar}
                       alt={testimonial.author}
-                      fill
+                      width={40}
+                      height={40}
                       unoptimized
-                      className="object-cover"
+                      className="h-10 w-10 rounded-full object-cover"
                     />
                   </div>
                   <div>

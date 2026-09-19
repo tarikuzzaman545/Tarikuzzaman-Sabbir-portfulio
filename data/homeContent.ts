@@ -320,7 +320,7 @@ export const homeContent = {
   ctaBanner: {
     title: 'Ready to Create Something Amazing?',
     subtitle: 'Let’s bring your ideas to life with stunning visuals and creative design.',
-    button: { label: 'Start a Project', href: '/contact' },
+    button: { label: "Let's Talk", href: '/lets-talk' },
     doodle: 'Your Vision\nMy Creativity ✦',
     avatars: [
       '/img/cta/james-carter.svg',

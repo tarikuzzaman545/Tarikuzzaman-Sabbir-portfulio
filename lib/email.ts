@@ -30,7 +30,7 @@ import { Resend } from 'resend';
 
 import { siteConfig } from '@/site.config';
 
-import type { ContactFormData, NewsletterData } from './validation';
+import type { BookingFormData, ContactFormData, DirectContactData, NewsletterData } from './validation';
 
 /* ── Configuration ────────────────────────────────────────────────────────── */
 
@@ -450,3 +450,319 @@ export async function subscribeToNewsletter(data: NewsletterData): Promise<Email
     return { ok: false, reason: 'unknown', message: 'Could not complete the signup.' };
   }
 }
+
+/* ── Booking Notification & Confirmation ──────────────────────────────────── */
+
+export async function sendBookingNotification(data: BookingFormData): Promise<EmailResult> {
+  const resend = getClient();
+  const to = getToAddress();
+
+  if (!resend || !to) {
+    return {
+      ok: false,
+      reason: 'unconfigured',
+      message:
+        'Email delivery is not configured. Set RESEND_API_KEY and CONTACT_TO_EMAIL in your environment.',
+    };
+  }
+
+  const servicesList = data.services.map((s) => `• ${s}`).join('<br />');
+
+  const bodyHtml = `
+    <div style="margin-bottom:20px;padding:16px;background-color:#040D09;border:1px solid #00F59B;border-radius:10px;text-align:center;">
+      <p style="margin:0;font-size:12px;letter-spacing:0.12em;text-transform:uppercase;color:#00F59B;font-weight:700;">Confirmed Strategy Call</p>
+      <h2 style="margin:6px 0 0;font-size:20px;color:#FFFFFF;">📅 ${escapeHtml(data.selectedDate)}</h2>
+      <p style="margin:4px 0 0;font-size:16px;color:#A7F3D0;font-weight:600;">⏰ ${escapeHtml(data.selectedTime)} (GMT+6 Bangladesh Time)</p>
+    </div>
+
+    <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="border-collapse:collapse;">
+      ${detailRow('Client Name', data.clientName)}
+      ${detailRow('Email', data.email)}
+      ${data.whatsapp ? detailRow('WhatsApp / Phone', data.whatsapp) : ''}
+      ${data.companyName ? detailRow('Brand / Company', data.companyName) : ''}
+      ${detailRow('Product Category', data.productCategory)}
+      ${detailRow('Budget Range', data.budget)}
+      ${data.referral ? detailRow('Referred By', data.referral) : ''}
+    </table>
+
+    <div style="border-top:1px solid ${BRAND.line};margin:8px 0 16px;"></div>
+
+    <p style="margin:0 0 6px;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:${BRAND.gold};font-weight:600;">Requested Services</p>
+    <div style="font-size:14px;line-height:1.7;color:${BRAND.ink};margin-bottom:16px;">
+      ${servicesList}
+    </div>
+
+    ${
+      data.notes
+        ? `<p style="margin:0 0 6px;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:${BRAND.gold};font-weight:600;">Project Notes / Product Links</p>
+           <div style="font-size:14px;line-height:1.7;color:${BRAND.ink};background:#FAFAF8;padding:12px;border-radius:8px;">
+             ${escapeHtmlWithBreaks(data.notes)}
+           </div>`
+        : ''
+    }
+
+    <div style="margin-top:24px;text-align:center;">
+      <a href="mailto:${escapeHtml(data.email)}?subject=${encodeURIComponent('Your Visual Strategy Call with Sabbir')}"
+         style="display:inline-block;background-color:#00F59B;color:#020805;text-decoration:none;padding:12px 24px;border-radius:999px;font-size:14px;font-weight:700;">
+        Email ${escapeHtml(data.clientName)} Directly
+      </a>
+    </div>`;
+
+  const text = [
+    `🗓️ NEW STRATEGY CALL BOOKING`,
+    `=============================`,
+    `Date:     ${data.selectedDate}`,
+    `Time:     ${data.selectedTime} (GMT+6)`,
+    ``,
+    `Client:   ${data.clientName} <${data.email}>`,
+    `WhatsApp: ${data.whatsapp || 'Not provided'}`,
+    `Company:  ${data.companyName || 'Not provided'}`,
+    `Category: ${data.productCategory}`,
+    `Budget:   ${data.budget}`,
+    `Services: ${data.services.join(', ')}`,
+    ``,
+    `Notes:`,
+    data.notes || 'None',
+  ].join('\n');
+
+  try {
+    const { data: sent, error } = await resend.emails.send({
+      from: getFromAddress(),
+      to: [to],
+      subject: sanitiseHeaderValue(`🗓️ New Call Booked: ${data.clientName} (${data.selectedDate} at ${data.selectedTime})`),
+      reply_to: sanitiseHeaderValue(data.email),
+      html: wrapEmail('New Strategy Call Booked', bodyHtml, 'Booked via the /book calendar on your portfolio.'),
+      text,
+    });
+
+    if (error) {
+      // eslint-disable-next-line no-console
+      console.error('[email] Resend booking notification error:', error);
+      return { ok: false, reason: 'provider', message: 'Email provider error.' };
+    }
+    return { ok: true, id: sent?.id ?? null };
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error('[email] Unexpected error sending booking notification:', error);
+    return { ok: false, reason: 'unknown', message: 'Could not reach email provider.' };
+  }
+}
+
+export async function sendBookingAcknowledgement(data: BookingFormData): Promise<EmailResult> {
+  const resend = getClient();
+  if (!resend) {
+    return { ok: false, reason: 'unconfigured', message: 'Email delivery not configured.' };
+  }
+
+  const firstName = data.clientName.split(' ')[0] ?? data.clientName;
+
+  const bodyHtml = `
+    <p style="margin:0 0 16px;font-size:16px;line-height:1.7;color:${BRAND.ink};">
+      Hi ${escapeHtml(firstName)},
+    </p>
+    <p style="margin:0 0 16px;font-size:15px;line-height:1.7;color:${BRAND.inkSoft};">
+      Your 1-on-1 visual strategy call with <strong>${escapeHtml(siteConfig.name)}</strong> is confirmed! 🎉
+    </p>
+
+    <div style="margin:20px 0;padding:20px;background-color:#F8FAFC;border-left:4px solid #00F59B;border-radius:8px;">
+      <h3 style="margin:0 0 8px;font-size:18px;color:${BRAND.ink};">📅 Call Schedule</h3>
+      <p style="margin:0;font-size:15px;color:${BRAND.ink};">
+        <strong>Date:</strong> ${escapeHtml(data.selectedDate)}<br />
+        <strong>Time:</strong> ${escapeHtml(data.selectedTime)} (GMT+6 / Bangladesh Time)<br />
+        <strong>Topic:</strong> AI Product Photography, Catalog Styling & Visual Growth
+      </p>
+    </div>
+
+    <p style="margin:0 0 16px;font-size:15px;line-height:1.7;color:${BRAND.inkSoft};">
+      Before our call, I will review your product category (<strong>${escapeHtml(data.productCategory)}</strong>) and prepare ideas on how custom AI visual pipelines can elevate your brand's conversion.
+    </p>
+
+    <p style="margin:0 0 20px;font-size:14px;line-height:1.7;color:${BRAND.inkSoft};">
+      Need to reschedule or share product references beforehand? Simply reply directly to this email or reach out on WhatsApp at ${escapeHtml(siteConfig.contact.phone || '+880')}.
+    </p>
+
+    <p style="margin:24px 0 0;font-size:15px;line-height:1.7;color:${BRAND.inkSoft};">
+      Warm regards,<br />
+      <strong>${escapeHtml(siteConfig.name)}</strong><br />
+      <span style="color:#059669;font-size:13px;">${escapeHtml(siteConfig.role)} · ${escapeHtml(siteConfig.location)}</span>
+    </p>`;
+
+  const text = [
+    `Hi ${firstName},`,
+    ``,
+    `Your 1-on-1 visual strategy call with ${siteConfig.name} is confirmed!`,
+    ``,
+    `Date: ${data.selectedDate}`,
+    `Time: ${data.selectedTime} (GMT+6 / Bangladesh Time)`,
+    ``,
+    `I'm looking forward to speaking with you. Simply reply to this email if you need to reschedule or share references.`,
+    ``,
+    `— ${siteConfig.name}`,
+    `${siteConfig.role}`,
+  ].join('\n');
+
+  try {
+    const { data: sent, error } = await resend.emails.send({
+      from: getFromAddress(),
+      to: [sanitiseHeaderValue(data.email)],
+      subject: sanitiseHeaderValue(`Strategy Call Confirmed — ${data.selectedDate} at ${data.selectedTime}`),
+      reply_to: getToAddress() || sanitiseHeaderValue(data.email),
+      html: wrapEmail('Your Strategy Call is Confirmed!', bodyHtml, `Confirmed booking for ${data.clientName} with ${siteConfig.name}.`),
+      text,
+    });
+
+    if (error) {
+      // eslint-disable-next-line no-console
+      console.error('[email] Resend booking acknowledgement error:', error);
+      return { ok: false, reason: 'provider', message: 'Acknowledgement failed.' };
+    }
+    return { ok: true, id: sent?.id ?? null };
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error('[email] Error sending booking acknowledgement:', error);
+    return { ok: false, reason: 'unknown', message: 'Could not send acknowledgement.' };
+  }
+}
+
+export async function sendDirectContactNotification(data: DirectContactData): Promise<EmailResult> {
+  const resend = getClient();
+  const to = getToAddress();
+
+  if (!resend || !to) {
+    return {
+      ok: false,
+      reason: 'unconfigured',
+      message:
+        'Email delivery is not configured. Set RESEND_API_KEY and CONTACT_TO_EMAIL in your environment.',
+    };
+  }
+
+  const submittedAt = new Intl.DateTimeFormat('en-GB', {
+    dateStyle: 'full',
+    timeStyle: 'short',
+    timeZone: siteConfig.timezone,
+  }).format(new Date());
+
+  const bodyHtml = `
+    <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="border-collapse:collapse;">
+      ${detailRow('From', `${escapeHtml(data.name)} &lt;${escapeHtml(data.email)}&gt;`)}
+      ${data.phone ? detailRow('Phone / WhatsApp', escapeHtml(data.phone)) : ''}
+      ${detailRow('Subject', escapeHtml(data.subject))}
+      ${detailRow('Service', escapeHtml(data.service))}
+      ${detailRow('Received', `${submittedAt} (${siteConfig.timezone})`)}
+    </table>
+
+    <div style="border-top:1px solid ${BRAND.line};margin:16px 0 20px;"></div>
+
+    <p style="margin:0 0 8px;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:${BRAND.gold};font-weight:600;">Message</p>
+    <div style="font-size:15px;line-height:1.7;color:${BRAND.ink};white-space:normal;">
+      ${escapeHtmlWithBreaks(data.message)}
+    </div>
+
+    <div style="margin-top:24px;">
+      <a href="mailto:${escapeHtml(data.email)}?subject=${encodeURIComponent('Re: ' + data.subject)}"
+         style="display:inline-block;background-color:${BRAND.ink};color:${BRAND.cream};text-decoration:none;padding:11px 20px;border-radius:999px;font-size:14px;font-weight:500;">
+        Reply to ${escapeHtml(data.name)}
+      </a>
+    </div>`;
+
+  const text = [
+    `New enquiry via ${siteConfig.url}/lets-talk`,
+    '',
+    `From:     ${data.name} <${data.email}>`,
+    `Phone:    ${data.phone || 'Not provided'}`,
+    `Subject:  ${data.subject}`,
+    `Service:  ${data.service}`,
+    `Received: ${submittedAt} (${siteConfig.timezone})`,
+    '',
+    'Message:',
+    data.message,
+    '',
+    `Reply directly to this email to reach ${data.name}.`,
+  ].join('\n');
+
+  try {
+    const { data: sent, error } = await resend.emails.send({
+      from: getFromAddress(),
+      to: [to],
+      subject: sanitiseHeaderValue(`[Let's Talk] ${data.subject} — ${data.name}`),
+      reply_to: sanitiseHeaderValue(data.email),
+      html: wrapEmail(
+        `New Message: ${escapeHtml(data.subject)}`,
+        bodyHtml,
+        "Sent via the Let's Talk contact form on your portfolio. Reply to this email to respond directly.",
+      ),
+      text,
+    });
+
+    if (error) {
+      // eslint-disable-next-line no-console
+      console.error('[email] Resend direct contact error:', error);
+      return { ok: false, reason: 'provider', message: 'Email provider error.' };
+    }
+    return { ok: true, id: sent?.id ?? null };
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error('[email] Unexpected error sending direct contact:', error);
+    return { ok: false, reason: 'unknown', message: 'Could not reach email provider.' };
+  }
+}
+
+export async function sendDirectContactAcknowledgement(data: DirectContactData): Promise<EmailResult> {
+  const resend = getClient();
+  if (!resend) {
+    return { ok: false, reason: 'unconfigured', message: 'Email delivery not configured.' };
+  }
+
+  const firstName = data.name.split(' ')[0] ?? data.name;
+
+  const bodyHtml = `
+    <p style="margin:0 0 16px;font-size:16px;line-height:1.7;color:${BRAND.ink};">
+      Hi ${escapeHtml(firstName)},
+    </p>
+    <p style="margin:0 0 16px;font-size:15px;line-height:1.7;color:${BRAND.inkSoft};">
+      Thanks for reaching out! I’ve received your message regarding <strong>${escapeHtml(data.subject)}</strong>.
+    </p>
+    <p style="margin:0 0 16px;font-size:15px;line-height:1.7;color:${BRAND.inkSoft};">
+      I review all inquiries personally and will get back to you within 24 hours with ideas, availability, and next steps.
+    </p>
+    <p style="margin:24px 0 0;font-size:15px;line-height:1.7;color:${BRAND.inkSoft};">
+      Best regards,<br />
+      <strong>${escapeHtml(siteConfig.name)}</strong><br />
+      <span style="color:#059669;font-size:13px;">${escapeHtml(siteConfig.role)}</span>
+    </p>`;
+
+  const text = [
+    `Hi ${firstName},`,
+    '',
+    `Thanks for reaching out! I've received your message regarding "${data.subject}".`,
+    `I review all inquiries personally and will get back to you within 24 hours.`,
+    '',
+    `Best regards,`,
+    `${siteConfig.name}`,
+    `${siteConfig.role}`,
+  ].join('\n');
+
+  try {
+    const { data: sent, error } = await resend.emails.send({
+      from: getFromAddress(),
+      to: [sanitiseHeaderValue(data.email)],
+      subject: sanitiseHeaderValue(`Message received — ${siteConfig.name}`),
+      reply_to: getToAddress() || sanitiseHeaderValue(data.email),
+      html: wrapEmail('Thank you for reaching out', bodyHtml, `Auto-reply from ${siteConfig.name}.`),
+      text,
+    });
+
+    if (error) {
+      // eslint-disable-next-line no-console
+      console.error('[email] Resend direct contact ack error:', error);
+      return { ok: false, reason: 'provider', message: 'Acknowledgement failed.' };
+    }
+    return { ok: true, id: sent?.id ?? null };
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error('[email] Error sending direct contact ack:', error);
+    return { ok: false, reason: 'unknown', message: 'Could not send acknowledgement.' };
+  }
+}
+

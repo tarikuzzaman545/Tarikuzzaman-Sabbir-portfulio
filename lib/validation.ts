@@ -191,6 +191,67 @@ export const newsletterSchema = z.object({
 export type NewsletterInput = z.input<typeof newsletterSchema>;
 export type NewsletterData = z.output<typeof newsletterSchema>;
 
+/* ── Booking Form Schema ──────────────────────────────────────────────────── */
+
+export const bookingFormSchema = z.object({
+  clientName: nameSchema,
+  email: emailSchema,
+  whatsapp: z
+    .string()
+    .max(30, 'Phone / WhatsApp number is too long.')
+    .optional()
+    .default(''),
+  companyName: z
+    .string()
+    .max(120, 'Company name is too long.')
+    .optional()
+    .default(''),
+  services: z
+    .array(z.string())
+    .min(1, 'Please select at least one service.'),
+  productCategory: z
+    .string({ required_error: 'Please choose a product category.' })
+    .min(1, 'Please choose a product category.'),
+  budget: z
+    .string({ required_error: 'Please select an estimated budget.' })
+    .min(1, 'Please select an estimated budget.'),
+  notes: z
+    .string()
+    .max(2000, 'Notes cannot exceed 2,000 characters.')
+    .optional()
+    .default(''),
+  selectedDate: z
+    .string({ required_error: 'Please select a date for the call.' })
+    .min(1, 'Please select a date for the call.'),
+  selectedTime: z
+    .string({ required_error: 'Please choose a preferred time slot.' })
+    .min(1, 'Please choose a preferred time slot.'),
+  referral: z
+    .string()
+    .max(100)
+    .optional()
+    .default(''),
+  honeypot: honeypotSchema,
+});
+
+export type BookingFormInput = z.input<typeof bookingFormSchema>;
+export type BookingFormData = z.output<typeof bookingFormSchema>;
+
+/* ── Direct Contact Schema (Let's Talk) ───────────────────────────────────── */
+
+export const directContactSchema = z.object({
+  name: nameSchema,
+  email: emailSchema,
+  phone: z.string().max(30).optional().default(''),
+  subject: z.string().min(2, 'Subject must be at least 2 characters.').max(200),
+  service: z.string().min(1, 'Please select a service.'),
+  message: z.string().min(5, 'Message must be at least 5 characters.').max(4000),
+  company: honeypotSchema,
+});
+
+export type DirectContactInput = z.input<typeof directContactSchema>;
+export type DirectContactData = z.output<typeof directContactSchema>;
+
 /* ── Error shaping ────────────────────────────────────────────────────────── */
 
 /** Field name → first error message. One message per field is all the UI shows. */

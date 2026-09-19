@@ -27,9 +27,21 @@ import { NextResponse } from 'next/server';
 import { ZodError } from 'zod';
 
 import { CSRF_COOKIE_NAME, CSRF_HEADER_NAME, verifyCsrf } from '@/lib/csrf';
-import { isEmailConfigured, sendContactAcknowledgement, sendContactNotification } from '@/lib/email';
+import {
+  isEmailConfigured,
+  sendContactAcknowledgement,
+  sendContactNotification,
+  sendDirectContactAcknowledgement,
+  sendDirectContactNotification,
+} from '@/lib/email';
 import { CONTACT_LIMIT, checkRateLimit, getRateLimitKey, rateLimitHeaders } from '@/lib/rate-limit';
-import { contactFormSchema, isLikelySpam, toFieldErrors, type FieldErrors } from '@/lib/validation';
+import {
+  contactFormSchema,
+  directContactSchema,
+  isLikelySpam,
+  toFieldErrors,
+  type FieldErrors,
+} from '@/lib/validation';
 import { siteConfig } from '@/site.config';
 
 export const dynamic = 'force-dynamic';
@@ -188,6 +200,54 @@ export async function POST(request: Request): Promise<NextResponse<SuccessBody |
     parsed = JSON.parse(raw);
   } catch {
     return failure(400, 'Malformed request body.', { headers: limitHeaders });
+  }
+
+  const isDirect = typeof parsed === 'object' && parsed !== null && 'subject' in parsed;
+
+  if (isDirect) {
+    let directData;
+    try {
+      directData = directContactSchema.parse(parsed);
+    } catch (error) {
+      if (error instanceof ZodError) {
+        return failure(422, 'Please check the highlighted fields.', {
+          fields: toFieldErrors(error),
+          headers: limitHeaders,
+        });
+      }
+      return failure(400, 'Could not process that submission.', { headers: limitHeaders });
+    }
+
+    if (directData.company && directData.company.length > 0) {
+      return success(limitHeaders);
+    }
+
+    if (!isEmailConfigured()) {
+      const fallback = siteConfig.contact.email;
+      const hint =
+        fallback && !fallback.includes('FILL_ME')
+          ? ` In the meantime you can email me directly at ${fallback}.`
+          : '';
+      return failure(503, `Email delivery is not configured yet.${hint}`, { headers: limitHeaders });
+    }
+
+    const notification = await sendDirectContactNotification(directData);
+    if (!notification.ok) {
+      const fallback = siteConfig.contact.email;
+      const hint =
+        fallback && !fallback.includes('FILL_ME') ? ` Please email me directly at ${fallback}.` : '';
+      return failure(502, `Your message could not be sent right now.${hint}`, {
+        headers: limitHeaders,
+      });
+    }
+
+    const ack = await sendDirectContactAcknowledgement(directData);
+    if (!ack.ok) {
+      // eslint-disable-next-line no-console
+      console.warn('[contact] Direct notification sent, but the acknowledgement failed:', ack.message);
+    }
+
+    return success(limitHeaders);
   }
 
   let data;

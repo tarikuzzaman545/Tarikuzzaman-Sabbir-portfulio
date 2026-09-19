@@ -22,7 +22,8 @@
  * omission is obvious to whoever is setting the site up.
  */
 
-import { Clock, Mail, MapPin, MessageSquare, Phone } from 'lucide-react';
+import Link from 'next/link';
+import { ArrowRight, Calendar, Clock, Mail, MapPin, MessageSquare, Phone, Sparkles } from 'lucide-react';
 
 import { ContactForm } from '@/components/forms/ContactForm';
 import { Reveal, SectionHeading } from '@/components/ui/Reveal';
@@ -71,9 +72,35 @@ export function Contact() {
             </div>
           </Reveal>
 
-          {/* ── Direct routes ──────────────────────────────────────────────── */}
+          {/* ── Direct routes & Book a Call ───────────────────────────────── */}
           <Reveal className="lg:col-span-5" delay={0.1}>
             <div className="space-y-8">
+              {/* Featured Book a Call Card */}
+              <div className="rounded-2xl border border-emerald-500/30 bg-gradient-to-br from-[#061C12] via-[#04140D] to-[#020805] p-6 shadow-[0_12px_36px_rgba(0,0,0,0.6)] relative overflow-hidden">
+                <div className="absolute top-0 right-0 p-6 opacity-10 pointer-events-none">
+                  <Calendar className="w-24 h-24 text-[#00F59B]" />
+                </div>
+                <div className="relative z-10">
+                  <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-[10px] font-mono uppercase tracking-wider text-[#00F59B] mb-3">
+                    <Sparkles className="w-3 h-3" />
+                    <span>Live 1-on-1 Consultation</span>
+                  </div>
+                  <h4 className="text-lg sm:text-xl font-display font-extrabold text-white mb-2 leading-tight">
+                    Book a Strategy Call
+                  </h4>
+                  <p className="text-xs text-slate-300 mb-5 leading-relaxed">
+                    Pick a 15-minute slot directly on my calendar. We will evaluate your product category, lighting angles, and turnaround time.
+                  </p>
+                  <Link
+                    href="/book"
+                    className="btn-neon inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-xs font-bold uppercase tracking-wider text-black transition-all shadow-[0_0_20px_rgba(0,245,155,0.35)]"
+                  >
+                    <span>Choose Date & Time</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
+                </div>
+              </div>
+
               {hasAnyDirectRoute && (
                 <div>
                   <h3 className="text-xs font-semibold uppercase tracking-[0.14em] text-gold-ink">

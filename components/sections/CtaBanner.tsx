@@ -39,14 +39,24 @@ export function CtaBanner() {
 
             {/* Right Action & Avatars & Doodle */}
             <div className="lg:col-span-5 flex flex-col sm:flex-row lg:flex-row items-start sm:items-center lg:justify-end gap-6 relative">
-              {/* Button */}
-              <Link
-                href={ctaBanner.button.href}
-                className="btn-neon inline-flex items-center gap-2 rounded-full px-8 py-4 text-sm font-bold uppercase tracking-wider text-black transition-all"
-              >
-                {ctaBanner.button.label}
-                <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
-              </Link>
+              {/* Buttons */}
+              <div className="flex flex-wrap items-center gap-3">
+                <Link
+                  href={ctaBanner.button.href}
+                  className="btn-neon inline-flex items-center gap-2 rounded-full px-6 py-3.5 text-xs font-bold uppercase tracking-wider text-black transition-all"
+                >
+                  {ctaBanner.button.label}
+                  <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
+                </Link>
+
+                <Link
+                  href="/contact"
+                  className="liquid-glass-floating-pill inline-flex items-center gap-2 rounded-full px-5 py-3 text-xs font-semibold uppercase tracking-wider text-white hover:text-[#00F59B] transition-all"
+                >
+                  <span>Book Call</span>
+                  <span className="text-[#00F59B]">🗓️</span>
+                </Link>
+              </div>
 
               {/* Avatar Stack */}
               <div className="flex items-center -space-x-2.5">

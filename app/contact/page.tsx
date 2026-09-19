@@ -1,41 +1,22 @@
-/**
- * /contact — the working contact form plus direct routes.
- *
- * The Contact section already contains everything this page needs: the validated
- * form with project-type and budget options, and the panel of direct links
- * (email, WhatsApp, social profiles) that appears only once real values replace
- * the FILL_ME placeholders in site.config.ts. The page just supplies the <h1>.
- */
-
 import type { Metadata } from 'next';
 
-import { Contact } from '@/components/sections/Contact';
-import { PageHeader } from '@/components/site/PageHeader';
+import { BookPageClient } from '@/app/book/BookPageClient';
 import { absoluteUrl } from '@/site.config';
 
 export const metadata: Metadata = {
-  title: 'Contact',
+  title: 'Book a Strategy Call · Contact',
   description:
-    'Tell me what you are shooting. Send a product link and a rough count and get a fixed price, a turnaround date, and a free sample before you commit to the batch.',
+    'Schedule a 1-on-1 strategy call with Sabbir. Select services, pick a date & time, and explore AI visual transformations for your brand.',
   alternates: { canonical: absoluteUrl('/contact') },
   openGraph: {
-    title: 'Contact · MD Tarikuzzaman Sabbir',
+    title: 'Book a Strategy Call · MD Tarikuzzaman Sabbir',
     description:
-      'Send a product link and a rough count — get a fixed price, a turnaround date, and a free sample.',
+      'Schedule a 1-on-1 strategy call. Pick a date & time to discuss AI product visuals and brand pipelines.',
     url: absoluteUrl('/contact'),
   },
 };
 
 export default function ContactPage() {
-  return (
-    <>
-      <PageHeader
-        eyebrow="Contact"
-        title="Let’s plan your shoot"
-        lead="A product link and a rough count is enough to start. I reply within one working day — usually the same day."
-      />
-
-      <Contact />
-    </>
-  );
+  return <BookPageClient />;
 }
+
