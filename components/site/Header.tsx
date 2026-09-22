@@ -74,7 +74,7 @@ export function Header() {
     <header className="fixed inset-x-0 top-0 z-50 flex flex-col items-center pointer-events-none pt-3 sm:pt-5 px-3 sm:px-6">
       <div
         className={cn(
-          'pointer-events-auto flex items-center justify-between gap-3 sm:gap-6 w-full rounded-full transform-gpu transition-all duration-200 ease-out',
+          'pointer-events-auto flex items-center justify-between gap-3 sm:gap-6 w-full rounded-full transform-gpu transition-[max-width,padding,background-color,border-color,box-shadow] duration-200 ease-out',
           scrolled
             ? 'max-w-4xl py-2 px-3.5 sm:px-5 liquid-glass-floating-pill shadow-[0_24px_50px_rgba(0,0,0,0.95),0_0_35px_rgba(0,245,155,0.3)]'
             : 'max-w-5xl lg:max-w-[1040px] py-1.5 px-2 sm:px-4 bg-transparent border-transparent shadow-none',
@@ -91,7 +91,7 @@ export function Header() {
           {/* Official 3D Emerald S Ribbon Logo */}
           <div
             className={cn(
-              'relative flex items-center justify-center shrink-0 transition-all duration-200',
+              'relative flex items-center justify-center shrink-0 transition-[width,height] duration-200',
               scrolled ? 'h-9 w-9 sm:h-9.5 sm:w-9.5' : 'h-10 w-10 sm:h-11 sm:w-11',
             )}
           >
@@ -110,7 +110,7 @@ export function Header() {
           <div className="flex flex-col justify-center">
             <span
               className={cn(
-                'font-extrabold uppercase leading-tight font-sans transition-all duration-200 text-white',
+                'font-extrabold uppercase leading-tight font-sans transition-[font-size,letter-spacing] duration-200 text-white',
                 scrolled
                   ? 'text-sm sm:text-base tracking-wide'
                   : 'text-xs sm:text-sm md:text-base tracking-wider',

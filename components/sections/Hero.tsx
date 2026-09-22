@@ -17,7 +17,6 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
 import {
   ArrowDown,
   ArrowUpRight,
@@ -56,11 +55,7 @@ export function Hero() {
           {/* ── Left Column (Text & CTAs) ───────────────────────────────── */}
           <div className="lg:col-span-6 z-10">
             {/* Top Pill Badge — Breathing animation */}
-            <motion.div
-              animate={{ y: [0, -3, 0], scale: [1, 1.018, 1] }}
-              transition={{ duration: 4.8, repeat: Infinity, ease: 'easeInOut' }}
-              className="inline-flex items-center gap-2 rounded-full liquid-glass border border-emerald-500/30 px-4 py-1.5 shadow-[0_0_20px_rgba(0,245,155,0.15)] mb-6 cursor-default select-none"
-            >
+            <div className="animate-float-scale inline-flex items-center gap-2 rounded-full liquid-glass border border-emerald-500/30 px-4 py-1.5 shadow-[0_0_20px_rgba(0,245,155,0.15)] mb-6 cursor-default select-none">
               <span className="relative flex h-2.5 w-2.5">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00E676] opacity-75" />
                 <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#00E676]" />
@@ -68,7 +63,7 @@ export function Hero() {
               <span className="text-xs font-semibold tracking-wide text-emerald-300">
                 {hero.badge}
               </span>
-            </motion.div>
+            </div>
 
             {/* Headline with Doodle */}
             <div className="relative">
@@ -78,22 +73,11 @@ export function Hero() {
               </h1>
 
               {/* Handwritten Doodle "Ideas Designs Reality" — Tilted & Floating */}
-              <motion.div
-                animate={{
-                  y: [0, -6, 0],
-                  rotate: [6, 9, 6],
-                }}
-                transition={{
-                  duration: 3.5,
-                  repeat: Infinity,
-                  ease: 'easeInOut',
-                }}
-                className="hidden sm:block absolute -top-8 right-12 lg:-right-2 text-[#00E676] font-serif italic text-sm font-bold tracking-wider leading-snug select-none pointer-events-none kinetic-text"
-              >
+              <div className="animate-float-tilt hidden sm:block absolute -top-8 right-12 lg:-right-2 text-[#00E676] font-serif italic text-sm font-bold tracking-wider leading-snug select-none pointer-events-none kinetic-text">
                 <span>Ideas</span><br />
                 <span className="ml-2">Designs</span><br />
                 <span className="ml-4">Reality</span>
-              </motion.div>
+              </div>
             </div>
 
             {/* Subtitle / Bio Description */}
@@ -106,10 +90,7 @@ export function Hero() {
 
             {/* CTAs — Inconsistent Organic Breathing */}
             <div className="mt-8 flex flex-wrap items-center gap-4">
-              <motion.div
-                animate={{ y: [0, -4, 0], scale: [1, 1.02, 1] }}
-                transition={{ duration: 3.9, repeat: Infinity, ease: 'easeInOut', delay: 0.2 }}
-              >
+              <div className="animate-float-gentle">
                 <Link
                   href={hero.ctaPrimary.href}
                   className="btn-neon inline-flex items-center gap-2 rounded-full px-7 py-3.5 text-sm font-bold uppercase tracking-wider text-black transition-all shadow-[0_0_25px_rgba(0,230,118,0.4)]"
@@ -117,12 +98,9 @@ export function Hero() {
                   {hero.ctaPrimary.label}
                   <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
                 </Link>
-              </motion.div>
+              </div>
 
-              <motion.div
-                animate={{ y: [0, -3, 0], scale: [1, 1.015, 1] }}
-                transition={{ duration: 4.4, repeat: Infinity, ease: 'easeInOut', delay: 0.7 }}
-              >
+              <div className="animate-float-scale">
                 <a
                   href={hero.ctaSecondary.href}
                   className="liquid-glass inline-flex items-center gap-2 rounded-full px-6 py-3.5 text-sm font-semibold text-white border border-emerald-500/30 hover:border-emerald-400/60 hover:bg-emerald-500/10 transition-all"
@@ -132,67 +110,57 @@ export function Hero() {
                   </div>
                   {hero.ctaSecondary.label}
                 </a>
-              </motion.div>
+              </div>
             </div>
 
             {/* Social Connect Row — Each Icon Floats on Unique Inconsistent Frequency */}
             <div className="mt-10 flex flex-wrap items-center gap-4 pt-6 border-t border-emerald-500/15">
               <div className="flex items-center gap-2">
-                <motion.a
-                  animate={{ y: [0, -3.5, 0], rotate: [0, 1.8, 0] }}
-                  transition={{ duration: 3.1, repeat: Infinity, ease: 'easeInOut', delay: 0.1 }}
+                <a
                   href="https://www.facebook.com/tarikuzzaman.sabbir.01"
                   target="_blank"
                   rel="noreferrer"
                   aria-label="Facebook"
-                  className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-full liquid-glass border border-emerald-500/25 text-slate-300 hover:text-[#00E676] hover:border-emerald-400/50 transition-all"
+                  className="animate-float-gentle flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-full liquid-glass border border-emerald-500/25 text-slate-300 hover:text-[#00E676] hover:border-emerald-400/50 transition-all"
                 >
                   <Facebook className="h-4 w-4" />
-                </motion.a>
-                <motion.a
-                  animate={{ y: [0, -4.5, 0], rotate: [0, -1.8, 0] }}
-                  transition={{ duration: 4.3, repeat: Infinity, ease: 'easeInOut', delay: 0.6 }}
+                </a>
+                <a
                   href="https://www.instagram.com/tarikuzzamansabbir/"
                   target="_blank"
                   rel="noreferrer"
                   aria-label="Instagram"
-                  className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-full liquid-glass border border-emerald-500/25 text-slate-300 hover:text-[#00E676] hover:border-emerald-400/50 transition-all"
+                  className="animate-float-tilt-alt flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-full liquid-glass border border-emerald-500/25 text-slate-300 hover:text-[#00E676] hover:border-emerald-400/50 transition-all"
                 >
                   <Instagram className="h-4 w-4" />
-                </motion.a>
-                <motion.a
-                  animate={{ y: [0, -3, 0], rotate: [0, 1.2, 0] }}
-                  transition={{ duration: 3.7, repeat: Infinity, ease: 'easeInOut', delay: 1.1 }}
+                </a>
+                <a
                   href="https://www.linkedin.com/in/md-tarikuzzaman-sabbir/"
                   target="_blank"
                   rel="noreferrer"
                   aria-label="LinkedIn"
-                  className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-full liquid-glass border border-emerald-500/25 text-slate-300 hover:text-[#00E676] hover:border-emerald-400/50 transition-all"
+                  className="animate-float-gentle flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-full liquid-glass border border-emerald-500/25 text-slate-300 hover:text-[#00E676] hover:border-emerald-400/50 transition-all"
                 >
                   <Linkedin className="h-4 w-4" />
-                </motion.a>
-                <motion.a
-                  animate={{ y: [0, -4, 0], rotate: [0, -1.5, 0] }}
-                  transition={{ duration: 4.8, repeat: Infinity, ease: 'easeInOut', delay: 0.3 }}
+                </a>
+                <a
                   href="https://x.com/Tarikuzzaman555"
                   target="_blank"
                   rel="noreferrer"
                   aria-label="X Twitter"
-                  className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-full liquid-glass border border-emerald-500/25 text-slate-300 hover:text-[#00E676] hover:border-emerald-400/50 transition-all font-bold text-xs"
+                  className="animate-float-tilt flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-full liquid-glass border border-emerald-500/25 text-slate-300 hover:text-[#00E676] hover:border-emerald-400/50 transition-all font-bold text-xs"
                 >
                   𝕏
-                </motion.a>
-                <motion.a
-                  animate={{ y: [0, -3.5, 0], rotate: [0, 1.6, 0] }}
-                  transition={{ duration: 3.9, repeat: Infinity, ease: 'easeInOut', delay: 1.4 }}
+                </a>
+                <a
                   href="https://www.pinterest.com/tarikuxxaman_sabbir/"
                   target="_blank"
                   rel="noreferrer"
                   aria-label="Pinterest"
-                  className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-full liquid-glass border border-emerald-500/25 text-slate-300 hover:text-[#00E676] hover:border-emerald-400/50 transition-all font-bold text-xs"
+                  className="animate-float-scale flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center rounded-full liquid-glass border border-emerald-500/25 text-slate-300 hover:text-[#00E676] hover:border-emerald-400/50 transition-all font-bold text-xs"
                 >
                   P
-                </motion.a>
+                </a>
               </div>
 
               <span className="text-xs font-medium text-slate-400 flex items-center gap-1">
@@ -224,18 +192,7 @@ export function Hero() {
               </div>
 
               {/* Floating Glass Card 1 (Top Right) — Tilted & Perpetually Floating */}
-              <motion.div
-                animate={{
-                  y: [0, -8, 0],
-                  rotate: [3.5, 6, 3.5],
-                }}
-                transition={{
-                  duration: 4,
-                  repeat: Infinity,
-                  ease: 'easeInOut',
-                }}
-                className="absolute -top-3 -right-2 sm:-right-4 liquid-glass-card rounded-2xl p-3.5 sm:p-4 max-w-[200px] shadow-[0_15px_35px_rgba(0,0,0,0.85)] z-20 border border-emerald-500/35 cursor-default select-none"
-              >
+              <div className="animate-float-tilt absolute -top-3 -right-2 sm:-right-4 liquid-glass-card rounded-2xl p-3.5 sm:p-4 max-w-[200px] shadow-[0_15px_35px_rgba(0,0,0,0.85)] z-20 border border-emerald-500/35 cursor-default select-none">
                 <div className="flex items-center justify-between mb-2">
                   <div className="relative flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-500/15 border border-emerald-400/30 p-1 shrink-0">
                     <Image
@@ -256,47 +213,25 @@ export function Hero() {
                   <TrendingUp className="h-3 w-3 text-[#00E676]" />
                   {hero.cardTopRight.tag}
                 </div>
-              </motion.div>
+              </div>
 
               {/* Floating Glass Card 2 (Bottom Right) — Perpetually Floating */}
-              <motion.div
-                animate={{
-                  y: [0, 5, 0],
-                  rotate: [-1, 1, -1],
-                }}
-                transition={{
-                  duration: 3.8,
-                  repeat: Infinity,
-                  ease: 'easeInOut',
-                }}
-                className="absolute bottom-4 -right-1 sm:-right-3 liquid-glass-card rounded-full px-4 py-2.5 flex items-center gap-2.5 shadow-[0_15px_35px_rgba(0,0,0,0.85)] z-20 border border-emerald-500/35 cursor-default select-none"
-              >
+              <div className="animate-float-gentle absolute bottom-4 -right-1 sm:-right-3 liquid-glass-card rounded-full px-4 py-2.5 flex items-center gap-2.5 shadow-[0_15px_35px_rgba(0,0,0,0.85)] z-20 border border-emerald-500/35 cursor-default select-none">
                 <div className="flex h-7 w-7 items-center justify-center rounded-full bg-emerald-500/20 text-[#00E676]">
                   <MapPin className="h-3.5 w-3.5" />
                 </div>
                 <p className="text-xs font-semibold text-white">
                   {hero.cardBottomRight.title}
                 </p>
-              </motion.div>
+              </div>
 
               {/* Handwritten Doodle on right side — Tilted & Perpetually Floating */}
-              <motion.div
-                animate={{
-                  y: [0, -6, 0],
-                  rotate: [11, 14, 11],
-                }}
-                transition={{
-                  duration: 4.2,
-                  repeat: Infinity,
-                  ease: 'easeInOut',
-                }}
-                className="hidden lg:block absolute bottom-1 -right-24 text-[#00E676]/90 font-serif italic text-xs font-bold tracking-wider leading-tight select-none pointer-events-none text-left kinetic-text"
-              >
+              <div className="animate-float-tilt-alt hidden lg:block absolute bottom-1 -right-24 text-[#00E676]/90 font-serif italic text-xs font-bold tracking-wider leading-tight select-none pointer-events-none text-left kinetic-text">
                 Better<br />
                 Visuals<br />
                 Brighter<br />
                 Brands ✦
-              </motion.div>
+              </div>
             </div>
           </div>
         </div>
