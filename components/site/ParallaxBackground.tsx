@@ -31,23 +31,33 @@ export function ParallaxBackground() {
 
   return (
     <div
-      className="fixed inset-0 pointer-events-none -z-30 overflow-hidden [contain:paint]"
+      className="fixed inset-0 pointer-events-none -z-30 overflow-hidden"
       aria-hidden="true"
     >
       {mounted ? (
         /* Layer 1: Parallax scroll-driven vertical travel */
         <motion.div
           style={{ y: bgY }}
-          className="absolute inset-x-0 -top-[5%] w-full h-[125%] will-change-transform transform-gpu [backface-visibility:hidden]"
+          className="absolute inset-x-0 -top-[5%] w-full h-[125%] will-change-transform transform-gpu"
         >
-          {/* Layer 2: Continuous living undulating wave motion ("hlka hlka norbe") running 100% on GPU compositor */}
-          <div
+          {/* Layer 2: Continuous living undulating wave motion ("hlka hlka norbe") */}
+          <motion.div
+            animate={{
+              y: [0, -10, 4, -6, 0],
+              x: [0, 7, -5, 4, 0],
+              scale: [1.04, 1.07, 1.05, 1.075, 1.04],
+            }}
+            transition={{
+              duration: 14,
+              repeat: Infinity,
+              ease: 'easeInOut',
+            }}
             style={{
               backgroundImage: "url('/img/bg/site-bg.png')",
               backgroundPosition: 'center top',
               backgroundSize: '100% auto',
             }}
-            className="w-full h-full bg-no-repeat opacity-90 blur-[12px] sm:blur-[14px] will-change-transform transform-gpu animate-ambient-wave"
+            className="w-full h-full bg-no-repeat opacity-90 blur-[12px] sm:blur-[14px] will-change-transform transform-gpu"
           />
         </motion.div>
       ) : (

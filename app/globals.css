@@ -296,9 +296,6 @@
     border: 1px solid rgba(16, 185, 129, 0.22);
     border-top: 1px solid rgba(255, 255, 255, 0.25);
     box-shadow: 0 10px 36px 0 rgba(0, 0, 0, 0.5), inset 0 1px 1px 0 rgba(255, 255, 255, 0.12);
-    transform: translateZ(0);
-    -webkit-transform: translateZ(0);
-    backface-visibility: hidden;
   }
 
   .liquid-glass-floating-pill {
@@ -312,8 +309,6 @@
       0 0 20px -4px rgba(0, 245, 155, 0.20),
       inset 0 1px 1px 0 rgba(255, 255, 255, 0.35);
     transform: translateZ(0);
-    -webkit-transform: translateZ(0);
-    backface-visibility: hidden;
     will-change: transform;
   }
 
@@ -325,15 +320,12 @@
     border-top: 1px solid rgba(0, 245, 155, 0.35);
     box-shadow: 0 12px 36px -10px rgba(0, 0, 0, 0.7), 0 0 24px -6px rgba(0, 245, 155, 0.09);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    transform: translateZ(0);
-    -webkit-transform: translateZ(0);
-    backface-visibility: hidden;
   }
 
   .liquid-glass-card:hover {
     border-color: rgba(0, 245, 155, 0.55);
     box-shadow: 0 16px 44px -10px rgba(0, 0, 0, 0.8), 0 0 35px -2px rgba(0, 245, 155, 0.25);
-    transform: translateY(-4px) translateZ(0);
+    transform: translateY(-4px);
   }
 
   .btn-neon {
@@ -479,7 +471,7 @@
       radial-gradient(circle at 50% 95%, rgba(0, 245, 155, 0.08) 0%, transparent 60%);
   }
 
-  /** Fine film grain overlay across the entire page (Hardware-Accelerated Layer) */
+  /** Fine film grain overlay across the entire page */
   .film-grain {
     position: fixed;
     top: 0;
@@ -488,14 +480,9 @@
     height: 100vh;
     pointer-events: none;
     z-index: 99;
-    opacity: 0.045;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.048;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
     mix-blend-mode: screen;
-    /* Hardware Acceleration — stops scroll repaints */
-    transform: translateZ(0);
-    -webkit-transform: translateZ(0);
-    backface-visibility: hidden;
-    will-change: opacity;
   }
 
   /** Masks the bottom of a scroll area so content fades rather than cuts. */
@@ -561,62 +548,6 @@ h4,
   transform-origin: center center;
   transition: transform 0.12s cubic-bezier(0.2, 0.8, 0.2, 1);
   will-change: transform;
-  contain: layout style;
-}
-
-/* ── Hardware-Accelerated Living Floating Keyframes (0% CPU Compositor) ──── */
-@keyframes floatGentle {
-  0%, 100% { transform: translate3d(0, 0, 0); }
-  50% { transform: translate3d(0, -5px, 0); }
-}
-
-@keyframes floatTilt {
-  0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
-  50% { transform: translate3d(0, -6px, 0) rotate(2.5deg); }
-}
-
-@keyframes floatTiltAlt {
-  0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
-  50% { transform: translate3d(0, -4.5px, 0) rotate(-2deg); }
-}
-
-@keyframes floatScale {
-  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
-  50% { transform: translate3d(0, -4px, 0) scale(1.02); }
-}
-
-.animate-float-gentle {
-  animation: floatGentle 4.2s ease-in-out infinite;
-  will-change: transform;
-}
-
-.animate-float-tilt {
-  animation: floatTilt 5s ease-in-out infinite;
-  will-change: transform;
-}
-
-.animate-float-tilt-alt {
-  animation: floatTiltAlt 4.6s ease-in-out infinite;
-  will-change: transform;
-}
-
-.animate-float-scale {
-  animation: floatScale 3.9s ease-in-out infinite;
-  will-change: transform;
-}
-
-@keyframes parallaxAmbientWave {
-  0%, 100% { transform: translate3d(0, 0, 0) scale(1.04); }
-  25% { transform: translate3d(7px, -10px, 0) scale(1.07); }
-  50% { transform: translate3d(-5px, 4px, 0) scale(1.05); }
-  75% { transform: translate3d(4px, -6px, 0) scale(1.075); }
-}
-
-.animate-ambient-wave {
-  animation: parallaxAmbientWave 14s ease-in-out infinite;
-  will-change: transform;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════

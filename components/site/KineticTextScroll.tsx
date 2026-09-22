@@ -24,20 +24,17 @@ export function KineticTextScroll() {
           const delta = Math.abs(currentY - lastScrollY);
           lastScrollY = currentY;
 
-          // Gate: only update CSS variable if delta is noticeable (> 4px), avoiding continuous tiny writes
-          if (delta > 4) {
-            // Subtle vertical elongation: from 1.00 up to ~1.045 max
-            const stretch = Math.min(1 + delta * 0.0006, 1.045);
-            document.documentElement.style.setProperty(
-              '--text-stretch-y',
-              stretch.toFixed(4)
-            );
+          // Subtle vertical elongation: from 1.00 up to ~1.045 max
+          const stretch = Math.min(1 + delta * 0.0006, 1.045);
+          document.documentElement.style.setProperty(
+            '--text-stretch-y',
+            stretch.toFixed(4)
+          );
 
-            clearTimeout(resetTimer);
-            resetTimer = setTimeout(() => {
-              document.documentElement.style.setProperty('--text-stretch-y', '1');
-            }, 90);
-          }
+          clearTimeout(resetTimer);
+          resetTimer = setTimeout(() => {
+            document.documentElement.style.setProperty('--text-stretch-y', '1');
+          }, 90);
 
           ticking = false;
         });
