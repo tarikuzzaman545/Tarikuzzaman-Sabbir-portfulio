@@ -19,6 +19,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import {
+  ArrowDown,
   ArrowUpRight,
   Award,
   CheckCircle2,
@@ -26,7 +27,6 @@ import {
   Instagram,
   Linkedin,
   MapPin,
-  Play,
   Sparkles,
   TrendingUp,
   Users,
@@ -128,7 +128,7 @@ export function Hero() {
                   className="liquid-glass inline-flex items-center gap-2 rounded-full px-6 py-3.5 text-sm font-semibold text-white border border-emerald-500/30 hover:border-emerald-400/60 hover:bg-emerald-500/10 transition-all"
                 >
                   <div className="flex h-5 w-5 items-center justify-center rounded-full bg-[#00E676] text-black">
-                    <Play className="h-3 w-3 fill-black ml-0.5" />
+                    <ArrowDown className="h-3 w-3 stroke-[3]" />
                   </div>
                   {hero.ctaSecondary.label}
                 </a>

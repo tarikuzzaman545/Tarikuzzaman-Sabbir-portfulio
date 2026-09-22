@@ -30,7 +30,7 @@ export function cn(...inputs: ClassValue[]): string {
  */
 export function videoEmbedUrl(provider: 'youtube' | 'vimeo', id: string): string | null {
   const safeId = id.replace(/[^a-zA-Z0-9_-]/g, '');
-  if (!safeId) return null;
+  if (!safeId || safeId === 'FILL_ME' || safeId.toLowerCase().includes('fill_me')) return null;
 
   if (provider === 'youtube') {
     return `https://www.youtube-nocookie.com/embed/${safeId}?rel=0&modestbranding=1`;

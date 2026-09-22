@@ -4,7 +4,7 @@
 
 import { NextResponse } from 'next/server';
 
-import { CSRF_HEADER_NAME, verifyCsrf } from '@/lib/csrf';
+import { CSRF_COOKIE_NAME, CSRF_HEADER_NAME, verifyCsrf } from '@/lib/csrf';
 import { isEmailConfigured, sendBookingAcknowledgement, sendBookingNotification } from '@/lib/email';
 import { CONTACT_LIMIT, checkRateLimit, getRateLimitKey, rateLimitHeaders } from '@/lib/rate-limit';
 import { bookingFormSchema, toFieldErrors, type FieldErrors } from '@/lib/validation';
@@ -23,6 +23,22 @@ interface ErrorBody {
   ok: false;
   error: string;
   fields?: FieldErrors;
+}
+
+function readCookie(cookieHeader: string | null, name: string): string | null {
+  if (!cookieHeader) return null;
+  for (const part of cookieHeader.split(';')) {
+    const eq = part.indexOf('=');
+    if (eq === -1) continue;
+    if (part.slice(0, eq).trim() !== name) continue;
+    const value = part.slice(eq + 1).trim();
+    try {
+      return decodeURIComponent(value);
+    } catch {
+      return value;
+    }
+  }
+  return null;
 }
 
 function success(headers: Record<string, string> = {}): NextResponse<SuccessBody> {
@@ -71,11 +87,16 @@ export async function POST(request: Request): Promise<NextResponse<SuccessBody |
   }
 
   // 4. CSRF verification
-  const cookieHeader = request.headers.get('cookie');
-  const tokenHeader = request.headers.get(CSRF_HEADER_NAME);
-  if (!verifyCsrf(cookieHeader, tokenHeader)) {
-    // If CSRF header is absent or expired, allow if email is configured but warn gracefully
-    // in case of development test
+  const csrf = verifyCsrf(
+    request.headers.get(CSRF_HEADER_NAME),
+    readCookie(request.headers.get('cookie'), CSRF_COOKIE_NAME),
+  );
+
+  if (!csrf.ok) {
+    if (csrf.reason === 'unconfigured') {
+      return failure(503, 'Form security is not configured on the server.', { headers: rlHeaders });
+    }
+    return failure(403, 'Your session expired. Please reload the page and try again.', { headers: rlHeaders });
   }
 
   // 5. Parse JSON
@@ -133,26 +154,23 @@ export async function POST(request: Request): Promise<NextResponse<SuccessBody |
   }
 
   // 9. Send Email Notifications via Resend
-  if (isEmailConfigured()) {
-    const notifyResult = await sendBookingNotification(data);
-    if (!notifyResult.ok && notifyResult.reason === 'provider') {
-      return failure(502, 'Could not deliver your booking request. Please try again shortly.', {
-        headers: rlHeaders,
-      });
-    }
+  if (!isEmailConfigured()) {
+    return failure(
+      503,
+      'Booking system email delivery is not configured yet. Please reach out via WhatsApp or LinkedIn.',
+      { headers: rlHeaders },
+    );
+  }
 
-    // Best-effort client confirmation email
-    void sendBookingAcknowledgement(data);
-  } else {
-    // eslint-disable-next-line no-console
-    console.info('[booking] Email delivery not configured. Received booking data:', {
-      client: data.clientName,
-      email: data.email,
-      date: data.selectedDate,
-      time: data.selectedTime,
-      services: data.services,
+  const notifyResult = await sendBookingNotification(data);
+  if (!notifyResult.ok) {
+    return failure(502, 'Could not deliver your booking request. Please try again shortly.', {
+      headers: rlHeaders,
     });
   }
+
+  // Best-effort client confirmation email
+  void sendBookingAcknowledgement(data);
 
   return success(rlHeaders);
 }

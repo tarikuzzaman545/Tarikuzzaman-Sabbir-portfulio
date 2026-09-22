@@ -79,7 +79,7 @@ export const homeContent = {
     // Sabbir's photo located in public/img/hero/sabbir.jpg
     image: '/img/hero/sabbir.jpg',
     ctaPrimary: { label: 'Start a Project', href: '/contact' },
-    ctaSecondary: { label: 'Watch Showreel', href: '#services' },
+    ctaSecondary: { label: 'Explore Services', href: '#services' },
     socials: [
       { name: 'Facebook', href: 'https://www.facebook.com/tarikuzzaman.sabbir.01', icon: 'facebook' },
       { name: 'Instagram', href: 'https://www.instagram.com/tarikuzzamansabbir/', icon: 'instagram' },

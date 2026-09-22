@@ -298,9 +298,8 @@ export const projects: Project[] = [
     tools: ['Higgsfield', 'Video prompt design', 'Reference locking', 'Edit + sound'],
     video: {
       provider: 'youtube',
-      // Replace with your real video id. Until then the poster renders and the
-      // play button links out rather than embedding a wrong video.
-      id: 'FILL_ME',
+      // Real video id can be added here when available. Empty string safely defaults to poster.
+      id: '',
       title: 'WEBRING product ad — generated creative reel',
       poster: {
         src: '/work/video-poster.jpg',

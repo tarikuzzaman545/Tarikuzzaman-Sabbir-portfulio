@@ -47,11 +47,11 @@ export const siteConfig = {
   /* ── Contact ────────────────────────────────────────────────────────────── */
   contact: {
     /** Where the contact form delivers, and the mailto: link target. */
-    email: FILL_ME, // FILL_ME — e.g. 'hello@yourdomain.com'
+    email: (process.env.CONTACT_TO_EMAIL || 'tarikuzzaman545@gmail.com') as string,
     /** Optional. Shown next to the email if present. Include country code. */
-    phone: '', // optional, e.g. '+880 1XXX-XXXXXX'
+    phone: '' as string,
     /** Optional WhatsApp number, digits only, no + or spaces. */
-    whatsapp: '', // optional, e.g. '8801XXXXXXXXX'
+    whatsapp: '' as string,
   },
 
   /* ── Social / profiles ──────────────────────────────────────────────────── */

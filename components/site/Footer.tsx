@@ -10,6 +10,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowUp, Facebook, Instagram, Linkedin, Mail, MessageSquare } from 'lucide-react';
 
+import { siteConfig } from '@/site.config';
+
 export function Footer() {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -155,15 +157,17 @@ export function Footer() {
                 Contact
               </h3>
               <ul className="space-y-2.5 text-xs font-medium text-slate-300">
-                <li className="flex items-center gap-2">
-                  <Mail className="h-3.5 w-3.5 text-emerald-400" />
-                  <a
-                    href="mailto:sabbir@webring.co"
-                    className="hover:text-emerald-400 transition-colors"
-                  >
-                    sabbir@webring.co
-                  </a>
-                </li>
+                {siteConfig.contact.email && !siteConfig.contact.email.includes('FILL_ME') && (
+                  <li className="flex items-center gap-2">
+                    <Mail className="h-3.5 w-3.5 text-emerald-400" />
+                    <a
+                      href={`mailto:${siteConfig.contact.email}`}
+                      className="hover:text-emerald-400 transition-colors"
+                    >
+                      {siteConfig.contact.email}
+                    </a>
+                  </li>
+                )}
                 <li className="flex items-center gap-2">
                   <Linkedin className="h-3.5 w-3.5 text-emerald-400" />
                   <a
@@ -175,10 +179,29 @@ export function Footer() {
                     md-tarikuzzaman-sabbir
                   </a>
                 </li>
-                <li className="flex items-center gap-2">
-                  <MessageSquare className="h-3.5 w-3.5 text-emerald-400" />
-                  <span>WhatsApp: +880 17XX-XXXXXX</span>
-                </li>
+                {typeof siteConfig.contact.whatsapp === 'string' && siteConfig.contact.whatsapp.length > 0 && !siteConfig.contact.whatsapp.includes('XXXX') ? (
+                  <li className="flex items-center gap-2">
+                    <MessageSquare className="h-3.5 w-3.5 text-emerald-400" />
+                    <a
+                      href={`https://wa.me/${siteConfig.contact.whatsapp.replace(/[^0-9]/g, '')}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="hover:text-emerald-400 transition-colors"
+                    >
+                      WhatsApp: {siteConfig.contact.whatsapp}
+                    </a>
+                  </li>
+                ) : (
+                  <li className="flex items-center gap-2">
+                    <MessageSquare className="h-3.5 w-3.5 text-emerald-400" />
+                    <Link
+                      href="/lets-talk"
+                      className="hover:text-emerald-400 transition-colors"
+                    >
+                      Direct Message & Inquiry
+                    </Link>
+                  </li>
+                )}
               </ul>
             </div>
 
